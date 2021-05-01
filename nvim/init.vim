@@ -18,6 +18,8 @@ Plug 'nvim-lua/lsp_extensions.nvim'
 " treesitter
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
 Plug 'JoosepAlviste/nvim-ts-context-commentstring'
+" format code
+Plug 'sbdchd/neoformat'
 " snippets
 Plug 'hrsh7th/vim-vsnip'
 Plug 'hrsh7th/vim-vsnip-integ'
