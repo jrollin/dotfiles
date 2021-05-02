@@ -20,6 +20,11 @@ install_ts() {
     npm install -g typescript typescript-language-server prettier 
 }
 
+install_tmux() {
+    echo "installing tmux" \
+        && rm ~/.tmux.conf \
+        && ln -s $(pwd)/tmux/.tmux.conf ~/.tmux.conf
+ }
 
 if [[ -z $1 ]]; then
   echo -n "This will delete all your previous nvim, Proceed? (y/n)? "
@@ -28,8 +33,9 @@ if [[ -z $1 ]]; then
     echo "Installing dependencies..." \
     install_neovim \
     && install_ts \
-    && install_packages \
     && install_i3 \
+    && install_tmux \
+    && install_packages \
     && echo "Finished installation."
   fi
 else
