@@ -5,11 +5,6 @@ install_neovim() {
   && ln -s $(pwd)/nvim ~/.config/nvim 
 }
 
-install_packages() {
-echo "Installing packages..." \
-    && apt install ripgrep fzf
-}
-
 install_i3() {
     echo "installing_i3.." \
         && rm -rf ~/.config/i3 \
@@ -35,7 +30,6 @@ if [[ -z $1 ]]; then
     && install_ts \
     && install_i3 \
     && install_tmux \
-    && install_packages \
     && echo "Finished installation."
   fi
 else
