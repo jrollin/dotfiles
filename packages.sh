@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 install_basics() {
-    apt install git unzip curl ffmpeg
+    apt install git unzip curl ffmpeg xclip
 }
 
 install_search() {
