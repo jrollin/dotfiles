@@ -5,16 +5,18 @@ Plug 'ThePrimeagen/vim-be-good'
 Plug 'preservim/nerdtree'                                                   
 " color ui
 Plug 'gruvbox-community/gruvbox'
-" Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'folke/lsp-colors.nvim'
 " status line
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 " LSP
 Plug 'neovim/nvim-lspconfig'
-Plug 'nathunsmitty/nvim-ale-diagnostic'
 Plug 'hrsh7th/nvim-compe'
 " Extensions to built-in LSP, for example, providing type inlay hints
 Plug 'nvim-lua/lsp_extensions.nvim'
+" lsp diagnostics
+"Plug 'kyazdani42/nvim-web-devicons'
+Plug 'folke/lsp-trouble.nvim'
 " treesitter
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
 Plug 'JoosepAlviste/nvim-ts-context-commentstring'
@@ -45,6 +47,7 @@ source $HOME/.config/nvim/treesitter.vim
 source $HOME/.config/nvim/finder.vim
 
 
+
 " have a fixed column for the diagnostics to appear in
 " this removes the jitter when warnings/errors flow in
 set signcolumn=yes
@@ -55,9 +58,6 @@ set updatetime=300
 " Show diagnostic popup on cursor hover
 autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()
 
-" Goto previous/next diagnostic warning/error
-nnoremap <silent> g[ <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
-nnoremap <silent> g] <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
 
 " Enable type inlay hints
 autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *

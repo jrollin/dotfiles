@@ -192,12 +192,12 @@ exec exec xbacklight -set 1
 
 
 # background
-exec --no-startup-id feh --randomize --bg-fill storage/images/Wallpapers/wallpaper.jpg 
+exec --no-startup-id feh --bg-fill storage/images/Wallpapers/wallpaper.jpg 
 
 
 # xrandr : xrandr --output $secondMonitor --auto --left-of $firstMonitor
-#exec --no-startup-id xrandr --output $secondMonitor --auto --left-of $firstMonitor
-exec --no-startup-id xrandr --output $firstMonitor --primary --mode 1920x1200 --pos 1920x0 --rotate normal --output $secondMonitor --mode 1920x1080 --pos 0x0 --rotate normal 
+# exec --no-startup-id xrandr --output $secondMonitor --auto --left-of $firstMonitor
+# exec --no-startup-id xrandr --output $firstMonitor --primary --mode 1920x1200 --pos 1920x0 --rotate normal --output $secondMonitor --mode 1920x1080 --pos 0x0 --rotate normal 
 
 # clone to projector
 # exec --no-startup-id xrandr --output $projector --mode 1024x768 --same-as $firstMonitor
@@ -225,12 +225,12 @@ bindsym $mod+p move workspace to output right
 # screen brightness
 bindsym XF86MonBrightnessDown   exec xbacklight -dec 1  # && cat /sys/class/backlight/intel_backlight/actual_brightness > ~/.i3/screen_brightness.log
 bindsym XF86MonBrightnessUp     exec xbacklight -inc 1 #&& cat /sys/class/backlight/intel_backlight/actual_brightness > ~/.i3/screen_brightness.log
+bindsym $mod+F6 exec "xbacklight -dec 1" 
+bindsym $mod+F7 exec "xbacklight -inc 1"
 
 
 #bindsym XF86MonBrightnessUp exec ybacklight -inc 10 # increase screen brightness
 #bindsym XF86MonBrightnessDown exec ybacklight -dec 10 # decrease screen brightness
-
-
 
 # fix for ubuntu ? add amixer command
 bindsym XF86AudioRaiseVolume exec $psst pactl set-sink-volume @DEFAULT_SINK@ +5% && pactl set-sink-mute @DEFAULT_SINK@ 0 $update && amixer -q set Master 2dB+ unmute
