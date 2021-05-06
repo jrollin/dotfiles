@@ -14,3 +14,4 @@ nnoremap <leader>ft :lua require('telescope.builtin').help_tags()<CR>
 
 " custom file search
 nnoremap <leader>fd :lua require('finder').search_dotfiles()<CR>
+nnoremap <leader>fc :lua require('finder').search_config()<CR>

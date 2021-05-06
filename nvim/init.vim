@@ -22,6 +22,8 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend upda
 Plug 'JoosepAlviste/nvim-ts-context-commentstring'
 " format code
 Plug 'sbdchd/neoformat'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-commentary'
 " snippets
 Plug 'hrsh7th/vim-vsnip'
 Plug 'hrsh7th/vim-vsnip-integ'
@@ -30,7 +32,7 @@ Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-fzy-native.nvim'
-" rust
+" lang
 Plug 'rust-lang/rust.vim'
 Plug 'golang/vscode-go' 
 Plug 'xabikos/vscode-javascript'

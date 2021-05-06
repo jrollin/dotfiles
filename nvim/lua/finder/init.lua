@@ -33,7 +33,14 @@ local M = {}
 M.search_dotfiles = function()
     require("telescope.builtin").find_files({
         prompt_title = "< dotfiles >",
+        cwd = "$HOME/dotfiles/",
+    })
+end
+M.search_config = function()
+    require("telescope.builtin").find_files({
+        prompt_title = "< configfiles >",
         cwd = "$HOME/.config/",
+        hidden = true,
     })
 end
 

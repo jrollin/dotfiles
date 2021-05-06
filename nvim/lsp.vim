@@ -33,7 +33,7 @@ EOF
 
 
 " Show diagnostic popup on cursor hover
-autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()
+"autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()
 
 " Enable type inlay hints
 autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *
