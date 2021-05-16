@@ -44,4 +44,9 @@ M.search_config = function()
     })
 end
 
+M.search_registers = function()
+    require("telescope.builtin").registers({
+        prompt_title = "< paste registers >",
+    })
+end
 return M

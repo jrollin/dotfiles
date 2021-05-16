@@ -37,6 +37,9 @@ Plug 'rust-lang/rust.vim'
 Plug 'golang/vscode-go' 
 Plug 'xabikos/vscode-javascript'
 Plug 'hashivim/vim-terraform'
+Plug 'tpope/vim-markdown'
+Plug 'cespare/vim-toml'
+Plug 'stephpy/vim-yaml'
 call plug#end() 
 
 

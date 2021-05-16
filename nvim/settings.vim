@@ -34,9 +34,10 @@ set updatetime=300                      " Faster completion
 set timeoutlen=500                      " By default timeoutlen is 1000 ms      
                                                                               
 set clipboard=unnamedplus               " Copy paste between vim and everything else
-       
+
+set termguicolors
 set background=dark
-
-
+let g:gruvbox_contrast_dark='hard'
+let g:gruvbox_contrast_light='soft'
 colorscheme gruvbox
 

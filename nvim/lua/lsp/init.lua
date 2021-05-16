@@ -13,11 +13,17 @@ local on_attach = function(client, bufnr)
     map("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
     map("n", "<space>gd", "<cmd>lua vim.lsp.buf.type_definition()<CR>", opts)
     map("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
+    map("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
     map("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
     map("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
     map("n", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
     map("n", "<space>cr", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
     map("n", "<space>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
+
+
+
+    map("n", "gw", "<cmd>lua vim.lsp.buf.workspace_symbol()<CR>", opts)
+    map("n", "gs", "<cmd>lua vim.lsp.buf.document_symbol()<CR>", opts)
 
 
     -- Set some keybinds conditional on server capabilities
@@ -71,7 +77,7 @@ lspconfig.rust_analyzer.setup{
 -- Enable diagnostics
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   vim.lsp.diagnostic.on_publish_diagnostics, {
-    virtual_text = false,
+    virtual_text = true,
     signs = true,
     update_in_insert = true,
   }
