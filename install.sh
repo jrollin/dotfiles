@@ -21,6 +21,12 @@ install_tmux() {
         && ln -s $(pwd)/tmux/.tmux.conf ~/.tmux.conf
  }
 
+install_zsh() {
+    echo "installing zsh" \
+        && rm ~/.zshrc \
+        && ln -s $(pwd)/.zshrc ~/.zshrc
+}
+
 if [[ -z $1 ]]; then
   echo -n "This will delete all your previous nvim, Proceed? (y/n)? "
   read answer
@@ -30,6 +36,7 @@ if [[ -z $1 ]]; then
     && install_ts \
     && install_i3 \
     && install_tmux \
+    && install_zsh \
     && echo "Finished installation."
   fi
 else

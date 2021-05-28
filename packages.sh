@@ -11,7 +11,7 @@ echo "Installing packages..." \
 
 install_shell() {
     echo "installing shell..." \
-        && apt install zsh terminator tmux \
+        && apt install zsh xterm tmux \
         && sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 }
 
