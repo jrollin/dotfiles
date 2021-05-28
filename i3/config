@@ -268,13 +268,14 @@ bindsym Print       exec flameshot full
 bindsym Shift+Print exec flameshot gui
 
 # app launcher
-set $mode_launcher Launch: [f]irefox [s]lack [c]hrome
+set $mode_launcher Launch: [f]irefox [s]lack [c]hrome [p]flameshot gui  
 bindsym $mod+n mode "$mode_launcher"
 
 mode "$mode_launcher" {
     bindsym f exec firefox, mode "default"
     bindsym s exec slack, mode "default"
     bindsym c exec google-chrome, mode "default"
+    bindsym p exec flameshot gui, mode "default"
     
     bindsym Escape mode "default"
     bindsym Return mode "default"
