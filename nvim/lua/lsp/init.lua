@@ -10,10 +10,11 @@ local on_attach = function(client, bufnr)
 
     local opts = {noremap = true, silent = true } 
     -- Keybindings for LSPs
-    map("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
     map("n", "<space>gd", "<cmd>lua vim.lsp.buf.type_definition()<CR>", opts)
     map("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
-    map("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
+    -- overriden by lsp trouble plugin
+    --map("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
+    --map("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
     map("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
     map("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
     map("n", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
