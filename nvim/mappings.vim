@@ -29,6 +29,8 @@ nnoremap <C-f> :NERDTreeFind<CR>
 nnoremap <TAB> :bnext<CR>
 " SHIFT-TAB will go back
 nnoremap <S-TAB> :bprevious<CR>
+" close buffer
+nnoremap <C-x> :bd!<CR>
 
 " Better tabbing
 vnoremap < <gv

@@ -20,10 +20,15 @@ local on_attach = function(client, bufnr)
     map("n", "<space>cr", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
     map("n", "<space>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
 
-
-
     map("n", "gw", "<cmd>lua vim.lsp.buf.workspace_symbol()<CR>", opts)
     map("n", "gs", "<cmd>lua vim.lsp.buf.document_symbol()<CR>", opts)
+
+
+    -- rust : TODO only map on rust 
+    map("n", "<space>cb", "<cmd>:Cbuild<CR>", opts)
+    map("n", "<space>ct", "<cmd>:Ctest<CR>", opts)
+    map("n", "<space>rr", "<cmd>:RustRun<CR>", opts)
+    map("n", "<space>rt", "<cmd>:RustTest<CR>", opts)
 
 
     -- Set some keybinds conditional on server capabilities
