@@ -44,3 +44,5 @@ let g:gruvbox_contrast_dark='hard'
 let g:gruvbox_contrast_light='soft'
 colorscheme gruvbox
 
+" rust format on save
+let g:rustfmt_autosave = 1

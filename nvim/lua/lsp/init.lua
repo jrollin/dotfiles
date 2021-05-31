@@ -3,6 +3,30 @@ local lspconfig = require('lspconfig')
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 
+-- Code actions
+capabilities.textDocument.codeAction = {
+    dynamicRegistration = true,
+    codeActionLiteralSupport = {
+        codeActionKind = {
+            valueSet = (function()
+                local res = vim.tbl_values(vim.lsp.protocol.CodeActionKind)
+                table.sort(res)
+                return res
+            end)()
+        }
+    }
+}
+
+-- enable auto-import
+
+capabilities.textDocument.completion.completionItem.resolveSupport = {
+  properties = {
+    'documentation',
+    'detail',
+    'additionalTextEdits',
+  }
+}
+
 local on_attach = function(client, bufnr)
     local function map(...)
         vim.api.nvim_buf_set_keymap(bufnr, ...)
@@ -28,6 +52,7 @@ local on_attach = function(client, bufnr)
     -- rust : TODO only map on rust 
     map("n", "<space>cb", "<cmd>:Cbuild<CR>", opts)
     map("n", "<space>ct", "<cmd>:Ctest<CR>", opts)
+    map("n", "<space>cr", "<cmd>:Crun<CR>", opts)
     map("n", "<space>rr", "<cmd>:RustRun<CR>", opts)
     map("n", "<space>rt", "<cmd>:RustTest<CR>", opts)
 

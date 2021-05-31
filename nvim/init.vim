@@ -6,6 +6,7 @@ Plug 'preservim/nerdtree'
 " color ui
 Plug 'gruvbox-community/gruvbox'
 Plug 'folke/lsp-colors.nvim'
+Plug 'p00f/nvim-ts-rainbow' 
 " status line
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
