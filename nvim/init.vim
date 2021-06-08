@@ -25,6 +25,7 @@ Plug 'JoosepAlviste/nvim-ts-context-commentstring'
 Plug 'sbdchd/neoformat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
+Plug 'editorconfig/editorconfig-vim'
 " snippets
 Plug 'hrsh7th/vim-vsnip'
 Plug 'hrsh7th/vim-vsnip-integ'

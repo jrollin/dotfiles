@@ -153,8 +153,9 @@ bindsym $mod+r mode "resize"
 # finds out, if available)
 bar {
 	status_command i3status
-	font pango:Hack, FontAwesome 10
-	tray_output primary
+	font pango:FontAwesome 10
+    # font pango:monospace 10
+    tray_output primary
 
     colors {
         background #000000
@@ -172,7 +173,7 @@ bar {
 
 # remove nav border
 for_window [class="^.*"] border pixel 2
-                          # class                 border  backgr. text    indicator child_border
+# class                 border  backgr. text    indicator child_border
 for_window [class="^.*"] client.focused          #77dd77 #285577 #ffffff #2e9ef4   #285577
 
 # class                 border    background   text      indicator       child_border

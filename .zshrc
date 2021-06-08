@@ -105,4 +105,4 @@ export EDITOR="nvim"
 alias vim="nvim"
 alias vi="nvim"
 alias oldvim="vim"
-
+alias python="python3"
