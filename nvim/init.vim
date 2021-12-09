@@ -1,5 +1,6 @@
 " manage plugin with vim-plug 
 call plug#begin('~/.vim/plugged')                                               
+" vim game 
 Plug 'ThePrimeagen/vim-be-good'
 " file explorer
 Plug 'preservim/nerdtree'                                                   
@@ -13,7 +14,9 @@ Plug 'vim-airline/vim-airline-themes'
 " LSP
 Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/nvim-compe'
+" need fix for nvim 0.6
 Plug 'glepnir/lspsaga.nvim'
+
 "Extensions to built-in LSP, for example, providing type inlay hints
 Plug 'nvim-lua/lsp_extensions.nvim'
 " lsp diagnostics
@@ -38,7 +41,8 @@ Plug 'nvim-telescope/telescope-fzy-native.nvim'
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'tpope/vim-fugitive'
 " lang
-Plug 'rust-lang/rust.vim'
+" Plug 'rust-lang/rust.vim'
+Plug 'simrat39/rust-tools.nvim'
 Plug 'golang/vscode-go' 
 Plug 'xabikos/vscode-javascript'
 Plug 'hashivim/vim-terraform'
@@ -51,23 +55,14 @@ call plug#end()
 
 
 
-let mapleader = ' '                                                             
-
-lua require('jrollin') 
 
 
 " mapping
 " Map the leader key to a space.                                                
 let mapleader = ' '                                                             
-                                                                              
-" inoremap : normal mode remap
-" inoremap ! insert mode remap
 
-" Use alt + hjkl to resize windows
-nnoremap <M-j>    :resize -2<CR>
-nnoremap <M-k>    :resize +2<CR>
-nnoremap <M-h>    :vertical resize -2<CR>
-nnoremap <M-l>    :vertical resize +2<CR>
+lua require('jrollin') 
+                                                                              
 
 " Immediately add a closing quotes or braces in insert mode.                    
 " inoremap ' ''<esc>i                                                             
@@ -76,31 +71,6 @@ nnoremap <M-l>    :vertical resize +2<CR>
 " inoremap { {}<esc>i                                                             
 " inoremap [ []<esc>i                                                             
                                                                               
-" Save a file with leader-w.                                                    
-noremap <leader>w :w<cr>                                                       
-                                                                                  
-" NERDTree                                                                      
-nnoremap <leader>n :NERDTreeFocus<CR>                                           
-nnoremap <C-t> :NERDTreeToggle<CR>                                              
-nnoremap <C-f> :NERDTreeFind<CR>
-
-" TAB in general mode will move to text buffer
-nnoremap <TAB> :bnext<CR>
-" SHIFT-TAB will go back
-nnoremap <S-TAB> :bprevious<CR>
-" close buffer
-nnoremap <C-x> :bd!<CR>
-
-" Better tabbing
-vnoremap < <gv
-vnoremap > >gv
-
-" Better window navigation
-nnoremap <C-h> <C-w>h
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
-
 
 " completion
 inoremap <silent><expr> <C-Space> compe#complete()
@@ -110,34 +80,6 @@ inoremap <silent><expr> <C-e>     compe#close('<C-e>')
 " Use <Tab> and <S-Tab> to navigate through popup menu
 inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-
-
-" lspsaga
-" -- code action
-nnoremap <silent><leader>ca <cmd>lua require('lspsaga.codeaction').code_action()<CR>
-vnoremap <silent><leader>ca :<C-U>lua require('lspsaga.codeaction').range_code_action()<CR>
-" -- or use command
-" nnoremap <silent><leader>ca :Lspsaga code_action<CR>
-" vnoremap <silent><leader>ca :<C-U>Lspsaga range_code_action<CR>
-
-
-" Find files using Telescope command-line sugar.
-nnoremap <C-p> :lua require('telescope.builtin').file_browser()<CR>
-
-nnoremap <leader>fs :lua require('telescope.builtin').grep_string({ search = vim.fn.input("Grep For > ")})<CR>
-nnoremap <leader>fw :lua require('telescope.builtin').grep_string { search = vim.fn.expand("<cword>") }<CR>
-nnoremap <Leader>fg :lua require('telescope.builtin').git_files()<CR>
-nnoremap <Leader>ff :lua require('telescope.builtin').find_files()<CR>
-nnoremap <leader>fb :lua require('telescope.builtin').buffers()<CR>
-
-" search help
-nnoremap <leader>fh :lua require('telescope.builtin').help_tags()<CR>
-
-" custom file search
-nnoremap <leader>fd :lua require('finder').search_dotfiles()<CR>
-nnoremap <leader>fc :lua require('finder').search_config()<CR>
-nnoremap <leader>fp :lua require('finder').search_registers()<CR>
-
 
 
 " settings
