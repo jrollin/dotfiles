@@ -1,3 +1,4 @@
+-- rust
 local opts = {
     tools = { -- rust-tools options
         -- Automatically set inlay hints (type hints)
@@ -133,44 +134,55 @@ require("trouble").setup {
 
 
 -- Enable type inlay hints
-vim.cmd [[
-    autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost * lua require'lsp_extensions'.inlay_hints{ prefix = '>', highlight = "Comment", enabled = {"TypeHint", "ChainingHint", "ParameterHint"} }
-]]
+-- vim.cmd [[
+--     autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost * lua require'lsp_extensions'.inlay_hints{ prefix = '>', highlight = "Comment", enabled = {"TypeHint", "ChainingHint", "ParameterHint"} }
+-- ]]
 
 -- git changes annotations
 require('gitsigns').setup()
 
 
 
-
+-- lsp 
 local lspconfig = require('lspconfig')
+local setup_auto_format = require("jrollin.utils").setup_auto_format
+
+setup_auto_format("rs")
+setup_auto_format("js")
+setup_auto_format("css")
+setup_auto_format("tsx")
+setup_auto_format("ts")
+
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 -- Code actions
-capabilities.textDocument.codeAction = {
-    dynamicRegistration = true,
-    codeActionLiteralSupport = {
-        codeActionKind = {
-            valueSet = (function()
-                local res = vim.tbl_values(vim.lsp.protocol.CodeActionKind)
-                table.sort(res)
-                return res
-            end)()
-        }
-    }
-}
+-- capabilities.textDocument.codeAction = {
+--     dynamicRegistration = true,
+--     codeActionLiteralSupport = {
+--         codeActionKind = {
+--             valueSet = (function()
+--                 local res = vim.tbl_values(vim.lsp.protocol.CodeActionKind)
+--                 table.sort(res)
+--                 return res
+--             end)()
+--         }
+--     }
+-- }
 
--- enable auto-import
+-- -- enable auto-import
 
-capabilities.textDocument.completion.completionItem.resolveSupport = {
-  properties = {
-    'documentation',
-    'detail',
-    'additionalTextEdits',
-  }
-}
+-- capabilities.textDocument.completion.completionItem.resolveSupport = {
+--   properties = {
+--     'documentation',
+--     'detail',
+--     'additionalTextEdits',
+--   }
+-- }
+
+require("null-ls").config({})
+require("lspconfig")["null-ls"].setup({})
 
 
 
@@ -193,7 +205,7 @@ local on_attach = function(client, bufnr)
         map("v", "<space>f", "<cmd>lua vim.lsp.buf.range_formatting()<CR>", opts)
     end
 
-    vim.cmd("setlocal omnifunc=v:lua.vim.lsp.omnifunc")  
+    -- vim.cmd("setlocal omnifunc=v:lua.vim.lsp.omnifunc")  
 end
 
 -- typescript
@@ -227,11 +239,6 @@ lspconfig.gopls.setup{
 }
 
 
--- Enable rust_analyzer
--- lspconfig.rust_analyzer.setup{
---     capabilities=capabilities,
---     on_attach=on_attach,
--- }
 
 -- Enable diagnostics
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
@@ -241,3 +248,6 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     update_in_insert = true,
   }
 )
+
+vim.lsp.handlers["textDocument/codeAction"] =
+  require("lsputil.codeAction").code_action_handler

@@ -53,8 +53,9 @@ nnoremap("<leader>xl", "<cmd>LspTroubleToggle loclist<cr>")
 nnoremap("<leader>xq", "<cmd>LspTroubleToggle quickfix<cr>")
 nnoremap("<leader>xr", "<cmd>LspTroubleRefresh<cr>")
 -- override 
--- nnoremap("gd", "<cmd>LspTrouble lsp_definitions<cr>")
--- nnoremap("gr", "<cmd>LspTrouble lsp_references<cr>")
+nnoremap("gd", "<cmd>LspTrouble lsp_definitions<cr>")
+nnoremap("gr", "<cmd>LspTrouble lsp_references<cr>")
+
 
 -- " lspsaga
 -- " -- code action
@@ -64,17 +65,18 @@ nnoremap("<leader>xr", "<cmd>LspTroubleRefresh<cr>")
 
                                                                          
 -- Keybindings for LSPs                                                     
-nnoremap("<leader>gd", "<cmd>lua vim.lsp.buf.type_definition()<CR>")   
 nnoremap("gD", "<cmd>lua vim.lsp.buf.declaration()<CR>")              
--- overriden by lsp trouble plugin                                          
-nnoremap("gd", "<cmd>lua vim.lsp.buf.definition()<CR>")             
-nnoremap("gr", "<cmd>lua vim.lsp.buf.references()<CR>")             
+-- nnoremap("gd", "<cmd>lua vim.lsp.buf.definition()<CR>")             
+-- nnoremap("gr", "<cmd>lua vim.lsp.buf.references()<CR>")             
+nnoremap("<leader>gd", "<cmd>lua vim.lsp.buf.type_definition()<CR>")   
 nnoremap("gi", "<cmd>lua vim.lsp.buf.implementation()<CR>")           
-nnoremap("K", "<cmd>lua vim.lsp.buf.hover()<CR>")                     
 nnoremap("<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>")        
 nnoremap("<leader>r", "<cmd>lua vim.lsp.buf.rename()<CR>")             
-nnoremap("<leader>a", "<cmd>lua vim.lsp.buf.code_action()<CR>")        
-inoremap("<leader>ca", "<cmd>lua vim.lsp.buf.range_code_action()<CR>")
+nnoremap("<leader>a", "<cmd>lua vim.lsp.buf.code_action()<CR>", true)
+vnoremap("<leader>a", "<cmd>lua vim.lsp.buf.range_code_action()<CR>")
+
+nnoremap("<C-space>", "<cmd>lua vim.lsp.buf.hover()<CR>", true)
+vnoremap("<C-space>", "<cmd>RustHoverRange<CR>")
 
 nnoremap("gw", "<cmd>lua vim.lsp.buf.workspace_symbol()<CR>")         
 nnoremap("gs", "<cmd>lua vim.lsp.buf.document_symbol()<CR>")  
