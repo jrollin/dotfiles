@@ -69,7 +69,7 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git docker asdf npm ansible terraform aws tmux rust cargo encode64 ) 
+plugins=(git docker asdf npm ansible terraform aws tmux rust encode64 ) 
 
 source $ZSH/oh-my-zsh.sh
 
@@ -107,3 +107,10 @@ alias vi="nvim"
 alias oldvim="vim"
 alias python="python3"
 alias mine="cd $HOME/projects/mine"
+alias talan="cd $HOME/projects/talan"
+alias wasm="cd $HOME/projects/mine/wasm"
+alias iot="cd $HOME/projects/mine/iot"
+
+# Wasmer
+export WASMER_DIR="/home/julienrollin/.wasmer"
+[ -s "$WASMER_DIR/wasmer.sh" ] && source "$WASMER_DIR/wasmer.sh"

@@ -75,6 +75,9 @@ nnoremap("<leader>r", "<cmd>lua vim.lsp.buf.rename()<CR>")
 nnoremap("<leader>a", "<cmd>lua vim.lsp.buf.code_action()<CR>", true)
 vnoremap("<leader>a", "<cmd>lua vim.lsp.buf.range_code_action()<CR>")
 
+nnoremap("<leader>t", "<cmd>RustRunnables<CR>")
+
+
 nnoremap("<C-space>", "<cmd>lua vim.lsp.buf.hover()<CR>", true)
 vnoremap("<C-space>", "<cmd>RustHoverRange<CR>")
 
