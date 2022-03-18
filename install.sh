@@ -11,6 +11,12 @@ install_i3() {
         && ln -s $(pwd)/i3 ~/.config/i3  
 }
 
+install_i3_wallpaper() {
+    echo "installing_i3wallper.." \
+        && rm -rf ~/.config/pictures \
+        && ln -s $(pwd)/pictures ~/.config/pictures  
+}
+
 install_i3menu() {
     echo "installing_i3menu.." \
         && rm -rf ~/.config/rofi \
@@ -40,6 +46,7 @@ if [[ -z $1 ]]; then
     echo "Installing dependencies..." \
     install_neovim \
     && install_i3 \
+    && install_i3_wallpaper\
     && install_i3menu \
     && install_tmux \
     && install_zsh \

@@ -190,7 +190,7 @@ set $projector VGA1
 # add network manager in bar
 exec --no-startup-id nm-applet
 # volume systray
-exec --no-startup-id /usr/bin/pasystray
+# exec --no-startup-id /usr/bin/pasystray
 # bluetooth systray
 #exec --no-startup-id /usr/bin/blueman-applet
 # default brightness
@@ -198,7 +198,7 @@ exec exec xbacklight -set 1
 
 
 # background
-exec --no-startup-id feh --bg-fill storage/images/Wallpapers/wallpaper.jpg 
+exec --no-startup-id feh --bg-fill ~/.config/pictures/wallpaper.jpg 
 
 
 # xrandr : xrandr --output $secondMonitor --auto --left-of $firstMonitor
@@ -246,7 +246,7 @@ bindsym XF86AudioMute exec $psst pactl set-sink-mute @DEFAULT_SINK@ toggle $upda
 
 
 # lock screen
-set $Locker i3lock -c 000000 -f -i ~/.i3/locked.png
+set $Locker i3lock -c 000000 -f -i ~/.config/pictures/locked.jpg
 
 set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
 mode "$mode_system" {
