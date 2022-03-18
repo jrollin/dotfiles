@@ -15,9 +15,9 @@ install_shell() {
         && sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 }
 
-install_status() {
+install_i3status() {
     echo "installing status tools..." \
-        && apt install flameshot feh xbacklight
+        && apt install rofi flameshot feh xbacklight
 }
 
 install_sound() {
@@ -38,7 +38,7 @@ if [[ -z $1 ]]; then
     && install_basics  \
     && install_shell \
     && install_search \
-    && install_status \
+    && install_i3status \
     && install_sound \
     && install_blue \
     && echo "Finished installation."

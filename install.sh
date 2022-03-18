@@ -11,19 +11,25 @@ install_i3() {
         && ln -s $(pwd)/i3 ~/.config/i3  
 }
 
+install_i3menu() {
+    echo "installing_i3menu.." \
+        && rm -rf ~/.config/rofi \
+        && ln -s $(pwd)/rofi ~/.config/rofi  
+}
+
 install_ts() {
     npm install -g typescript typescript-language-server prettier 
 }
 
 install_tmux() {
     echo "installing tmux" \
-        && rm ~/.tmux.conf \
+        && rm -f ~/.tmux.conf \
         && ln -s $(pwd)/tmux/.tmux.conf ~/.tmux.conf
  }
 
 install_zsh() {
     echo "installing zsh" \
-        && rm ~/.zshrc \
+        && rm -f ~/.zshrc \
         && ln -s $(pwd)/.zshrc ~/.zshrc
 }
 
@@ -34,6 +40,7 @@ if [[ -z $1 ]]; then
     echo "Installing dependencies..." \
     install_neovim \
     && install_i3 \
+    && install_i3menu \
     && install_tmux \
     && install_zsh \
     && install_ts \
