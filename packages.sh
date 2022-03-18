@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 install_basics() {
-    apt install git unzip curl ffmpeg xclip
+    apt install git unzip curl xclip build-essential cmake
 }
 
 install_search() {
@@ -15,6 +15,21 @@ install_shell() {
         && sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 }
 
+install_status() {
+    echo "installing status tools..." \
+        && apt install flameshot feh xbacklight
+}
+
+install_sound() {
+    echo "installing sound.." \
+        && apt install alsa-tools pavucontrol
+}
+
+install_blue() {
+    echo "installing blue.." \
+        && apt install blueman
+}
+
 if [[ -z $1 ]]; then
   echo -n "This will install packages, Proceed? (y/n)? "
   read answer
@@ -23,6 +38,9 @@ if [[ -z $1 ]]; then
     && install_basics  \
     && install_shell \
     && install_search \
+    && install_status \
+    && install_sound \
+    && install_blue \
     && echo "Finished installation."
   fi
 else

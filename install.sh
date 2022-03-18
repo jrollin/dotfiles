@@ -33,10 +33,10 @@ if [[ -z $1 ]]; then
   if echo "$answer" | grep -iq "^y" ;then
     echo "Installing dependencies..." \
     install_neovim \
-    && install_ts \
     && install_i3 \
     && install_tmux \
     && install_zsh \
+    && install_ts \
     && echo "Finished installation."
   fi
 else
