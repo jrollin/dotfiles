@@ -30,8 +30,15 @@ install_ts() {
 install_tmux() {
     echo "installing tmux" \
         && rm -f ~/.tmux.conf \
-        && ln -s $(pwd)/tmux/.tmux.conf ~/.tmux.conf
+        && ln -s $(pwd)/tmux/.tmux.conf ~/.tmux.conf 
  }
+
+
+install_term() {
+    echo "installing term" \
+        && rm -rf ~/.config/alacritty \
+        && ln -s $(pwd)/alacritty ~/.config/alacritty 
+}
 
 install_zsh() {
     echo "installing zsh" \
@@ -50,6 +57,7 @@ if [[ -z $1 ]]; then
     && install_i3menu \
     && install_tmux \
     && install_zsh \
+    && install_term \
     && install_ts \
     && echo "Finished installation."
   fi
