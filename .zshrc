@@ -1,4 +1,3 @@
-# If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 export PATH=$HOME/.local/bin:$PATH
 
@@ -106,11 +105,12 @@ alias vim="nvim"
 alias vi="nvim"
 alias oldvim="vim"
 alias python="python3"
-alias mine="cd $HOME/projects/mine"
-alias talan="cd $HOME/projects/talan"
-alias wasm="cd $HOME/projects/mine/wasm"
-alias iot="cd $HOME/projects/mine/iot"
+alias mine="cd /data/projects/mine"
+alias talan="cd /data/projects/talan"
+alias wasm="cd /data/projects/mine/wasm"
+alias iot="cd /data/projects/mine/iot"
+
 
 # Wasmer
-export WASMER_DIR="/home/julienrollin/.wasmer"
+export WASMER_DIR="/home/jrollin/.wasmer"
 [ -s "$WASMER_DIR/wasmer.sh" ] && source "$WASMER_DIR/wasmer.sh"

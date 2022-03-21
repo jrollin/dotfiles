@@ -8,6 +8,7 @@ Plug 'preservim/nerdtree'
 Plug 'gruvbox-community/gruvbox'
 Plug 'folke/lsp-colors.nvim'
 Plug 'p00f/nvim-ts-rainbow' 
+Plug 'norcalli/nvim-colorizer.lua'
 " status line
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -71,6 +72,7 @@ call plug#end()
 " mapping
 " Map the leader key to a space.                                                
 let mapleader = ' '                                                             
+set termguicolors
 
 lua require('jrollin') 
                                                                               
@@ -129,7 +131,6 @@ set timeoutlen=500                      " By default timeoutlen is 1000 ms
                                                                               
 set clipboard=unnamedplus               " Copy paste between vim and everything else
 
-set termguicolors
 set background=dark
 let g:gruvbox_contrast_dark='hard'
 let g:gruvbox_contrast_light='soft'

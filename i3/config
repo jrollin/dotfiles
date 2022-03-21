@@ -121,6 +121,8 @@ bindsym $mod+Shift+agrave move container to workspace 10
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
+# polybar status
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 # exit i3 (logs you out of your X session)
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
@@ -152,25 +154,25 @@ bindsym $mod+r mode "resize"
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
-bar {
-	status_command i3status
-	font pango:FontAwesome 10
-    # font pango:monospace 10
-    tray_output primary
+#bar {
+#	# status_command i3status
+#	font pango:FontAwesome 10
+#    # font pango:monospace 10
+#    tray_output primary
 
-    colors {
-        background #000000
-        statusline #dedede
-        separator #359b79
+#    colors {
+#        background #000000
+#        statusline #dedede
+#        separator #359b79
 
-        #colorclass        border    background   text
-        focused_workspace  #458b74   #316453      #dedede
-        active_workspace   #333333   #5f676a      #dedede
-        inactive_workspace #333333   #000000      #888888
-        urgent_workspace   #ffd500   #ffd500      #151515
-        binding_mode       #dedede   #b3b3b3      #151515
-    }
-}
+#        #colorclass        border    background   text
+#        focused_workspace  #458b74   #316453      #dedede
+#        active_workspace   #333333   #5f676a      #dedede
+#        inactive_workspace #333333   #000000      #888888
+#        urgent_workspace   #ffd500   #ffd500      #151515
+#        binding_mode       #dedede   #b3b3b3      #151515
+#    }
+#}
 
 # remove nav border
 for_window [class="^.*"] border pixel 2
@@ -190,9 +192,9 @@ set $projector VGA1
 # add network manager in bar
 exec --no-startup-id nm-applet
 # volume systray
-# exec --no-startup-id /usr/bin/pasystray
+exec --no-startup-id /usr/bin/pasystray
 # bluetooth systray
-#exec --no-startup-id /usr/bin/blueman-applet
+exec --no-startup-id /usr/bin/blueman-applet
 # default brightness
 exec exec xbacklight -set 1
 

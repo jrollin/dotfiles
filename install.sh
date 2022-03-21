@@ -21,6 +21,9 @@ install_i3menu() {
     echo "installing_i3menu.." \
         && rm -rf ~/.config/rofi \
         && ln -s $(pwd)/rofi ~/.config/rofi  
+    echo "installing_polybar.." \
+        && rm -rf ~/.config/polybar \
+        && ln -s $(pwd)/polybar ~/.config/polybar  
 }
 
 install_ts() {

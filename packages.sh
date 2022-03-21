@@ -16,7 +16,7 @@ install_shell() {
 
 install_i3status() {
     echo "installing status tools..." \
-        && apt install rofi flameshot feh xbacklight
+        && apt install polybar rofi flameshot feh xbacklight
 }
 
 install_sound() {
