@@ -10,9 +10,20 @@ local vnoremap = function(lhs, rhs)
   vim.api.nvim_set_keymap("v", lhs, rhs, { noremap = true })
 end
 
+local xnoremap = function(lhs, rhs)
+  vim.api.nvim_set_keymap("x", lhs, rhs, { noremap = true })
+end
 -- Save a file with leader-w.                                                    
 nnoremap("<leader>w", ":w<CR>")
-                                                                                  
+
+-- real delete not cut with register trick 
+-- nnoremap <leader>d "_d
+-- xnoremap <leader>d "_d
+-- xnoremap <leader>p "_dP
+nnoremap("<leader>d", "\"_d")
+xnoremap("<leader>d", "\"_d")
+xnoremap("<leader>p", "\"_dP")
+
 -- NERDTree                                                                      
 nnoremap("<C-t>", ":NERDTreeToggle<CR>")
 nnoremap("<C-f>", ":NERDTreeFind<CR>")
