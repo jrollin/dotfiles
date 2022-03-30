@@ -180,8 +180,8 @@ for_window [class="^.*"] border pixel 2
 for_window [class="^.*"] client.focused          #77dd77 #285577 #ffffff #2e9ef4   #285577
 
 # class                 border    background   text      indicator       child_border
-client.focused          #458b74   #316453      #dedede   #458b74458b74   #458b74
-client.urgent           #ffd500   #ffd500      #151515   #458b74458b74   #ffd500
+# client.focused          #458b74   #316453      #dedede   #458b74458b74   #458b74
+# client.urgent           #ffd500   #ffd500      #151515   #458b74458b74   #ffd500
 
 ### custom conf
 
