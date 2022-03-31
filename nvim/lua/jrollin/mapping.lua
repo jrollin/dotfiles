@@ -55,38 +55,34 @@ nnoremap("<C-j>", "<C-w>j")
 nnoremap("<C-k>", "<C-w>k")
 nnoremap("<C-l>", "<C-w>l")
 
-
--- lsp trouble
-nnoremap("<leader>xx", "<cmd>LspTroubleToggle<cr>")
-nnoremap("<leader>xw", "<cmd>LspTroubleToggle lsp_workspace_diagnostics<cr>")
-nnoremap("<leader>xd", "<cmd>LspTroubleToggle lsp_document_diagnostics<cr>")
-nnoremap("<leader>xl", "<cmd>LspTroubleToggle loclist<cr>")
-nnoremap("<leader>xq", "<cmd>LspTroubleToggle quickfix<cr>")
-nnoremap("<leader>xr", "<cmd>LspTroubleRefresh<cr>")
--- override 
-nnoremap("gd", "<cmd>LspTrouble lsp_definitions<cr>")
-nnoremap("gr", "<cmd>LspTrouble lsp_references<cr>")
-
-
--- " lspsaga
--- " -- code action
--- " nnoremap <silent><leader>ca <cmd>lua require('lspsaga.codeaction').code_action()<CR>
--- " vnoremap <silent><leader>ca :<C-U>lua require('lspsaga.codeaction').range_code_action()<CR>
-
-
                                                                          
 -- Keybindings for LSPs                                                     
 nnoremap("gD", "<cmd>lua vim.lsp.buf.declaration()<CR>")              
--- nnoremap("gd", "<cmd>lua vim.lsp.buf.definition()<CR>")             
--- nnoremap("gr", "<cmd>lua vim.lsp.buf.references()<CR>")             
-nnoremap("<leader>gd", "<cmd>lua vim.lsp.buf.type_definition()<CR>")   
+nnoremap("gd", "<cmd>lua vim.lsp.buf.definition()<CR>")             
+nnoremap("gr", "<cmd>lua vim.lsp.buf.references()<CR>")             
 nnoremap("gi", "<cmd>lua vim.lsp.buf.implementation()<CR>")           
+-- nnoremap("<leader>gd", "<cmd>lua vim.lsp.buf.type_definition()<CR>")   
+
 nnoremap("<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>")        
+
+-- diagnostics
+nnoremap("ge", "<cmd>lua vim.diagnostic.goto_prev()<CR>", true)
+nnoremap("gE", "<cmd>lua vim.diagnostic.goto_next()<CR>", true)
+
+nnoremap("<Leader>ld", "<cmd>Trouble document_diagnostics<CR>", true)
+nnoremap("<Leader>lw", "<cmd>Trouble workspace_diagnostics<CR>", true)
+nnoremap("<Leader>lt", "<cmd>TroubleToggle<CR>", true)
+
+-- actions
 nnoremap("<leader>r", "<cmd>lua vim.lsp.buf.rename()<CR>")             
 nnoremap("<leader>a", "<cmd>lua vim.lsp.buf.code_action()<CR>", true)
 vnoremap("<leader>a", "<cmd>lua vim.lsp.buf.range_code_action()<CR>")
 
+-- rust actions
 nnoremap("<leader>t", "<cmd>RustRunnables<CR>")
+
+-- outline code structure
+nnoremap("<C-s>", "<cmd>SymbolsOutline<CR>")
 
 
 nnoremap("<C-space>", "<cmd>lua vim.lsp.buf.hover()<CR>", true)
@@ -97,19 +93,17 @@ nnoremap("gs", "<cmd>lua vim.lsp.buf.document_symbol()<CR>")
 
 
 -- Find files using Telescope command-line sugar.
-nnoremap("<C-p>", "<cmd>lua require('telescope.builtin').file_browser()<CR>")
+nnoremap("<C-p>", "<cmd>:Telescope file_browser<CR>")
 
--- nnoremap("<leader>fs", "<cmd>lua require('telescope.builtin').grep_string({ search = vim.fn.input("Grep For > ")})<CR>")
--- nnoremap("<leader>fw", "<cmd>lua require('telescope.builtin').grep_string { search = vim.fn.expand("<cword>") }<CR>")
+nnoremap("<leader>fs", "<cmd>lua require('telescope.builtin').grep_string({ search = vim.fn.input(\"Grep For > \")})<CR>")
+nnoremap("<leader>fw", "<cmd>lua require('telescope.builtin').grep_string { search = vim.fn.expand(\"<cword>\") }<CR>")
 nnoremap("<Leader>fg", "<cmd>lua require('telescope.builtin').git_files()<CR>")
 nnoremap("<Leader>ff", "<cmd>lua require('telescope.builtin').find_files()<CR>")
 nnoremap("<leader>fb", "<cmd>lua require('telescope.builtin').buffers()<CR>")
-
--- search help
 nnoremap("<leader>fh", "<cmd>lua require('telescope.builtin').help_tags()<CR>")
 
 -- custom file search
 nnoremap("<Leader>fd", "<Esc> :lua require('jrollin.finder').search_dotfiles()<CR>")
 nnoremap("<leader>fc", "<cmd>lua require('jrollin.finder').search_config()<CR>")
-nnoremap("<leader>fp", "<cmd>lua require('jrollin.finder').search_registers()<CR>")
+-- nnoremap("<leader>fr", "<cmd>lua require('jrollin.finder').search_registers()<CR>")
 
