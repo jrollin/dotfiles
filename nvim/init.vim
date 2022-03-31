@@ -27,9 +27,6 @@ Plug 'hrsh7th/vim-vsnip-integ'
 Plug 'RishabhRD/popfix'
 Plug 'RishabhRD/nvim-lsputils'
 
-" need fix for nvim 0.6
-Plug 'glepnir/lspsaga.nvim'
-
 "Extensions to built-in LSP, for example, providing type inlay hints
 Plug 'nvim-lua/lsp_extensions.nvim'
 " lsp diagnostics
@@ -37,6 +34,8 @@ Plug 'folke/lsp-trouble.nvim'
 " treesitter
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
 Plug 'JoosepAlviste/nvim-ts-context-commentstring'
+" outline tree structure
+Plug 'simrat39/symbols-outline.nvim'
 " idk
 Plug 'jose-elias-alvarez/null-ls.nvim'
 " format code
@@ -49,6 +48,7 @@ Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-fzy-native.nvim'
+Plug 'nvim-telescope/telescope-file-browser.nvim'
 " git
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'tpope/vim-fugitive'
