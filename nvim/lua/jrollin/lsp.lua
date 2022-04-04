@@ -9,7 +9,9 @@ setup_auto_format("tsx")
 setup_auto_format("ts")
 
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
+-- local capabilities = vim.lsp.protocol.make_client_capabilities()
+ -- Setup lspconfig with cmp
+local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 -- require("null-ls").config({})

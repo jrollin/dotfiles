@@ -54,4 +54,13 @@ M.search_registers = function()
         prompt_title = "< paste registers >",
     })
 end
+M.git_branches = function()
+	require("telescope.builtin").git_branches({
+		attach_mappings = function(_, map)
+			map("i", "<c-d>", actions.git_delete_branch)
+			map("n", "<c-d>", actions.git_delete_branch)
+			return true
+		end,
+	})
+end
 return M

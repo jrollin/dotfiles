@@ -16,6 +16,12 @@ end
 -- Save a file with leader-w.                                                    
 nnoremap("<leader>w", ":w<CR>")
 
+-- surround plugin reminder
+-- surround (ys), delete (ds) change (cs) change tag aroung (cst)
+-- ex: surround sentence with " :  yss"
+-- ex: change " by ' around work  :  csw"'
+
+
 -- real delete not cut with register trick 
 -- nnoremap <leader>d "_d
 -- xnoremap <leader>d "_d
@@ -59,24 +65,30 @@ nnoremap("<C-l>", "<C-w>l")
 -- Keybindings for LSPs                                                     
 nnoremap("gD", "<cmd>lua vim.lsp.buf.declaration()<CR>")              
 nnoremap("gd", "<cmd>lua vim.lsp.buf.definition()<CR>")             
-nnoremap("gr", "<cmd>lua vim.lsp.buf.references()<CR>")             
+-- nnoremap("gr", "<cmd>lua vim.lsp.buf.references()<CR>")             
+nnoremap("gr", "<cmd>Telescope lsp_references<CR>")             
 nnoremap("gi", "<cmd>lua vim.lsp.buf.implementation()<CR>")           
--- nnoremap("<leader>gd", "<cmd>lua vim.lsp.buf.type_definition()<CR>")   
+nnoremap("gt", "<cmd>lua vim.lsp.buf.type_definition()<CR>")   
 
 nnoremap("<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>")        
 
 -- diagnostics
-nnoremap("ge", "<cmd>lua vim.diagnostic.goto_prev()<CR>", true)
-nnoremap("gE", "<cmd>lua vim.diagnostic.goto_next()<CR>", true)
+nnoremap("<leader>dp", "<cmd>lua vim.diagnostic.goto_prev()<CR>", true)
+nnoremap("<leader>dn", "<cmd>lua vim.diagnostic.goto_next()<CR>", true)
 
-nnoremap("<Leader>ld", "<cmd>Trouble document_diagnostics<CR>", true)
-nnoremap("<Leader>lw", "<cmd>Trouble workspace_diagnostics<CR>", true)
-nnoremap("<Leader>lt", "<cmd>TroubleToggle<CR>", true)
+-- nnoremap("<Leader>dd", "<cmd>Trouble document_diagnostics<CR>", true)
+-- use telescope for diagnostics on opened buffer files 
+nnoremap("<Leader>dd", "<cmd>Telescope diagnostics<CR>", true)
+nnoremap("<Leader>dw", "<cmd>Trouble workspace_diagnostics<CR>", true)
+nnoremap("<Leader>dt", "<cmd>TroubleToggle<CR>", true)
 
 -- actions
 nnoremap("<leader>r", "<cmd>lua vim.lsp.buf.rename()<CR>")             
-nnoremap("<leader>a", "<cmd>lua vim.lsp.buf.code_action()<CR>", true)
-vnoremap("<leader>a", "<cmd>lua vim.lsp.buf.range_code_action()<CR>")
+-- nnoremap("<leader>a", "<cmd>hua vim.lsp.buf.code_action()<CR>", true)
+-- vnoremap("<leader>a", "<cmd>lua vim.lsp.buf.range_code_action()<CR>")
+-- use telescope for code actions
+nnoremap("<leader>a", "<cmd>Telescope lsp_code_actions<CR>", true)
+vnoremap("<leader>a", "<cmd>Telescope lsp_range_code_actions<CR>")
 
 -- rust actions
 nnoremap("<leader>t", "<cmd>RustRunnables<CR>")
@@ -102,8 +114,10 @@ nnoremap("<Leader>ff", "<cmd>lua require('telescope.builtin').find_files()<CR>")
 nnoremap("<leader>fb", "<cmd>lua require('telescope.builtin').buffers()<CR>")
 nnoremap("<leader>fh", "<cmd>lua require('telescope.builtin').help_tags()<CR>")
 
+
 -- custom file search
-nnoremap("<Leader>fd", "<Esc> :lua require('jrollin.finder').search_dotfiles()<CR>")
-nnoremap("<leader>fc", "<cmd>lua require('jrollin.finder').search_config()<CR>")
--- nnoremap("<leader>fr", "<cmd>lua require('jrollin.finder').search_registers()<CR>")
+nnoremap("<Leader>fd", "<Esc> :lua require('jrollin.telescope').search_dotfiles()<CR>")
+nnoremap("<leader>fc", "<cmd>lua require('jrollin.telescope').search_config()<CR>")
+-- git branches
+nnoremap("<Leader>gg", "<cmd>lua require('jrollin.telescope').git_branches()<CR>")
 

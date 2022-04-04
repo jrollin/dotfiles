@@ -16,12 +16,16 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-nvim-lua'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-cmdline'
 " snippets
-Plug 'hrsh7th/vim-vsnip'
-Plug 'hrsh7th/vim-vsnip-integ'
+Plug 'L3MON4D3/LuaSnip'
+Plug 'saadparwaiz1/cmp_luasnip'
+" format cmp sugestion
+Plug 'onsails/lspkind-nvim'
+
 
 " UI stuff (mainly used for lsp overrides)
 Plug 'RishabhRD/popfix'
@@ -147,10 +151,6 @@ set signcolumn=yes
 " 300ms of no cursor movement to trigger CursorHold
 set updatetime=300
 
-
-" completion
-" Set completeopt to have a better completion experience
-set completeopt=menu,menuone,noselect
 " Avoid showing extra messages when using completion
 set shortmess+=c
 
