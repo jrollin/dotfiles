@@ -9,6 +9,8 @@ Plug 'gruvbox-community/gruvbox'
 Plug 'folke/lsp-colors.nvim'
 Plug 'p00f/nvim-ts-rainbow' 
 Plug 'norcalli/nvim-colorizer.lua'
+" dev icon
+Plug 'kyazdani42/nvim-web-devicons'
 " status line
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -23,6 +25,7 @@ Plug 'hrsh7th/cmp-cmdline'
 " snippets
 Plug 'L3MON4D3/LuaSnip'
 Plug 'saadparwaiz1/cmp_luasnip'
+Plug 'rafamadriz/friendly-snippets'
 " format cmp sugestion
 Plug 'onsails/lspkind-nvim'
 
@@ -77,8 +80,10 @@ call plug#end()
 " Map the leader key to a space.                                                
 let mapleader = ' '                                                             
 set termguicolors
+set guifont =JetBrains\ Mono:10
 
 lua require('jrollin') 
+
                                                                               
 
 " Immediately add a closing quotes or braces in insert mode.                    
@@ -150,10 +155,6 @@ set signcolumn=yes
 " Set updatetime for CursorHold
 " 300ms of no cursor movement to trigger CursorHold
 set updatetime=300
-
-" Avoid showing extra messages when using completion
-set shortmess+=c
-
 
 " Treesitter conf
 highlight link TSConstBuiltin Constant

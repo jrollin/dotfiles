@@ -105,7 +105,7 @@ nnoremap("gs", "<cmd>lua vim.lsp.buf.document_symbol()<CR>")
 
 
 -- Find files using Telescope command-line sugar.
-nnoremap("<C-p>", "<cmd>:Telescope file_browser<CR>")
+nnoremap("<C-p>", "<cmd>Telescope file_browser<CR>")
 
 nnoremap("<leader>fs", "<cmd>lua require('telescope.builtin').grep_string({ search = vim.fn.input(\"Grep For > \")})<CR>")
 nnoremap("<leader>fw", "<cmd>lua require('telescope.builtin').grep_string { search = vim.fn.expand(\"<cword>\") }<CR>")
@@ -116,7 +116,7 @@ nnoremap("<leader>fh", "<cmd>lua require('telescope.builtin').help_tags()<CR>")
 
 
 -- custom file search
-nnoremap("<Leader>fd", "<Esc> :lua require('jrollin.telescope').search_dotfiles()<CR>")
+nnoremap("<Leader>fd", "<cmd>lua require('jrollin.telescope').search_dotfiles()<CR>")
 nnoremap("<leader>fc", "<cmd>lua require('jrollin.telescope').search_config()<CR>")
 -- git branches
 nnoremap("<Leader>gg", "<cmd>lua require('jrollin.telescope').git_branches()<CR>")

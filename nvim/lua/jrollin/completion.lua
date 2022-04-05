@@ -11,7 +11,8 @@ local lspkind = require("lspkind")
 --  completion
 --  Set completeopt to have a better completion experience
 vim.opt.completeopt={"menu","menuone","noselect"}
-
+-- 
+vim.opt.shortmess:append "c"
 
 cmp.setup({
   snippet = {
@@ -124,3 +125,6 @@ vim.api.nvim_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
 vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
 vim.api.nvim_set_keymap("i", "<C-E>", "<Plug>luasnip-next-choice", {})
 vim.api.nvim_set_keymap("s", "<C-E>", "<Plug>luasnip-next-choice", {})
+
+-- snip lua
+require("luasnip.loaders.from_vscode").lazy_load()
