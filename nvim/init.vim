@@ -68,6 +68,9 @@ Plug 'hashivim/vim-terraform'
 Plug 'tpope/vim-markdown'
 Plug 'cespare/vim-toml'
 Plug 'stephpy/vim-yaml'
+" vim-markdown
+Plug 'ellisonleao/glow.nvim'
+Plug 'iamcco/markdown-preview.nvim'
 " Debugging (needs plenary from above as well)
 Plug 'mfussenegger/nvim-dap'
 call plug#end() 

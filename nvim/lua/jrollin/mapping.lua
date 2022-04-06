@@ -105,8 +105,6 @@ nnoremap("gs", "<cmd>lua vim.lsp.buf.document_symbol()<CR>")
 
 
 -- Find files using Telescope command-line sugar.
-nnoremap("<C-p>", "<cmd>Telescope file_browser<CR>")
-
 nnoremap("<leader>fs", "<cmd>lua require('telescope.builtin').grep_string({ search = vim.fn.input(\"Grep For > \")})<CR>")
 nnoremap("<leader>fw", "<cmd>lua require('telescope.builtin').grep_string { search = vim.fn.expand(\"<cword>\") }<CR>")
 nnoremap("<Leader>fg", "<cmd>lua require('telescope.builtin').git_files()<CR>")

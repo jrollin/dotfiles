@@ -10,21 +10,11 @@ local opts = {
 		-- how to execute terminal commands
 		-- options right now: termopen / quickfix
 		executor = require("rust-tools/executors").termopen,
-
-        runnables = {
-            -- whether to use telescope for selection menu or not
-            use_telescope = true
-
-            -- rest of the opts are forwarded to telescope
-        },
-
-        debuggables = {
-            -- whether to use telescope for selection menu or not
-            use_telescope = true
-
-            -- rest of the opts are forwarded to telescope
-        },
-
+        
+        -- callback to execute once rust-analyzer is done initializing the workspace
+		-- The callback receives one parameter indicating the `health` of the server: "ok" | "warning" | "error"
+		on_initialized = nil,
+        
         -- These apply to the default RustSetInlayHints command
         inlay_hints = {
 
