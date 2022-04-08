@@ -14,9 +14,15 @@ install_shell() {
         && apt install zsh tmux 
 }
 
+install_rust() {
+    echo "installing rust..." \
+        && curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+   apt-get install cmake pkg-config libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev python3
+}
+
 install_i3status() {
     echo "installing status tools..." \
-        && apt install polybar rofi flameshot feh xbacklight
+        && apt install rofi flameshot feh xbacklight
 }
 
 install_sound() {
@@ -29,6 +35,7 @@ install_blue() {
         && apt install blueman
 }
 
+
 if [[ -z $1 ]]; then
   echo -n "This will install packages, Proceed? (y/n)? "
   read answer
@@ -36,6 +43,7 @@ if [[ -z $1 ]]; then
     echo "Installing dependencies..." \
     && install_basics  \
     && install_shell \
+    && install_rust \
     && install_search \
     && install_i3status \
     && install_sound \

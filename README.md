@@ -8,4 +8,6 @@
 
 ## fonts
 
-sudo cp fonts/jetbrains/JetBrainsMono-*.ttf /usr/share/fonts/
+sudo cp fonts/JetBrainsMono/*.ttf /usr/share/fonts/
+fc-cache -fv
+

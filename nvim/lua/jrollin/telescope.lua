@@ -1,11 +1,46 @@
 local actions = require('telescope.actions')
 
+
+local previewers = require("telescope.previewers")
+
+-- ignore patterns
+local _bad = { ".*%.min.js", ".*%.min.css" } -- Put all filetypes that slow you down in this array
+local bad_files = function(filepath)
+  for _, v in ipairs(_bad) do
+    if filepath:match(v) then
+      return false
+    end
+  end
+
+  return true
+end
+
+local new_maker = function(filepath, bufnr, opts)
+  opts = opts or {}
+  if opts.use_ft_detect == nil then opts.use_ft_detect = true end
+  opts.use_ft_detect = opts.use_ft_detect == false and false or bad_files(filepath)
+  
+    -- ignore large files
+    filepath = vim.fn.expand(filepath)
+      vim.loop.fs_stat(filepath, function(_, stat)
+        if not stat then return end
+        if stat.size > 100000 then
+          return
+        else
+          previewers.buffer_previewer_maker(filepath, bufnr, opts)
+        end
+      end)
+    previewers.buffer_previewer_maker(filepath, bufnr, opts)
+end
+
+
+
 require('telescope').setup {
     defaults = {
         file_sorter = require('telescope.sorters').get_fzy_sorter,
         prompt_prefix = ' >',
         color_devicons = true,
-
+        buffer_previewer_maker = new_maker,
         file_previewer   = require('telescope.previewers').vim_buffer_cat.new,
         grep_previewer   = require('telescope.previewers').vim_buffer_vimgrep.new,
         qflist_previewer = require('telescope.previewers').vim_buffer_qflist.new,
@@ -49,6 +84,12 @@ M.search_config = function()
     })
 end
 
+M.search_git = function()
+    require("telescope.builtin").git_files({
+        prompt_title = "< gitfiles >",
+        file_ignore_patterns = {"%.min.js", "%.min.css"}
+    })
+end
 M.search_registers = function()
     require("telescope.builtin").registers({
         prompt_title = "< paste registers >",
