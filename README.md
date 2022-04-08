@@ -8,6 +8,7 @@
 
 ## fonts
 
-sudo cp fonts/JetBrainsMono/*.ttf /usr/share/fonts/
+mkdir ~/.local/share/fonts
+cp fonts/JetBrainsMono/*.ttf ~/.local/share/fonts/ 
 fc-cache -fv
 
