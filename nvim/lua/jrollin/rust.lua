@@ -1,4 +1,11 @@
 -- rust
+-- Update this path
+-- local extension_path = vim.env.HOME .. '/.vscode/extensions/vadimcn.vscode-lldb-1.7.0/'
+local extension_path = vim.env.HOME .. '/.vscode/extensions/vadimcn.vscode-lldb-1.6.10/'
+local codelldb_path = extension_path .. 'adapter/codelldb'
+local liblldb_path = extension_path .. 'lldb/lib/liblldb.so'
+
+
 local opts = {
     tools = { -- rust-tools options
         -- Automatically set inlay hints (type hints)
@@ -90,12 +97,16 @@ local opts = {
     -- see https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#rust_analyzer
     server = {}, -- rust-analyer options
     -- debugging stuff
+    -- dap = {
+    --     adapter = {
+    --         type = 'executable',
+    --         command = 'lldb-vscode',
+    --         name = "rt_lldb"
+    --     }
+    -- }
     dap = {
-        adapter = {
-            type = 'executable',
-            command = 'lldb-vscode',
-            name = "rt_lldb"
-        }
+        adapter = require('rust-tools.dap').get_codelldb_adapter(
+            codelldb_path, liblldb_path)
     }
 }
 

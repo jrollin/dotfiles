@@ -110,6 +110,7 @@ alias talan="cd /data/projects/talan"
 alias wasm="cd /data/projects/mine/wasm"
 alias iot="cd /data/projects/mine/iot"
 alias rusty="cd /data/projects/mine/rustproject"
+alias exos="cd ~/snap/exercism"
 alias ts="tmux -S"
 
 # Wasmer

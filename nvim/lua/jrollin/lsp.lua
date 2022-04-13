@@ -27,12 +27,8 @@ local on_attach = function(client, bufnr)
         vim.api.nvim_set_keymap("v", "<space>f", "<cmd>lua vim.lsp.buf.range_formatting()<CR>", opts)
     end
 
-    -- vim.cmd("setlocal omnifunc=v:lua.vim.lsp.omnifunc")  
 end
 
--- typescript
---     on_attach = on_attach,
--- }
 
 -- -- HTML
 -- lspconfig.html.setup{

@@ -30,9 +30,10 @@ nnoremap("<leader>d", "\"_d")
 xnoremap("<leader>d", "\"_d")
 xnoremap("<leader>p", "\"_dP")
 
--- NERDTree                                                                      
-nnoremap("<C-t>", ":NERDTreeToggle<CR>")
-nnoremap("<C-f>", ":NERDTreeFind<CR>")
+
+-- Nvim tree
+nnoremap("<C-n>", ":NvimTreeToggle<CR>")
+nnoremap("<C-f>", ":NvimTreeFindFile<CR>")
 
 -- Use alt + hjkl to resize windows
 nnoremap("<M-j>", ":resize -2<CR>")
@@ -71,6 +72,7 @@ nnoremap("gi", "<cmd>lua vim.lsp.buf.implementation()<CR>")
 nnoremap("gt", "<cmd>lua vim.lsp.buf.type_definition()<CR>")   
 
 nnoremap("<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>")        
+nnoremap("<C-h>", "<cmd>lua vim.lsp.buf.hover()<CR>")        
 
 -- diagnostics
 nnoremap("<leader>dp", "<cmd>lua vim.diagnostic.goto_prev()<CR>", true)
@@ -119,4 +121,9 @@ nnoremap("<leader>fc", "<cmd>lua require('jrollin.telescope').search_config()<CR
 nnoremap("<Leader>fg", "<cmd>lua require('jrollin.telescope').search_git()<CR>")
 -- git branches
 nnoremap("<Leader>gg", "<cmd>lua require('jrollin.telescope').git_branches()<CR>")
+
+-- dap debug 
+nnoremap("<Leader>bbu", "<cmd>lua require'dapui'.toggle()<CR>");
+nnoremap("<Leader>bbp", "<cmd>lua require'dap'.toggle_breakpoint()<CR>");
+
 

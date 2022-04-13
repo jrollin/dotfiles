@@ -3,7 +3,7 @@ call plug#begin('~/.vim/plugged')
 " vim game 
 Plug 'ThePrimeagen/vim-be-good'
 " file explorer
-Plug 'preservim/nerdtree'                                                   
+Plug 'kyazdani42/nvim-tree.lua'
 " color ui
 Plug 'gruvbox-community/gruvbox'
 Plug 'folke/lsp-colors.nvim'
@@ -30,6 +30,8 @@ Plug 'rafamadriz/friendly-snippets'
 " format cmp sugestion
 Plug 'onsails/lspkind-nvim'
 
+" which key
+Plug 'folke/which-key.nvim'
 
 " UI stuff (mainly used for lsp overrides)
 Plug 'RishabhRD/popfix'
@@ -47,33 +49,39 @@ Plug 'simrat39/symbols-outline.nvim'
 " idk
 Plug 'jose-elias-alvarez/null-ls.nvim'
 " format code
-Plug 'sbdchd/neoformat'
+" Plug 'sbdchd/neoformat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'editorconfig/editorconfig-vim'
+Plug 'windwp/nvim-autopairs'
 " telescope
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-fzy-native.nvim'
 Plug 'nvim-telescope/telescope-file-browser.nvim'
+Plug 'nvim-telescope/telescope-media-files.nvim'
 " git
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'tpope/vim-fugitive'
 " lang
-" Plug 'rust-lang/rust.vim'
+" rust
 Plug 'simrat39/rust-tools.nvim'
+" go
 Plug 'golang/vscode-go' 
+" js
 Plug 'xabikos/vscode-javascript'
-Plug 'hashivim/vim-terraform'
+" config
 Plug 'tpope/vim-markdown'
 Plug 'cespare/vim-toml'
 Plug 'stephpy/vim-yaml'
+Plug 'hashivim/vim-terraform'
 " vim-markdown
 Plug 'ellisonleao/glow.nvim'
 Plug 'iamcco/markdown-preview.nvim'
 " Debugging (needs plenary from above as well)
 Plug 'mfussenegger/nvim-dap'
+Plug 'rcarriga/nvim-dap-ui'
 call plug#end() 
 
 
