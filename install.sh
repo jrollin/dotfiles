@@ -44,7 +44,13 @@ install_term() {
         && rm -rf ~/.config/alacritty \
         && ln -s $(pwd)/alacritty ~/.config/alacritty 
 
-    cargo install alacritty
+    cargo install alacritty 
+    
+    echo "installing starship" \
+        && rm -rf ~/.config/starship.toml \
+        && ln -s $(pwd)/starship.toml ~/.config/starship.toml
+
+    cargo install starship
 }
 
 install_ts() {

@@ -1,6 +1,5 @@
 local actions = require('telescope.actions')
 
-
 local previewers = require("telescope.previewers")
 
 -- ignore patterns
@@ -89,6 +88,15 @@ M.search_config = function()
         cwd = "$HOME/.config/",
         hidden = true,
     })
+end
+
+
+M.search_files = function()
+    if vim.fn.system "git rev-parse --is-inside-work-tree" == true then
+        M.search_git()
+    else
+        require('telescope.builtin').find_files()
+    end
 end
 
 M.search_git = function()

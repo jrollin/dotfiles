@@ -17,6 +17,7 @@ Plug 'vim-airline/vim-airline-themes'
 " LSP
 Plug 'neovim/nvim-lspconfig'
 Plug 'williamboman/nvim-lsp-installer'
+Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
 Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-nvim-lua'
@@ -82,6 +83,7 @@ Plug 'iamcco/markdown-preview.nvim'
 " Debugging (needs plenary from above as well)
 Plug 'mfussenegger/nvim-dap'
 Plug 'rcarriga/nvim-dap-ui'
+Plug 'theHamsta/nvim-dap-virtual-text'
 call plug#end() 
 
 
@@ -148,7 +150,7 @@ set laststatus=2
 set showcmd                                                                     
                                                                               
 set updatetime=300                      " Faster completion                     
-set timeoutlen=500                      " By default timeoutlen is 1000 ms      
+set timeoutlen=400                      " By default timeoutlen is 1000 ms      
                                                                               
 set clipboard=unnamedplus               " Copy paste between vim and everything else
 

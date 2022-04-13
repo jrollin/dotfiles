@@ -13,6 +13,11 @@ end
 local xnoremap = function(lhs, rhs)
   vim.api.nvim_set_keymap("x", lhs, rhs, { noremap = true })
 end
+
+-- popup whith possible keys
+require("which-key").setup()
+
+
 -- Save a file with leader-w.                                                    
 nnoremap("<leader>w", ":w<CR>")
 
@@ -110,7 +115,7 @@ nnoremap("gs", "<cmd>lua vim.lsp.buf.document_symbol()<CR>")
 nnoremap("<leader>fs", "<cmd>lua require('telescope.builtin').grep_string({ search = vim.fn.input(\"Grep For > \")})<CR>")
 nnoremap("<leader>fw", "<cmd>lua require('telescope.builtin').grep_string { search = vim.fn.expand(\"<cword>\") }<CR>")
 -- nnoremap("<Leader>fg", "<cmd>lua require('telescope.builtin').git_files()<CR>")
-nnoremap("<Leader>ff", "<cmd>lua require('telescope.builtin').find_files()<CR>")
+-- nnoremap("<Leader>ff", "<cmd>lua require('telescope.builtin').find_files()<CR>")
 nnoremap("<leader>fb", "<cmd>lua require('telescope.builtin').buffers()<CR>")
 nnoremap("<leader>fh", "<cmd>lua require('telescope.builtin').help_tags()<CR>")
 
@@ -118,6 +123,7 @@ nnoremap("<leader>fh", "<cmd>lua require('telescope.builtin').help_tags()<CR>")
 -- custom file search
 nnoremap("<Leader>fd", "<cmd>lua require('jrollin.telescope').search_dotfiles()<CR>")
 nnoremap("<leader>fc", "<cmd>lua require('jrollin.telescope').search_config()<CR>")
+nnoremap("<Leader>ff", "<cmd>lua require('jrollin.telescope').search_files()<CR>")
 nnoremap("<Leader>fg", "<cmd>lua require('jrollin.telescope').search_git()<CR>")
 -- git branches
 nnoremap("<Leader>gg", "<cmd>lua require('jrollin.telescope').git_branches()<CR>")

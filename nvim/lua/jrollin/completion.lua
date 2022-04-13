@@ -52,6 +52,7 @@ cmp.setup({
 
   },
   sources = {
+    { name = "nvim_lsp_signature_help" },
     { name = "luasnip" },
     { name = "nvim_lua" },
     { name = "nvim_lsp" },
@@ -60,7 +61,6 @@ cmp.setup({
   },
   formatting = {
     format = lspkind.cmp_format {
-      preset = 'codicons',
       mode = 'symbol_text',
       menu = {
         buffer = "[buf]",
