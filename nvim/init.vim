@@ -31,9 +31,6 @@ Plug 'rafamadriz/friendly-snippets'
 " format cmp sugestion
 Plug 'onsails/lspkind-nvim'
 
-" which key
-Plug 'folke/which-key.nvim'
-
 " UI stuff (mainly used for lsp overrides)
 Plug 'RishabhRD/popfix'
 Plug 'RishabhRD/nvim-lsputils'
@@ -55,6 +52,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'windwp/nvim-autopairs'
+Plug 'windwp/nvim-ts-autotag'
 " telescope
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'

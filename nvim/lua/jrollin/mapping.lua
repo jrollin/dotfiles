@@ -14,10 +14,6 @@ local xnoremap = function(lhs, rhs)
   vim.api.nvim_set_keymap("x", lhs, rhs, { noremap = true })
 end
 
--- popup whith possible keys
-require("which-key").setup()
-
-
 -- Save a file with leader-w.                                                    
 nnoremap("<leader>w", ":w<CR>")
 
