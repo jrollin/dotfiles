@@ -111,7 +111,8 @@ alias wasm="cd /data/projects/mine/wasm"
 alias iot="cd /data/projects/mine/iot"
 alias rusty="cd /data/projects/mine/rustproject"
 alias exos="cd ~/snap/exercism"
-alias ts="tmux -S"
+# create or attach:  ts myapp
+alias ts="tmux new-session -A -s"
 
 # starship
 eval "$(starship init zsh)"
