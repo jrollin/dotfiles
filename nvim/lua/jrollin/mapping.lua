@@ -125,7 +125,10 @@ nnoremap("<Leader>fg", "<cmd>lua require('jrollin.telescope').search_git()<CR>")
 nnoremap("<Leader>gg", "<cmd>lua require('jrollin.telescope').git_branches()<CR>")
 
 -- dap debug 
-nnoremap("<Leader>bbu", "<cmd>lua require'dapui'.toggle()<CR>");
-nnoremap("<Leader>bbp", "<cmd>lua require'dap'.toggle_breakpoint()<CR>");
+nnoremap("<Leader>bbt", "<cmd>lua require'dapui'.toggle()<CR>");
+nnoremap("<Leader>bbb", "<cmd>lua require'dap'.toggle_breakpoint()<CR>");
+nnoremap("<Leader>bbc", "<cmd>lua require'dap'.continue()<CR>");
+nnoremap("<Leader>bbt", "<cmd>lua require'dap'.terminate()<CR>");
+nnoremap("<Leader>bbr", "<cmd>lua require'dap'.repl.toggle()<CR>");
 
 
