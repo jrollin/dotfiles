@@ -1,14 +1,21 @@
 #!/bin/bash
-tmux new-session -s Coding -n sources -d
 
-tmux new-window -t Coding -n term -d
+SNAME="${1:-coding}"
+echo $SNAME
+# name session and window
+tmux new-session -s $SNAME -n sources -d
 
-tmux select-window -t Coding:sources
+# create new named window
+tmux new-window -t $SNAME -n term -d
 
-tmux select-window -t Coding:term 
+# select window and split
+tmux select-window -t $SNAME:term 
 tmux split-window -h
+# cmd
+tmux send-keys -t $SNAME:term "git status" Enter
 
-tmux select-window -t Coding:sources
-tmux -u attach -t Coding
+# select window
+tmux select-window -t $SNAME:sources
+tmux -u attach -t $SNAME
 
 
