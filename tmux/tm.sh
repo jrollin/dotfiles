@@ -16,6 +16,10 @@ tmux send-keys -t $SNAME:term "git status" Enter
 
 # select window
 tmux select-window -t $SNAME:sources
+# vi
+tmux send-keys -t $SNAME:sources "vi ." Enter
+
+
 tmux -u attach -t $SNAME
 
 
