@@ -87,11 +87,11 @@ nnoremap("<Leader>dt", "<cmd>TroubleToggle<CR>", true)
 
 -- actions
 nnoremap("<leader>r", "<cmd>lua vim.lsp.buf.rename()<CR>")             
--- nnoremap("<leader>a", "<cmd>lua vim.lsp.buf.code_action()<CR>", true)
--- vnoremap("<leader>a", "<cmd>lua vim.lsp.buf.range_code_action()<CR>")
+nnoremap("<leader>a", "<cmd>lua vim.lsp.buf.code_action()<CR>", true)
+vnoremap("<leader>a", "<cmd>lua vim.lsp.buf.range_code_action()<CR>")
 -- use telescope for code actions
-nnoremap("<leader>a", "<cmd>Telescope lsp_code_actions<CR>", true)
-vnoremap("<leader>a", "<cmd>Telescope lsp_range_code_actions<CR>")
+-- nnoremap("<leader>a", "<cmd>Telescope lsp_code_actions<CR>", true)
+-- vnoremap("<leader>a", "<cmd>Telescope lsp_range_code_actions<CR>")
 
 -- rust actions
 nnoremap("<leader>t", "<cmd>RustRunnables<CR>")
@@ -122,13 +122,14 @@ nnoremap("<leader>fc", "<cmd>lua require('jrollin.telescope').search_config()<CR
 nnoremap("<Leader>ff", "<cmd>lua require('jrollin.telescope').search_files()<CR>")
 nnoremap("<Leader>fg", "<cmd>lua require('jrollin.telescope').search_git()<CR>")
 -- git branches
-nnoremap("<Leader>gg", "<cmd>lua require('jrollin.telescope').git_branches()<CR>")
+nnoremap("<Leader>gb", "<cmd>lua require('jrollin.telescope').git_branches()<CR>")
+nnoremap("<Leader>gs", "<cmd>lua require('telescope.builtin').git_status()<CR>")
 
 -- dap debug 
 nnoremap("<Leader>bbt", "<cmd>lua require'dapui'.toggle()<CR>");
 nnoremap("<Leader>bbb", "<cmd>lua require'dap'.toggle_breakpoint()<CR>");
 nnoremap("<Leader>bbc", "<cmd>lua require'dap'.continue()<CR>");
-nnoremap("<Leader>bbt", "<cmd>lua require'dap'.terminate()<CR>");
+nnoremap("<Leader>bbq", "<cmd>lua require'dap'.terminate()<CR>");
 nnoremap("<Leader>bbr", "<cmd>lua require'dap'.repl.toggle()<CR>");
 
 

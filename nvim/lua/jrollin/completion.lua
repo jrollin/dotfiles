@@ -13,6 +13,8 @@ local lspkind = require("lspkind")
 vim.opt.completeopt={"menu","menuone","noselect"}
 -- 
 vim.opt.shortmess:append "c"
+-- limit height window
+vim.o.pumheight = 20
 
 cmp.setup({
   snippet = {
