@@ -100,6 +100,14 @@ export EDITOR="nvim"
 # alias ohmyzsh="mate ~/.oh-my-zsh":q!
 #
 #
+export HISTFILE="$HOME/.cache/zsh/zsh_history"
+export HISTSIZE=1000
+export SAVEHIST=$HISTSIZE
+
+setopt INC_APPEND_HISTORY
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_SAVE_NO_DUPS
+setopt HIST_FIND_NO_DUPS
 # use nvim
 alias vim="nvim"
 alias vi="nvim"

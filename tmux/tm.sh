@@ -10,9 +10,9 @@ tmux new-window -t $SNAME -n term -d
 
 # select window and split
 tmux select-window -t $SNAME:term 
-tmux split-window -h
+# tmux split-window -h
 # cmd
-tmux send-keys -t $SNAME:term "git status" Enter
+# tmux send-keys -t $SNAME:term "git status" Enter
 
 # select window
 tmux select-window -t $SNAME:sources

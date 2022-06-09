@@ -14,6 +14,8 @@ local xnoremap = function(lhs, rhs)
   vim.api.nvim_set_keymap("x", lhs, rhs, { noremap = true })
 end
 
+
+
 -- Save a file with leader-w.                                                    
 nnoremap("<leader>w", ":w<CR>")
 
@@ -45,6 +47,7 @@ nnoremap("<M-l>", ":vertical resize +2<CR>")
 -- Escape redraws the screen and removes any search highlighting.
 nnoremap("<esc>", ":noh<return><esc>")
 
+inoremap("jk", "<esc>")
 
 -- TAB in normal mode will move to text buffer
 nnoremap("<TAB>", ":bnext<CR>")

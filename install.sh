@@ -31,12 +31,16 @@ install_tmux() {
     echo "installing tmux" \
         && rm -f ~/.tmux.conf \
         && ln -s $(pwd)/tmux/.tmux.conf ~/.tmux.conf 
+    echo "installing zellij" \
+        && rm -rf ~/.config/zellij \
+        && ln -s $(pwd)/zellij ~/.config/zellij
  }
 
 install_zsh() {
     echo "installing zsh" \
         && rm -f ~/.zshrc \
         && ln -s $(pwd)/.zshrc ~/.zshrc
+         mkdir -p "~/.cache/zsh"
 }
 
 install_term() {
