@@ -121,7 +121,7 @@ alias rusty="cd /data/projects/mine/rustproject"
 alias exos="cd ~/snap/exercism"
 # create or attach:  ts myapp
 alias ts="tmux new-session -A -s"
-alias tm="~/dotfiles/tmux/tm.sh"
+alias tm="~/dotfiles/tm.sh"
 # starship
 eval "$(starship init zsh)"
 # Wasmer

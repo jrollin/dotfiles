@@ -28,9 +28,12 @@ install_i3menu() {
 
 
 install_tmux() {
-    echo "installing tmux" \
+    echo "installing tmux conf" \
         && rm -f ~/.tmux.conf \
-        && ln -s $(pwd)/tmux/.tmux.conf ~/.tmux.conf 
+        && ln -s $(pwd)/.tmux.conf ~/.tmux.conf 
+    echo "installing tmux tpm" \
+        && rm -rf ~/.tmux \
+        && ln -s $(pwd)/tmux ~/.tmux
     echo "installing zellij" \
         && rm -rf ~/.config/zellij \
         && ln -s $(pwd)/zellij ~/.config/zellij
