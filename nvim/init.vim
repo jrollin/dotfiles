@@ -37,8 +37,6 @@ Plug 'RishabhRD/nvim-lsputils'
 
 "Extensions to built-in LSP, for example, providing type inlay hints
 Plug 'nvim-lua/lsp_extensions.nvim'
-" lsp diagnostics
-Plug 'folke/lsp-trouble.nvim'
 " treesitter
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
 Plug 'JoosepAlviste/nvim-ts-context-commentstring'
@@ -70,7 +68,7 @@ Plug 'simrat39/rust-tools.nvim'
 Plug 'golang/vscode-go' 
 " js
 Plug 'xabikos/vscode-javascript'
-" config
+" yaml and config files
 Plug 'tpope/vim-markdown'
 Plug 'cespare/vim-toml'
 Plug 'stephpy/vim-yaml'
