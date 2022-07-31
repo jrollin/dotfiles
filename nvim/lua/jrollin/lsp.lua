@@ -9,6 +9,22 @@ setup_auto_format("tsx")
 setup_auto_format("ts")
 
 
+-- show signature lsp
+cfg = {...}  -- add you config here
+-- require "lsp_signature".setup(cfg)
+
+
+lspconfig.sumneko_lua.setup {
+  settings = {
+    Lua = {
+      diagnostics = {
+        -- Get the language server to recognize the `vim` global
+        globals = {'vim'},
+      },
+    },
+  },
+}
+
 -- local capabilities = vim.lsp.protocol.make_client_capabilities()
  -- Setup lspconfig with cmp
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
@@ -91,7 +107,12 @@ local lsp_installer = require("nvim-lsp-installer")
 -- -- or if the server is already installed).
 lsp_installer.on_server_ready(function(server)
     local opts = {
-     on_attach = on_attach,   
+        on_attach = on_attach,
+        settings = {
+              Lua = {
+                diagnostics = { globals = {'vim'} }
+              }
+            }
     }
 
     -- (optional) Customize the options passed to the server
