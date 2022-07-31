@@ -100,6 +100,8 @@ export EDITOR="nvim"
 # alias ohmyzsh="mate ~/.oh-my-zsh":q!
 #
 #
+export XDG_CONFIG_HOME="$HOME/.config"
+
 export HISTFILE="$HOME/.cache/zsh/zsh_history"
 export HISTSIZE=1000
 export SAVEHIST=$HISTSIZE

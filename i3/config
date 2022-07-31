@@ -39,7 +39,7 @@ bindsym $mod+Shift+A kill
 # start dmenu (a program launcher)
 # bindsym $mod+d exec dmenu_run
 bindsym $mod+d exec rofi -show drun
-# There also is the (new) i3-dmenu-desktop which only displays applications
+bindsym $mod+Shift+s exec $HOME/dotfiles/monitor_layout.sh
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
@@ -218,11 +218,8 @@ exec --no-startup-id feh --bg-fill ~/.config/pictures/wallpaper.jpg
 
 
 workspace 1 output $firstMonitor
-#workspace 2 output $secondMonitor
+workspace 2 output $secondMonitor
 
-# default programe
-#exec i3-msg 'workspace 1;exec firefox'
-#exec i3-msg 'workspace 2;exec slack'
 
 # switch workspace
 bindsym $mod+o move workspace to output left
