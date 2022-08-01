@@ -125,7 +125,7 @@ bindsym $mod+Shift+r restart
 # polybar status
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+# bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -201,8 +201,6 @@ exec --no-startup-id /usr/bin/pasystray
 exec --no-startup-id /usr/bin/blueman-applet
 # default brightness
 exec exec xbacklight -set 1
-
-
 # background
 exec --no-startup-id feh --bg-fill ~/.config/pictures/wallpaper.jpg 
 
@@ -249,26 +247,29 @@ bindsym XF86AudioMute exec $psst pactl set-sink-mute @DEFAULT_SINK@ toggle $upda
 
 
 # lock screen
-set $Locker i3lock -c 000000 -f -i ~/.config/pictures/locked.jpg
+# set $Locker i3lock -c 000000 -f -i ~/.config/pictures/locked.jpg
 
-set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
-mode "$mode_system" {
-    bindsym l exec --no-startup-id $Locker, mode "default"
-    bindsym e exec --no-startup-id i3-msg exit, mode "default"
-    bindsym s exec --no-startup-id $Locker && systemctl suspend, mode "default"
-    bindsym h exec --no-startup-id $Locker && systemctl hibernate, mode "default"
-    bindsym r exec --no-startup-id systemctl reboot, mode "default"
-    bindsym Shift+s exec --no-startup-id systemctl poweroff -i, mode "default"  
+# set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
+# mode "$mode_system" {
+#     bindsym l exec --no-startup-id $Locker, mode "default"
+#     bindsym e exec --no-startup-id i3-msg exit, mode "default"
+#     bindsym s exec --no-startup-id $Locker && systemctl suspend, mode "default"
+#     bindsym h exec --no-startup-id $Locker && systemctl hibernate, mode "default"
+#     bindsym r exec --no-startup-id systemctl reboot, mode "default"
+#     bindsym Shift+s exec --no-startup-id systemctl poweroff -i, mode "default"  
 
-    # back to normal: Enter or Escape
-    bindsym Return mode "default"
-    bindsym Escape mode "default"
-}
+#     # back to normal: Enter or Escape
+#     bindsym Return mode "default"
+#     bindsym Escape mode "default"
+# }
 
-bindsym $mod+Escape mode "$mode_system"
-bindsym XF86PowerOff mode "$mode_system"
+# bindsym $mod+Escape mode "$mode_system"
+# bindsym XF86PowerOff mode "$mode_system"
 
-#screen with flameshot
+bindsym $mod+Escape exec --no-startup-id ~/.config/rofi/scripts/rofi-shutdown
+bindsym XF86PowerOff exec --no-startup-id ~/.config/rofi/scripts/rofi-shutdown
+
+# screen with flameshot
 bindsym Print       exec flameshot full
 bindsym Shift+Print exec flameshot gui
 

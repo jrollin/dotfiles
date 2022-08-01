@@ -1,0 +1,29 @@
+#!/usr/bin/sh
+selection=$( \
+	echo "Lock\nLogout\nSuspend\nHibernate\nReboot\nShutdown" |\
+	rofi -dmenu -i -p 'Option');
+echo $selection;
+
+sleep .2
+
+case $selection in
+	Lock)
+        i3lock -c 000000 -f -i ~/.config/pictures/locked.jpg
+		;;
+	Logout)
+        i3-msg exit
+		;;
+	Suspend)
+        systemctl suspend
+		;;
+	Hibernate)
+        systemctl Hibernate
+		;;
+	Reboot)
+        systemctl reboot
+		;;
+	Shutdown)
+        systemctl poweroff -i
+		;;
+esac
+
