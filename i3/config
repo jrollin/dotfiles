@@ -91,8 +91,6 @@ bindsym $mod+space focus mode_toggle
 # focus the parent container
 bindsym $mod+q focus parent
 
-# focus the child container
-#bindsym $mod+d focus child
 
 # switch to workspace
 bindsym $mod+ampersand workspace 1
@@ -124,8 +122,6 @@ bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r restart
 # polybar status
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
-# exit i3 (logs you out of your X session)
-# bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -153,36 +149,12 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-# Start i3bar to display a workspace bar (plus the system information i3status
-# finds out, if available)
-#bar {
-#	# status_command i3status
-#	font pango:FontAwesome 10
-#    # font pango:monospace 10
-#    tray_output primary
-
-#    colors {
-#        background #000000
-#        statusline #dedede
-#        separator #359b79
-
-#        #colorclass        border    background   text
-#        focused_workspace  #458b74   #316453      #dedede
-#        active_workspace   #333333   #5f676a      #dedede
-#        inactive_workspace #333333   #000000      #888888
-#        urgent_workspace   #ffd500   #ffd500      #151515
-#        binding_mode       #dedede   #b3b3b3      #151515
-#    }
-#}
 
 # remove nav border
 for_window [class="^.*"] border pixel 2
 # class                 border  backgr. text    indicator child_border
 for_window [class="^.*"] client.focused          #77dd77 #285577 #ffffff #2e9ef4   #285577
 
-# class                 border    background   text      indicator       child_border
-# client.focused          #458b74   #316453      #dedede   #458b74458b74   #458b74
-# client.urgent           #ffd500   #ffd500      #151515   #458b74458b74   #ffd500
 
 #floating
 for_window [class="Pavucontrol|gnome-font-viewer"] floating enable
@@ -190,7 +162,7 @@ for_window [class="Pavucontrol|gnome-font-viewer"] floating enable
 ### custom conf
 
 set $firstMonitor eDP1
-set $secondMonitor DP2
+set $secondMonitor DP1
 set $projector VGA1
 
 # add network manager in bar
@@ -198,36 +170,18 @@ exec --no-startup-id nm-applet
 # volume systray
 exec --no-startup-id /usr/bin/pasystray
 # bluetooth systray
-exec --no-startup-id /usr/bin/blueman-applet
+# exec --no-startup-id /usr/bin/blueman-applet
 # default brightness
 exec exec xbacklight -set 1
 # background
 exec --no-startup-id feh --bg-fill ~/.config/pictures/wallpaper.jpg 
 
-
-# xrandr : xrandr --output $secondMonitor --auto --left-of $firstMonitor
-# exec --no-startup-id xrandr --output $secondMonitor --auto --left-of $firstMonitor
-# exec --no-startup-id xrandr --output $firstMonitor --primary --mode 1920x1200 --pos 1920x0 --rotate normal --output $secondMonitor --mode 1920x1080 --pos 0x0 --rotate normal 
-
-# clone to projector
-# exec --no-startup-id xrandr --output $projector --mode 1024x768 --same-as $firstMonitor
-# extends to project
-# exec --no-startup-id xrandr --output $projector --mode 1024x768 --right-of $firstMonitor
-
-
 workspace 1 output $firstMonitor
 workspace 2 output $secondMonitor
-
 
 # switch workspace
 bindsym $mod+o move workspace to output left
 bindsym $mod+p move workspace to output right
-
-
-# audio keys
-#bindsym XF86AudioLowerVolume    exec $psst pactl set-sink-volume @DEFAULT_SINK@ -5% && pactl set-sink-mute @DEFAULT_SINK@ 0 $update
-#bindsym XF86AudioRaiseVolume    exec $psst pactl set-sink-volume @DEFAULT_SINK@ +5% && pactl set-sink-mute @DEFAULT_SINK@ 0 $update
-#bindsym XF86AudioMute           exec $psst pactl set-sink-mute @DEFAULT_SINK@ toggle $update
 
 # screen brightness
 bindsym XF86MonBrightnessDown   exec xbacklight -dec 1  # && cat /sys/class/backlight/intel_backlight/actual_brightness > ~/.i3/screen_brightness.log
@@ -235,36 +189,11 @@ bindsym XF86MonBrightnessUp     exec xbacklight -inc 1 #&& cat /sys/class/backli
 bindsym $mod+F6 exec "xbacklight -dec 1" 
 bindsym $mod+F7 exec "xbacklight -inc 1"
 
-
-#bindsym XF86MonBrightnessUp exec ybacklight -inc 10 # increase screen brightness
-#bindsym XF86MonBrightnessDown exec ybacklight -dec 10 # decrease screen brightness
-
 # fix for ubuntu ? add amixer command
 bindsym XF86AudioRaiseVolume exec $psst pactl set-sink-volume @DEFAULT_SINK@ +5% && pactl set-sink-mute @DEFAULT_SINK@ 0 $update && amixer -q set Master 2dB+ unmute
 bindsym XF86AudioLowerVolume exec $psst pactl set-sink-volume @DEFAULT_SINK@ -5% && pactl set-sink-mute @DEFAULT_SINK@ 0 $update && amixer -q set Master 2dB- unmute
 bindsym XF86AudioMute exec $psst pactl set-sink-mute @DEFAULT_SINK@ toggle $update && amixer -q set Master toggle $update
 
-
-
-# lock screen
-# set $Locker i3lock -c 000000 -f -i ~/.config/pictures/locked.jpg
-
-# set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
-# mode "$mode_system" {
-#     bindsym l exec --no-startup-id $Locker, mode "default"
-#     bindsym e exec --no-startup-id i3-msg exit, mode "default"
-#     bindsym s exec --no-startup-id $Locker && systemctl suspend, mode "default"
-#     bindsym h exec --no-startup-id $Locker && systemctl hibernate, mode "default"
-#     bindsym r exec --no-startup-id systemctl reboot, mode "default"
-#     bindsym Shift+s exec --no-startup-id systemctl poweroff -i, mode "default"  
-
-#     # back to normal: Enter or Escape
-#     bindsym Return mode "default"
-#     bindsym Escape mode "default"
-# }
-
-# bindsym $mod+Escape mode "$mode_system"
-# bindsym XF86PowerOff mode "$mode_system"
 
 bindsym $mod+Escape exec --no-startup-id ~/.config/rofi/scripts/rofi-shutdown
 bindsym XF86PowerOff exec --no-startup-id ~/.config/rofi/scripts/rofi-shutdown
@@ -273,17 +202,3 @@ bindsym XF86PowerOff exec --no-startup-id ~/.config/rofi/scripts/rofi-shutdown
 bindsym Print       exec flameshot full
 bindsym Shift+Print exec flameshot gui
 
-# app launcher
-set $mode_launcher Launch: [f]irefox [s]lack [c]hrome [p]flameshot [v]scode  
-bindsym $mod+n mode "$mode_launcher"
-
-mode "$mode_launcher" {
-    bindsym f exec firefox, mode "default"
-    bindsym s exec slack, mode "default"
-    bindsym c exec google-chrome, mode "default"
-    bindsym v exec code, mode "default"
-    bindsym p exec flameshot gui, mode "default"
-    
-    bindsym Escape mode "default"
-    bindsym Return mode "default"
-}
