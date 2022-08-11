@@ -11,9 +11,6 @@ local opts = {
         -- Automatically set inlay hints (type hints)
         autoSetHints = true,
 
-        -- Whether to show hover actions inside the hover window
-        -- This overrides the default hover handler
-        hover_with_actions = true,
 		-- how to execute terminal commands
 		-- options right now: termopen / quickfix
 		executor = require("rust-tools/executors").termopen,
@@ -24,6 +21,8 @@ local opts = {
 
         -- These apply to the default RustSetInlayHints command
         inlay_hints = {
+            -- automatically set inlay hints
+            auto = true,
 
             -- Only show inlay hints for the current line
             only_current_line = false,

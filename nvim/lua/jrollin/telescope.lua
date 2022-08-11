@@ -53,6 +53,7 @@ require('telescope').setup {
                 ["<Esc>"] = actions.close,
                 ["<C-x>"] = false,
                 ["<C-q>"] = actions.send_to_qflist,
+                ["<C-d>"] = actions.delete_buffer,
             },
         }
     },

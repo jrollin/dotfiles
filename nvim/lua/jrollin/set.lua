@@ -3,7 +3,7 @@ vim.g.mapleader = " "
 vim.opt.termguicolors = true
 
 
--- " auto change directory to current file
+-- auto change directory to current file
 vim.opt.autochdir = true
 
 vim.opt.tabstop = 4
@@ -14,7 +14,7 @@ vim.opt.smartindent = true
 vim.opt.colorcolumn = "80"
 vim.opt.signcolumn = "yes"
 
-vim.opt.relativenumber = true
+vim.opt.relativenumber = false
 vim.opt.nu = true
 
 vim.opt.wrap = false

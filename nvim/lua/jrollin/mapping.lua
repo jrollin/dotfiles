@@ -50,9 +50,9 @@ nnoremap("<esc>", ":noh<return><esc>")
 inoremap("jk", "<esc>")
 
 -- TAB in normal mode will move to text buffer
-nnoremap("<TAB>", ":bnext<CR>")
+nnoremap("<Tab>", ":bnext<CR>")
 -- SHIFT-TAB will go back
-nnoremap("<S-TAB>", ":bprevious<CR>")
+nnoremap("<S-Tab>", ":bprevious<CR>")
 -- close buffer
 nnoremap("<C-x>", ":bd!<CR>")
 
@@ -66,6 +66,11 @@ nnoremap("<C-j>", "<C-w>j")
 nnoremap("<C-k>", "<C-w>k")
 nnoremap("<C-l>", "<C-w>l")
 
+-- remap because azerty mapping
+-- [m - move to the start of a method.
+-- ]m - move to the end of a method.
+nnoremap("m", "[m")
+nnoremap("M", "]m")
 
 -- Keybindings for LSPs
 nnoremap("gD", "<cmd>lua vim.lsp.buf.declaration()<CR>")
@@ -80,7 +85,7 @@ nnoremap("<C-h>", "<cmd>lua vim.lsp.buf.hover()<CR>")
 
 
 -- use telescope for diagnostics on opened buffer files
-nnoremap("<Leader>dd", "<cmd>Telescope diagnostics<CR>", true)
+nnoremap("<Leader>dg", "<cmd>Telescope diagnostics<CR>", true)
 -- diagnostics
 nnoremap("<leader>dp", "<cmd>lua vim.diagnostic.goto_prev()<CR>", true)
 nnoremap("<leader>dn", "<cmd>lua vim.diagnostic.goto_next()<CR>", true)

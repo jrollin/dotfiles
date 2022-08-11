@@ -17,8 +17,14 @@ return require('packer').startup(function(use)
     -- dev icon
     use 'kyazdani42/nvim-web-devicons'
     -- status line
-    use 'vim-airline/vim-airline'
-    use 'vim-airline/vim-airline-themes'
+    use {
+        'nvim-lualine/lualine.nvim',
+        requires = { 'kyazdani42/nvim-web-devicons', opt = true }
+    }
+    use {
+        'arkav/lualine-lsp-progress',
+        requires = { 'nvim-lualine/lualine.nvim'}
+    }
     -- LSP
     use 'neovim/nvim-lspconfig'
     use 'williamboman/nvim-lsp-installer'
@@ -54,10 +60,7 @@ return require('packer').startup(function(use)
     use 'tpope/vim-surround'
     use 'tpope/vim-commentary'
     use 'editorconfig/editorconfig-vim'
-    use {
-        "windwp/nvim-autopairs",
-        config = function() require("nvim-autopairs").setup {} end
-    }
+    use 'windwp/nvim-autopairs'
     use 'windwp/nvim-ts-autotag'
     -- telescope
     use 'nvim-lua/popup.nvim'
