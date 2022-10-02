@@ -26,8 +26,11 @@ return require('packer').startup(function(use)
         requires = { 'nvim-lualine/lualine.nvim'}
     }
     -- LSP
-    use 'neovim/nvim-lspconfig'
-    use 'williamboman/nvim-lsp-installer'
+    use {
+        "williamboman/mason.nvim",
+        "williamboman/mason-lspconfig.nvim",
+        "neovim/nvim-lspconfig",
+    }
     use 'hrsh7th/cmp-nvim-lsp-signature-help'
     use 'hrsh7th/nvim-cmp'
     use 'hrsh7th/cmp-nvim-lsp'
@@ -90,7 +93,11 @@ return require('packer').startup(function(use)
     use 'hashivim/vim-terraform'
     -- vim-markdown
     use 'ellisonleao/glow.nvim'
-    use 'iamcco/markdown-preview.nvim'
+    use({
+        "iamcco/markdown-preview.nvim",
+        run = function() vim.fn["mkdp#util#install"]() end,
+    })
+
     -- Debugging (needs plenary from above as well)
     use 'mfussenegger/nvim-dap'
     use 'rcarriga/nvim-dap-ui'

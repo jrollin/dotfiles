@@ -9,81 +9,14 @@ setup_auto_format("tsx")
 setup_auto_format("ts")
 
 
--- show signature lsp
-cfg = {...}  -- add you config here
--- require "lsp_signature".setup(cfg)
-
-
-lspconfig.sumneko_lua.setup {
-  settings = {
-    Lua = {
-      diagnostics = {
-        -- Get the language server to recognize the `vim` global
-        globals = {'vim'},
-      },
+-- inject LSP diagnostics, code actions, and more via Lua.
+require("null-ls").setup({
+    sources = {
+        require("null-ls").builtins.formatting.stylua,
+        require("null-ls").builtins.diagnostics.eslint,
+        require("null-ls").builtins.completion.spell,
     },
-  },
-}
-
--- local capabilities = vim.lsp.protocol.make_client_capabilities()
- -- Setup lspconfig with cmp
-local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-
--- require("null-ls").config({})
--- require("lspconfig")["null-ls"].setup({})
-
-local on_attach = function(client, bufnr)
-    local opts = { noremap = true }
-    -- Set some keybinds conditional on server capabilities
-    if client.resolved_capabilities.document_formatting then
-        vim.api.nvim_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
-    end
-    if client.resolved_capabilities.document_range_formatting then
-        vim.api.nvim_set_keymap("v", "<space>f", "<cmd>lua vim.lsp.buf.range_formatting()<CR>", opts)
-    end
-
-end
-
-
--- -- HTML
--- lspconfig.html.setup{
---   on_attach = on_attach,
--- }
-
--- -- CSS
--- lspconfig.cssls.setup{
---   on_attach = on_attach,
---   settings = {
---       validate = false
---     },
---     less = {
---       validate = true
---     },
---     scss = {
---       validate = true
---     }
--- }
-
--- -- tailwind
--- lspconfig.tailwindcss.setup{
---   on_attach = on_attach,
---   settings = {
---       validate = false
---     },
---     less = {
---       validate = true
---     },
---     scss = {
---       validate = true
---     }
--- }
-
--- -- GO
--- lspconfig.gopls.setup{
---   on_attach = on_attach,
--- }
-
+})
 
 
 -- Enable diagnostics
@@ -99,29 +32,101 @@ vim.lsp.handlers["textDocument/codeAction"] =
   require("lsputil.codeAction").code_action_handler
 
 
--- beware twice setup !
--- Lsp install
-local lsp_installer = require("nvim-lsp-installer")
+-- local capabilities = vim.lsp.protocol.make_client_capabilities()
+ -- Setup lspconfig with cmp
+local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+capabilities.textDocument.completion.completionItem.snippetSupport = true
 
--- -- Register a handler that will be called for each installed server when it's ready (i.e. when installation is finished
--- -- or if the server is already installed).
-lsp_installer.on_server_ready(function(server)
-    local opts = {
-        on_attach = on_attach,
-        settings = {
-              Lua = {
-                diagnostics = { globals = {'vim'} }
-              }
+
+local on_attach = function(client, bufnr)
+    local opts = { noremap = true }
+    -- Set some keybinds conditional on server capabilities
+    if client.resolved_capabilities.document_formatting then
+        vim.api.nvim_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+    end
+    if client.resolved_capabilities.document_range_formatting then
+        vim.api.nvim_set_keymap("v", "<space>f", "<cmd>lua vim.lsp.buf.range_formatting()<CR>", opts)
+    end
+
+end
+
+
+-- lsp servers
+require("mason").setup()
+
+require("mason-lspconfig").setup({
+    ensure_installed = { "sumneko_lua", "html", "cssls","tailwindcss"  }
+})
+
+require("mason-lspconfig").setup_handlers({
+    -- The first entry (without a key) will be the default handler
+    -- and will be called for each installed server that doesn't have
+    -- a dedicated handler.
+    function (server_name) -- default handler (optional)
+        require("lspconfig")[server_name].setup {
+            on_attach = on_attach
+        }
+    end,
+    -- Next, you can provide targeted overrides for specific servers.
+    ["rust_analyzer"] = function ()
+        -- require("rust-tools").setup {
+        --     assist = {
+        --         importEnforceGranularity = true,
+        --         importPrefix = "crate"
+        --     },
+        --     checkOnSave = {
+        --         -- default: `cargo check`
+        --         command = "clippy"
+        --     },
+        --     inlayHints = {
+        --         lifetimeElisionHints = {
+        --             enable = true,
+        --             useParameterNames = true
+        --         },
+        --     },
+        -- }
+        local opts = require("jrollin.rust");
+        opts.server = {
+            assist = {
+                importEnforceGranularity = true,
+                importPrefix = "crate"
+            },
+            checkOnSave = {
+                -- default: `cargo check`
+                command = "clippy"
+            },
+            inlayHints = {
+                lifetimeElisionHints = {
+                    enable = true,
+                    useParameterNames = true
+                },
+            },
+        }
+        require("rust-tools").setup(opts)
+    end,
+    ["sumneko_lua"] = function ()
+        lspconfig.sumneko_lua.setup {
+            settings = {
+                Lua = {
+                    runtime = {
+                        -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+                        version = 'LuaJIT',
+                    },
+                    diagnostics = {
+                        -- Get the language server to recognize the `vim` global
+                        globals = {'vim'},
+                    },
+                    workspace = {
+                        -- Make the server aware of Neovim runtime files
+                        library = vim.api.nvim_get_runtime_file("", true),
+                    },
+                    -- Do not send telemetry data containing a randomized but unique identifier
+                    telemetry = {
+                        enable = false,
+                    },
+                }
             }
-    }
+        }
+    end,
+})
 
-    -- (optional) Customize the options passed to the server
-    -- if server.name == "tsserver" then
-    --     opts.root_dir = function() ... end
-    -- end
-
-    -- This setup() function will take the provided server configuration and decorate it with the necessary properties
-    -- before passing it onwards to lspconfig.
-    -- Refer to https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
-    server:setup(opts)
-end)

@@ -8,7 +8,7 @@ local liblldb_path = extension_path .. 'lldb/lib/liblldb.so'
 
 local opts = {
     tools = { -- rust-tools options
-        -- Automatically set inlay hints (type hints)
+
         autoSetHints = true,
 
 		-- how to execute terminal commands
@@ -109,6 +109,6 @@ local opts = {
             codelldb_path, liblldb_path)
     }
 }
-
-require('rust-tools').setup(opts)
+-- require('rust-tools').setup(opts)
+return opts
 

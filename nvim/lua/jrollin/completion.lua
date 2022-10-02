@@ -23,6 +23,8 @@ cmp.setup({
     end,
   },
   mapping = {
+    ['<C-p>'] = cmp.mapping.select_prev_item(),
+    ['<C-n>'] = cmp.mapping.select_next_item(),
     ["<C-d>"] = cmp.mapping.scroll_docs(-4),
     ["<C-u>"] = cmp.mapping.scroll_docs(4),
     ["<C-Space>"] = cmp.mapping.complete(),
@@ -54,11 +56,11 @@ cmp.setup({
 
   },
   sources = {
+    { name = 'path' },                              -- file paths
+    { name = 'nvim_lsp', keyword_length = 3 },      -- from language server
     { name = "nvim_lsp_signature_help" },
-    { name = "luasnip" },
-    { name = "nvim_lua" },
-    { name = "nvim_lsp" },
-    { name = "path" },
+    { name = "luasnip",  keyword_length = 2 },
+    { name = "nvim_lua" , keyword_length = 2},
     { name = "buffer", keyword_length = 4 },
   },
   formatting = {

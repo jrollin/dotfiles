@@ -69,7 +69,8 @@ require'nvim-treesitter.configs'.setup {
     "javascript",
     "typescript",
     "rust",
-    "json"
+    "json",
+    "toml"
   },
     autotag = {
         enable = true,
