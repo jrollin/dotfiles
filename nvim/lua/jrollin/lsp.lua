@@ -34,19 +34,19 @@ vim.lsp.handlers["textDocument/codeAction"] =
 
 -- local capabilities = vim.lsp.protocol.make_client_capabilities()
  -- Setup lspconfig with cmp
-local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+local capabilities = require("cmp_nvim_lsp").default_capabilities();
 capabilities.textDocument.completion.completionItem.snippetSupport = true
-
 
 local on_attach = function(client, bufnr)
     local opts = { noremap = true }
     -- Set some keybinds conditional on server capabilities
-    if client.resolved_capabilities.document_formatting then
+    -- if client.resolved_capabilities.document_formatting then
+    if client.server_capabilities.documentFormattingProvider then
         vim.api.nvim_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
     end
-    if client.resolved_capabilities.document_range_formatting then
-        vim.api.nvim_set_keymap("v", "<space>f", "<cmd>lua vim.lsp.buf.range_formatting()<CR>", opts)
-    end
+    -- if client.resolved_capabilities.document_range_formatting then
+    --     vim.api.nvim_set_keymap("v", "<space>f", "<cmd>lua vim.lsp.buf.range_formatting()<CR>", opts)
+    -- end
 
 end
 
