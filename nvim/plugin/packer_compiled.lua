@@ -269,11 +269,6 @@ _G.packer_plugins = {
     path = "/home/jrollin/.local/share/nvim/site/pack/packer/start/rust-tools.nvim",
     url = "https://github.com/simrat39/rust-tools.nvim"
   },
-  ["symbols-outline.nvim"] = {
-    loaded = true,
-    path = "/home/jrollin/.local/share/nvim/site/pack/packer/start/symbols-outline.nvim",
-    url = "https://github.com/simrat39/symbols-outline.nvim"
-  },
   ["telescope-file-browser.nvim"] = {
     loaded = true,
     path = "/home/jrollin/.local/share/nvim/site/pack/packer/start/telescope-file-browser.nvim",

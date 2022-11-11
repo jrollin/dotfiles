@@ -99,7 +99,7 @@ vnoremap("<leader>a", "<cmd>lua vim.lsp.buf.range_code_action()<CR>")
 nnoremap("<leader>t", "<cmd>RustRunnables<CR>")
 
 -- outline code structure
-nnoremap("<C-s>", "<cmd>SymbolsOutline<CR>")
+-- nnoremap("<C-s>", "<cmd>SymbolsOutline<CR>")
 
 
 nnoremap("<C-space>", "<cmd>lua vim.lsp.buf.hover()<CR>", true)

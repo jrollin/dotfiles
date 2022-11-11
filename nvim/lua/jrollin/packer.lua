@@ -55,7 +55,7 @@ return require('packer').startup(function(use)
     })
     use 'JoosepAlviste/nvim-ts-context-commentstring'
     -- outline tree structure
-    use 'simrat39/symbols-outline.nvim'
+    -- use 'simrat39/symbols-outline.nvim'
     -- idk
     use 'jose-elias-alvarez/null-ls.nvim'
     -- format code
