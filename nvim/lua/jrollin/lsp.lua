@@ -28,26 +28,18 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   }
 )
 
-vim.lsp.handlers["textDocument/codeAction"] =
-  require("lsputil.codeAction").code_action_handler
+-- vim.lsp.handlers["textDocument/codeAction"] =
+--   require("lsputil.codeAction").code_action_handler
 
-
--- local capabilities = vim.lsp.protocol.make_client_capabilities()
  -- Setup lspconfig with cmp
 local capabilities = require("cmp_nvim_lsp").default_capabilities();
-capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 local on_attach = function(client, bufnr)
     local opts = { noremap = true }
     -- Set some keybinds conditional on server capabilities
-    -- if client.resolved_capabilities.document_formatting then
     if client.server_capabilities.documentFormattingProvider then
         vim.api.nvim_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
     end
-    -- if client.resolved_capabilities.document_range_formatting then
-    --     vim.api.nvim_set_keymap("v", "<space>f", "<cmd>lua vim.lsp.buf.range_formatting()<CR>", opts)
-    -- end
-
 end
 
 
@@ -64,29 +56,16 @@ require("mason-lspconfig").setup_handlers({
     -- a dedicated handler.
     function (server_name) -- default handler (optional)
         require("lspconfig")[server_name].setup {
-            on_attach = on_attach
+            on_attach = on_attach,
+            capabilities = capabilities,
         }
     end,
     -- Next, you can provide targeted overrides for specific servers.
     ["rust_analyzer"] = function ()
-        -- require("rust-tools").setup {
-        --     assist = {
-        --         importEnforceGranularity = true,
-        --         importPrefix = "crate"
-        --     },
-        --     checkOnSave = {
-        --         -- default: `cargo check`
-        --         command = "clippy"
-        --     },
-        --     inlayHints = {
-        --         lifetimeElisionHints = {
-        --             enable = true,
-        --             useParameterNames = true
-        --         },
-        --     },
-        -- }
         local opts = require("jrollin.rust");
         opts.server = {
+            on_attach = on_attach,
+            capabilities = capabilities,
             assist = {
                 importEnforceGranularity = true,
                 importPrefix = "crate"

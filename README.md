@@ -28,3 +28,18 @@ choose Terminus
   >  GDB and LLDB aren't Rust aware
   >  Rust provides rust-gdb and rust-lldb wrappers
 
+
+## Neovim Tips
+
+
+### Digraph
+
+display all non ASCII symbols (digraph)
+
+```
+:digraphs
+```
+
+Usage:  `<C-K> code`
+
+

@@ -97,6 +97,7 @@ vnoremap("<leader>a", "<cmd>lua vim.lsp.buf.range_code_action()<CR>")
 
 -- rust actions
 nnoremap("<leader>t", "<cmd>RustRunnables<CR>")
+nnoremap("<leader>h", "<cmd>RustRunnables<CR>")
 
 -- outline code structure
 -- nnoremap("<C-s>", "<cmd>SymbolsOutline<CR>")
@@ -126,21 +127,26 @@ nnoremap("<Leader>gs", "<cmd>lua require('telescope.builtin').git_status()<CR>")
 nnoremap("<Leader>gd", "<cmd>lua require('telescope.builtin').git_bcommits()<CR>")
 
 -- dap debug
--- nnoremap("<F4>", "<cmd>lua require'dap'.repl.toggle()<CR>")
--- nnoremap("<F4>", "<cmd>lua require'dapui'.toggle()<CR>")
--- nnoremap("<F5>","<cmd>lua require'dap'.continue()<CR>")
--- nnoremap("<F6>","<cmd>lua require'dap'.step_over()<CR>")
--- nnoremap("<F7>","<cmd>lua require'dap'.step_into()<CR>")
--- nnoremap("<F8>","<cmd>lua require'dap'.step_out()<CR>")
--- nnoremap("<Leader>b", "<cmd>lua require'dap'.toggle_breakpoint()<CR>")
--- nnoremap("<Leader>B", "<cmd>lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR> ")
-
-
 vim.keymap.set("n", "<leader><leader>dc", "<Cmd>lua require('dap').continue()<CR>", { desc = "start debugging" })
 vim.keymap.set("n", "<leader><leader>do", "<Cmd>lua require('dap').step_over()<CR>", { desc = "step over" })
 vim.keymap.set("n", "<leader><leader>di", "<Cmd>lua require('dap').step_into()<CR>", { desc = "step into" })
 vim.keymap.set("n", "<leader><leader>dt", "<Cmd>lua require('dap').step_out()<CR>", { desc = "step out" })
 vim.keymap.set("n", "<leader><leader>db", "<Cmd>lua require('dap').toggle_breakpoint()<CR>", { desc = "toggle breakpoint" })
 vim.keymap.set("n", "<leader><leader>dB", "<Cmd>lua require('dap').set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>", { desc = "toggle breakpoint" })
-vim.keymap.set("n", "<leader><leader>dr", "<Cmd>lua require('dap').repl.open()<CR>", { desc = "open repl" })
+vim.keymap.set("n", "<leader><leader>dr", "<Cmd>lua require('dap').repl.toggle()<CR>", { desc = "toggle repl" })
 vim.keymap.set("n", "<leader><leader>du", "<Cmd>lua require('dapui').toggle()<CR>", { desc = "toggle dap ui" })
+---- intellij shortkeys
+-- Resume program (F9)
+-- Step Over (F8): executing a program one line at a time
+-- Step into (F7) : inside the method to demonstrate what gets executed 
+-- -- Smart step into (Shift + F7)
+-- Step out (Shift + F8):  take you to the call method and back up the hierarchy branch of your code
+-- -- Run to cursor (Alt + F9)
+-- -- Evaluate expression (Alt + F8)
+-- Toggle (Ctrl + F8)
+-- -- view breakpoints (Ctrl + Shift + F8)
+vim.keymap.set("n", "<F9>", "<Cmd>lua require('dap').continue()<CR>", { desc = "start debugging" })
+vim.keymap.set("n", "<F8>", "<Cmd>lua require('dap').step_over()<CR>", { desc = "step over" })
+vim.keymap.set("n", "<F7>", "<Cmd>lua require('dap').step_into()<CR>", { desc = "step into" })
+vim.keymap.set("n", "<S-F8>", "<Cmd>lua require('dap').step_out()<CR>", { desc = "step out" })
+vim.keymap.set("n", "<C-F8>", "<Cmd>lua require('dap').toggle_breakpoint()<CR>", { desc = "toggle breakpoint" })

@@ -1,7 +1,7 @@
 -- rust
 -- Update this path
--- local extension_path = vim.env.HOME .. '/.vscode/extensions/vadimcn.vscode-lldb-1.7.0/'
-local extension_path = vim.env.HOME .. '/.vscode/extensions/vadimcn.vscode-lldb-1.6.10/'
+-- local extension_path = vim.env.HOME .. '/.vscode/extensions/vadimcn.vscode-lldb-1.6.10/'
+local extension_path = vim.fn.glob(vim.fn.stdpath "data" .. "/mason/packages/codelldb/extension/")
 local codelldb_path = extension_path .. 'adapter/codelldb'
 local liblldb_path = extension_path .. 'lldb/lib/liblldb.so'
 
@@ -18,6 +18,8 @@ local opts = {
         -- callback to execute once rust-analyzer is done initializing the workspace
 		-- The callback receives one parameter indicating the `health` of the server: "ok" | "warning" | "error"
 		on_initialized = nil,
+
+        runnables = {use_telescope = true},
 
         -- These apply to the default RustSetInlayHints command
         inlay_hints = {
@@ -70,7 +72,7 @@ local opts = {
             },
 
             -- whether the hover action window gets automatically focused
-            auto_focus = false
+            auto_focus = true
         },
 
         -- settings for showing the crate graph based on graphviz and the dot
