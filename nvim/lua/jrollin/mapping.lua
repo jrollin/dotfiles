@@ -26,9 +26,6 @@ nnoremap("<leader>w", ":w<CR>")
 
 
 -- real delete not cut with register trick
--- nnoremap <leader>d "_d
--- xnoremap <leader>d "_d
--- xnoremap <leader>p "_dP
 nnoremap("<leader>d", "\"_d")
 xnoremap("<leader>d", "\"_d")
 xnoremap("<leader>p", "\"_dP")
@@ -96,12 +93,8 @@ nnoremap("<leader>a", "<cmd>lua vim.lsp.buf.code_action()<CR>", true)
 vnoremap("<leader>a", "<cmd>lua vim.lsp.buf.range_code_action()<CR>")
 
 -- rust actions
-nnoremap("<leader>t", "<cmd>RustRunnables<CR>")
-nnoremap("<leader>h", "<cmd>RustRunnables<CR>")
-
--- outline code structure
--- nnoremap("<C-s>", "<cmd>SymbolsOutline<CR>")
-
+-- nnoremap("<leader>t", "<cmd>RustRunnables<CR>")
+nnoremap("<leader>t", "<cmd>RustDebuggables<CR>")
 
 nnoremap("<C-space>", "<cmd>lua vim.lsp.buf.hover()<CR>", true)
 vnoremap("<C-space>", "<cmd>RustHoverRange<CR>")
@@ -111,10 +104,10 @@ nnoremap("gs", "<cmd>lua vim.lsp.buf.document_symbol()<CR>")
 
 
 -- Find files using Telescope command-line sugar.
-nnoremap("<leader>fs", "<cmd>lua require('telescope.builtin').grep_string({ search = vim.fn.input(\"Grep For > \")})<CR>")
-nnoremap("<leader>fw", "<cmd>lua require('telescope.builtin').grep_string { search = vim.fn.expand(\"<cword>\") }<CR>")
-nnoremap("<leader>fb", "<cmd>lua require('telescope.builtin').buffers()<CR>")
-nnoremap("<leader>fh", "<cmd>lua require('telescope.builtin').help_tags()<CR>")
+nnoremap("<leader>fs", "<cmd>Telescope live_grep<CR>")
+nnoremap("<leader>fw", "<cmd>Telescope grep_string<CR>")
+nnoremap("<leader>fb", "<cmd>Telescope buffers<CR>")
+-- nnoremap("<leader>fh", "<cmd>Telescope help_tags<CR>")
 
 -- custom file search
 nnoremap("<Leader>fd", "<cmd>lua require('jrollin.telescope').search_dotfiles()<CR>")
@@ -123,8 +116,8 @@ nnoremap("<Leader>ff", "<cmd>lua require('jrollin.telescope').search_files()<CR>
 nnoremap("<Leader>fg", "<cmd>lua require('jrollin.telescope').search_git()<CR>")
 -- git branches
 nnoremap("<Leader>gb", "<cmd>lua require('jrollin.telescope').git_branches()<CR>")
-nnoremap("<Leader>gs", "<cmd>lua require('telescope.builtin').git_status()<CR>")
-nnoremap("<Leader>gd", "<cmd>lua require('telescope.builtin').git_bcommits()<CR>")
+nnoremap("<Leader>gs", "<cmd>Telescope git_status<CR>")
+nnoremap("<Leader>gd", "<cmd>Telescope  git_bcommits<CR>")
 
 -- dap debug
 vim.keymap.set("n", "<leader><leader>dc", "<Cmd>lua require('dap').continue()<CR>", { desc = "start debugging" })

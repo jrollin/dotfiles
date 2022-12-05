@@ -11,7 +11,7 @@ return require('packer').startup(function(use)
     --  color ui
     use 'gruvbox-community/gruvbox'
     use 'folke/lsp-colors.nvim'
-    -- use 'p00f/nvim-ts-rainbow'
+    use 'p00f/nvim-ts-rainbow'
     use 'norcalli/nvim-colorizer.lua'
 
     -- dev icon
@@ -55,12 +55,9 @@ return require('packer').startup(function(use)
     })
     use {'nvim-treesitter/nvim-treesitter-textobjects'}
     use 'JoosepAlviste/nvim-ts-context-commentstring'
-    -- outline tree structure
-    -- use 'simrat39/symbols-outline.nvim'
     -- idk
     use 'jose-elias-alvarez/null-ls.nvim'
     -- format code
-    -- use 'sbdchd/neoformat'
     use 'tpope/vim-surround'
     use 'tpope/vim-commentary'
     use 'editorconfig/editorconfig-vim'
