@@ -174,7 +174,7 @@ exec --no-startup-id /usr/bin/pasystray
 # default brightness
 exec exec xbacklight -set 1
 # background
-exec --no-startup-id feh --bg-fill ~/.config/pictures/wallpaper.jpg 
+exec --no-startup-id feh --bg-fill ~/.config/pictures/blade-runner.jpg
 
 workspace 1 output $firstMonitor
 workspace 2 output $secondMonitor
