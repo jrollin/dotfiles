@@ -38,7 +38,7 @@ local on_attach = function(client, bufnr)
     local opts = { noremap = true }
     -- Set some keybinds conditional on server capabilities
     if client.server_capabilities.documentFormattingProvider then
-        vim.api.nvim_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+        vim.api.nvim_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.format({ async = true })<CR>", opts)
     end
 end
 
@@ -63,25 +63,42 @@ require("mason-lspconfig").setup_handlers({
     -- Next, you can provide targeted overrides for specific servers.
     ["rust_analyzer"] = function ()
         local opts = require("jrollin.rust");
+        local rt = require("rust-tools")
+
+        local on_attach_rust =  function(client, bufnr)
+            -- Set some keybinds conditional on server capabilities
+            if client.server_capabilities.documentFormattingProvider then
+                vim.api.nvim_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.format({ async = true })<CR>", {noremap = true})
+            end
+            -- Hover actions
+            -- vim.keymap.set("n", "<C-space>", rt.hover_actions.hover_actions, { buffer = bufnr })
+            -- Code action groups
+            -- vim.keymap.set("n", "<Leader>a", rt.code_action_group.code_action_group, { buffer = bufnr })
+        end
+
         opts.server = {
-            on_attach = on_attach,
+            on_attach = on_attach_rust,
             capabilities = capabilities,
-            assist = {
-                importEnforceGranularity = true,
-                importPrefix = "crate"
-            },
-            checkOnSave = {
-                -- default: `cargo check`
-                command = "clippy"
-            },
-            inlayHints = {
-                lifetimeElisionHints = {
-                    enable = true,
-                    useParameterNames = true
-                },
-            },
+            settings = {
+                ["rust-analyzer"] = {
+                    assist = {
+                        importEnforceGranularity = true,
+                        importPrefix = "crate"
+                    },
+                    checkOnSave = {
+                        -- default: `cargo check`
+                        command = "clippy"
+                    },
+                    inlayHints = {
+                        lifetimeElisionHints = {
+                            enable = true,
+                            useParameterNames = true
+                        },
+                    },
+                }
+            }
         }
-        require("rust-tools").setup(opts)
+        rt.setup(opts)
     end,
     ["sumneko_lua"] = function ()
         lspconfig.sumneko_lua.setup {
