@@ -45,6 +45,10 @@ return require('packer').startup(function(use)
     -- format cmp sugestion
     use 'onsails/lspkind-nvim'
 
+    use {
+      'stevearc/aerial.nvim',
+      config = function() require('aerial').setup() end
+    }
     -- UI stuff (mainly used for lsp overrides)
     use 'RishabhRD/popfix'
     use 'RishabhRD/nvim-lsputils'
