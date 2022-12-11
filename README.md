@@ -10,8 +10,8 @@
 
 
 ```Bash
-mkdir ~/.local/share/fonts
-cp fonts/JetBrainsMono/*.ttf ~/.local/share/fonts/ 
+mkdir -p ~/.local/share/fonts
+cp fonts/JetBrainsMonoNerd/*.ttf ~/.local/share/fonts/ 
 fc-cache -fv
 ```
 
