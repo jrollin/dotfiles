@@ -34,12 +34,54 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
  -- Setup lspconfig with cmp
 local capabilities = require("cmp_nvim_lsp").default_capabilities();
 
+
 local on_attach = function(client, bufnr)
-    local opts = { noremap = true }
-    -- Set some keybinds conditional on server capabilities
-    if client.server_capabilities.documentFormattingProvider then
-        vim.api.nvim_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.format({ async = true })<CR>", opts)
+
+    local nmap = function(keys, func, desc)
+        if desc then
+          desc = 'LSP: ' .. desc
+        end
+        vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
     end
+
+    local vmap = function(keys, func, desc)
+        if desc then
+          desc = 'LSP: ' .. desc
+        end
+        vim.keymap.set('v', keys, func, { buffer = bufnr, desc = desc })
+    end
+
+    -- Keybindings for LSPs
+    nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
+    nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
+    nmap('gi', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
+    nmap('<leader>D', vim.lsp.buf.type_definition, 'Type [D]efinition')
+    nmap('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
+    nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
+
+    -- See `:help K` for why this keymap
+    nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
+    nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
+
+    -- Lsp actions
+    nmap("<leader>r", vim.lsp.buf.rename, '[R]ename')
+    nmap("<leader>a", vim.lsp.buf.code_action, '[A]ction')
+    vmap("<leader>a", vim.lsp.buf.range_code_action, 'Range [A]ction')
+
+    -- Lsp rust actions
+    nmap("<leader>rr", "<cmd>RustRunnables<CR>", '[R]ust [R]unnables')
+    nmap("<leader>rd", "<cmd>RustDebuggables<CR>", '[R]ust [D]ebuggables')
+    nmap("<leader>rh", "<cmd>RustHoverActions<CR>", '[R]ust [H]over Actions')
+
+    -- Create a command `:Format` local to the LSP buffer
+    vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
+        vim.lsp.buf.format()
+    end, { desc = 'Format current buffer with LSP' })
+
+    if client.server_capabilities.documentFormattingProvider then
+        nmap("<leader>f", "<cmd>lua vim.lsp.buf.format({ async = true })<CR>")
+    end
+
 end
 
 
@@ -65,19 +107,8 @@ require("mason-lspconfig").setup_handlers({
         local opts = require("jrollin.rust");
         local rt = require("rust-tools")
 
-        local on_attach_rust =  function(client, bufnr)
-            -- Set some keybinds conditional on server capabilities
-            if client.server_capabilities.documentFormattingProvider then
-                vim.api.nvim_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.format({ async = true })<CR>", {noremap = true})
-            end
-            -- Hover actions
-            -- vim.keymap.set("n", "<C-space>", rt.hover_actions.hover_actions, { buffer = bufnr })
-            -- Code action groups
-            -- vim.keymap.set("n", "<Leader>a", rt.code_action_group.code_action_group, { buffer = bufnr })
-        end
-
         opts.server = {
-            on_attach = on_attach_rust,
+            on_attach = on_attach,
             capabilities = capabilities,
             settings = {
                 ["rust-analyzer"] = {

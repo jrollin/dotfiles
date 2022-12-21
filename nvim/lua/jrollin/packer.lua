@@ -26,24 +26,32 @@ return require('packer').startup(function(use)
         requires = { 'nvim-lualine/lualine.nvim'}
     }
     -- LSP
-    use {
-        "williamboman/mason.nvim",
-        "williamboman/mason-lspconfig.nvim",
-        "neovim/nvim-lspconfig",
+    use { -- LSP Configuration & Plugins
+        'neovim/nvim-lspconfig',
+        requires = {
+          -- Automatically install LSPs to stdpath for neovim
+          'williamboman/mason.nvim',
+          'williamboman/mason-lspconfig.nvim',
+        }
     }
-    use 'hrsh7th/cmp-nvim-lsp-signature-help'
-    use 'hrsh7th/nvim-cmp'
-    use 'hrsh7th/cmp-nvim-lsp'
-    use 'hrsh7th/cmp-nvim-lua'
-    use 'hrsh7th/cmp-buffer'
-    use 'hrsh7th/cmp-path'
-    use 'hrsh7th/cmp-cmdline'
-    -- snippets
-    use 'L3MON4D3/LuaSnip'
-    use 'saadparwaiz1/cmp_luasnip'
-    use 'rafamadriz/friendly-snippets'
-    -- format cmp sugestion
-    use 'onsails/lspkind-nvim'
+   -- autocomplete and snippets 
+    use {
+        'hrsh7th/nvim-cmp',
+        requires = {
+            'hrsh7th/cmp-nvim-lsp-signature-help',
+            'hrsh7th/cmp-nvim-lsp',
+            'hrsh7th/cmp-nvim-lua',
+            'hrsh7th/cmp-buffer',
+            'hrsh7th/cmp-path',
+            'hrsh7th/cmp-cmdline',
+            -- snippets
+            'L3MON4D3/LuaSnip',
+            'saadparwaiz1/cmp_luasnip',
+            'rafamadriz/friendly-snippets',
+            -- format cmp sugestion
+            'onsails/lspkind-nvim'
+        }
+    }
 
     use {
       'stevearc/aerial.nvim',
@@ -55,9 +63,14 @@ return require('packer').startup(function(use)
 
     -- treesitter
     use("nvim-treesitter/nvim-treesitter", {
-        run = ":TSUpdate"
+        run = function()
+            pcall(require('nvim-treesitter.install').update { with_sync = true })
+        end,
     })
-    use {'nvim-treesitter/nvim-treesitter-textobjects'}
+    use { -- Additional text objects via treesitter
+    'nvim-treesitter/nvim-treesitter-textobjects',
+        after = 'nvim-treesitter',
+    }
     use 'JoosepAlviste/nvim-ts-context-commentstring'
     -- idk
     use 'jose-elias-alvarez/null-ls.nvim'

@@ -69,55 +69,28 @@ nnoremap("<C-l>", "<C-w>l")
 nnoremap("m", "[m")
 nnoremap("M", "]m")
 
--- Keybindings for LSPs
-nnoremap("gD", "<cmd>lua vim.lsp.buf.declaration()<CR>")
-nnoremap("gd", "<cmd>lua vim.lsp.buf.definition()<CR>")
--- nnoremap("gr", "<cmd>lua vim.lsp.buf.references()<CR>")
-nnoremap("gr", "<cmd>Telescope lsp_references<CR>")
-nnoremap("gi", "<cmd>Telescope lsp_implementations<CR>")
-nnoremap("gt", "<cmd>Telescope lsp_type_definitions<CR>")
-
-nnoremap("<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>")
-nnoremap("<C-h>", "<cmd>lua vim.lsp.buf.hover()<CR>")
-
-
--- use telescope for diagnostics on opened buffer files
-nnoremap("<Leader>dg", "<cmd>Telescope diagnostics<CR>", true)
--- diagnostics
-nnoremap("<leader>dp", "<cmd>lua vim.diagnostic.goto_prev()<CR>", true)
-nnoremap("<leader>dn", "<cmd>lua vim.diagnostic.goto_next()<CR>", true)
-
--- actions
-nnoremap("<leader>r", "<cmd>lua vim.lsp.buf.rename()<CR>")
-nnoremap("<leader>a", "<cmd>lua vim.lsp.buf.code_action()<CR>", true)
-vnoremap("<leader>a", "<cmd>lua vim.lsp.buf.range_code_action()<CR>")
-
--- rust actions
-nnoremap("<leader>t", "<cmd>RustRunnables<CR>")
-nnoremap("<leader>t", "<cmd>RustDebuggables<CR>")
-
-nnoremap("<C-space>", "<cmd>lua vim.lsp.buf.hover()<CR>", true)
-vnoremap("<C-space>", "<cmd>RustHoverRange<CR>")
-
-nnoremap("gw", "<cmd>lua vim.lsp.buf.workspace_symbol()<CR>")
-nnoremap("gs", "<cmd>lua vim.lsp.buf.document_symbol()<CR>")
-
-
--- Find files using Telescope command-line sugar.
-nnoremap("<leader>fs", "<cmd>Telescope live_grep<CR>")
-nnoremap("<leader>fw", "<cmd>Telescope grep_string<CR>")
-nnoremap("<leader>fb", "<cmd>Telescope buffers<CR>")
--- nnoremap("<leader>fh", "<cmd>Telescope help_tags<CR>")
 
 -- custom file search
-nnoremap("<Leader>fd", "<cmd>lua require('jrollin.telescope').search_dotfiles()<CR>")
-nnoremap("<leader>fc", "<cmd>lua require('jrollin.telescope').search_config()<CR>")
-nnoremap("<Leader>ff", "<cmd>lua require('jrollin.telescope').search_files()<CR>")
-nnoremap("<Leader>fg", "<cmd>lua require('jrollin.telescope').search_git()<CR>")
--- git branches
-nnoremap("<Leader>gb", "<cmd>lua require('jrollin.telescope').git_branches()<CR>")
-nnoremap("<Leader>gs", "<cmd>Telescope git_status<CR>")
-nnoremap("<Leader>gd", "<cmd>Telescope  git_bcommits<CR>")
+vim.keymap.set('n', '<Leader>sd', require('jrollin.telescope').search_dotfiles, { desc = '[S]earch [D]otfiles' })
+vim.keymap.set('n', '<leader>sc', require('jrollin.telescope').search_config, { desc = '[S]earch [C]onfig' })
+vim.keymap.set('n', '<Leader>sg', require('jrollin.telescope').search_git, {desc = '[S]earch [G]it'})
+vim.keymap.set('n', '<Leader>sf', require('jrollin.telescope').search_files, { desc = '[S]earch [F]iles' })
+
+-- vim.keymap.set('n', '<leader>sf', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
+vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
+vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
+vim.keymap.set('n', '<leader>sr', require('telescope.builtin').live_grep, { desc = '[S]earch by G[r]ep' })
+vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
+vim.keymap.set('n', '<leader>sb', require('telescope.builtin').buffers, { desc = '[S]earch [B]uffers' })
+
+-- diagnostics
+vim.keymap.set('n', '<leader>dp', vim.diagnostic.goto_prev, { desc = '[D]iagnostic [P]revious'})
+vim.keymap.set('n', '<leader>dn', vim.diagnostic.goto_next, { desc = '[D]iagnostic [N]ext'})
+
+-- git 
+vim.keymap.set('n', '<Leader>gb', require('jrollin.telescope').git_branches, { desc = '[G]it [B]ranches' })
+vim.keymap.set('n', '<Leader>gs', require('telescope.builtin').git_status, { desc = '[G]it [S]tatus' })
+
 
 -- dap debug
 vim.keymap.set("n", "<leader><leader>dc", "<Cmd>lua require('dap').continue()<CR>", { desc = "start debugging" })
