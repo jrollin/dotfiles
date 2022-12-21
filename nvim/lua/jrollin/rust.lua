@@ -1,25 +1,24 @@
 -- rust
 -- Update this path
 -- local extension_path = vim.env.HOME .. '/.vscode/extensions/vadimcn.vscode-lldb-1.6.10/'
-local extension_path = vim.fn.glob(vim.fn.stdpath "data" .. "/mason/packages/codelldb/extension/")
-local codelldb_path = extension_path .. 'adapter/codelldb'
-local liblldb_path = extension_path .. 'lldb/lib/liblldb.so'
-
+local extension_path = vim.fn.glob(vim.fn.stdpath("data") .. "/mason/packages/codelldb/extension/")
+local codelldb_path = extension_path .. "adapter/codelldb"
+local liblldb_path = extension_path .. "lldb/lib/liblldb.so"
 
 local opts = {
     tools = { -- rust-tools options
 
         autoSetHints = true,
 
-		-- how to execute terminal commands
-		-- options right now: termopen / quickfix
-		executor = require("rust-tools/executors").termopen,
+        -- how to execute terminal commands
+        -- options right now: termopen / quickfix
+        executor = require("rust-tools/executors").termopen,
 
         -- callback to execute once rust-analyzer is done initializing the workspace
-		-- The callback receives one parameter indicating the `health` of the server: "ok" | "warning" | "error"
-		on_initialized = nil,
+        -- The callback receives one parameter indicating the `health` of the server: "ok" | "warning" | "error"
+        on_initialized = nil,
 
-        runnables = {use_telescope = true},
+        runnables = { use_telescope = true },
 
         -- These apply to the default RustSetInlayHints command
         inlay_hints = {
@@ -65,14 +64,18 @@ local opts = {
             -- the border that is used for the hover window
             -- see vim.api.nvim_open_win()
             border = {
-                {"╭", "FloatBorder"}, {"─", "FloatBorder"},
-                {"╮", "FloatBorder"}, {"│", "FloatBorder"},
-                {"╯", "FloatBorder"}, {"─", "FloatBorder"},
-                {"╰", "FloatBorder"}, {"│", "FloatBorder"}
+                { "╭", "FloatBorder" },
+                { "─", "FloatBorder" },
+                { "╮", "FloatBorder" },
+                { "│", "FloatBorder" },
+                { "╯", "FloatBorder" },
+                { "─", "FloatBorder" },
+                { "╰", "FloatBorder" },
+                { "│", "FloatBorder" },
             },
 
             -- whether the hover action window gets automatically focused
-            auto_focus = true
+            auto_focus = true,
         },
 
         -- settings for showing the crate graph based on graphviz and the dot
@@ -90,7 +93,7 @@ local opts = {
             -- crates
             -- default: true
             full = true,
-        }
+        },
     },
 
     -- all the opts to send to nvim-lspconfig
@@ -107,10 +110,8 @@ local opts = {
     -- }
     -- https://microsoft.github.io/debug-adapter-protocol/implementors/adapters/
     dap = {
-        adapter = require('rust-tools.dap').get_codelldb_adapter(
-            codelldb_path, liblldb_path)
-    }
+        adapter = require("rust-tools.dap").get_codelldb_adapter(codelldb_path, liblldb_path),
+    },
 }
 -- require('rust-tools').setup(opts)
 return opts
-

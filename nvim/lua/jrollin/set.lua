@@ -2,7 +2,6 @@ vim.g.mapleader = " "
 
 vim.opt.termguicolors = true
 
-
 -- auto change directory to current file
 vim.opt.autochdir = true
 
@@ -21,25 +20,25 @@ vim.opt.wrap = false
 vim.opt.smartcase = true
 vim.opt.swapfile = false
 vim.opt.backup = false
-vim.opt.undodir= os.getenv("HOME") .. "/.vim/undodir"
+vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
 vim.opt.undofile = true
 
 vim.opt.hlsearch = false
 vim.opt.incsearch = true
 
-vim.opt.hidden = true -- Required to keep multiple buffers open multiple buffers            
+vim.opt.hidden = true -- Required to keep multiple buffers open multiple buffers
 
--- " Always show statusline.                                                       
-vim.opt.laststatus=2
--- Show last command in the status line.                                         
+-- " Always show statusline.
+vim.opt.laststatus = 2
+-- Show last command in the status line.
 vim.opt.showcmd = true
 
-vim.opt.updatetime=300   --Faster completion                     
-vim.opt.timeoutlen=400   --By default timeoutlen is 1000 ms      
+vim.opt.updatetime = 300 --Faster completion
+vim.opt.timeoutlen = 400 --By default timeoutlen is 1000 ms
 
-vim.opt.clipboard="unnamedplus" --Copy paste between vim and everything else
+vim.opt.clipboard = "unnamedplus" --Copy paste between vim and everything else
 
-
+vim.opt.scrolloff = 8
 
 -- rust format on saveo
 vim.g.rustfmt_autosave = 1
@@ -48,9 +47,9 @@ vim.g.rustfmt_autosave = 1
 --  this removes the jitter when warnings/errors flow in
 vim.opt.signcolumn = "yes"
 
- -- Set updatetime for CursorHold
- -- 300ms of no cursor movement to trigger CursorHold
-vim.opt.updatetime=300
+-- Set updatetime for CursorHold
+-- 300ms of no cursor movement to trigger CursorHold
+vim.opt.updatetime = 300
 
 --  Treesitter conf
 -- highlight link TSConstBuiltin Constant
