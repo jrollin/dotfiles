@@ -1,5 +1,8 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 export PATH=$HOME/.local/bin:$PATH
+# lua bin (ex: busted for tests)
+export PATH="$PATH:$HOME/.luarocks/bin/"
+
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
@@ -68,7 +71,7 @@ ZSH_THEME="dracula"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git docker asdf npm ansible terraform aws tmux rust encode64 ) 
+plugins=(git docker asdf npm ansible terraform aws tmux rust encode64 kubectl) 
 
 source $ZSH/oh-my-zsh.sh
 
@@ -115,7 +118,7 @@ alias vim="nvim"
 alias vi="nvim"
 alias oldvim="vim"
 alias python="python3"
-alias www="cd /data/projects/mine/julienrollin/"
+alias jr="cd /data/projects/mine/julienrollin/"
 alias mine="cd /data/projects/mine"
 alias talan="cd /data/projects/talan"
 alias wasm="cd /data/projects/mine/wasm"
@@ -125,6 +128,9 @@ alias exos="cd ~/snap/exercism"
 # create or attach:  ts myapp
 alias ts="tmux new-session -A -s"
 alias tm="~/dotfiles/tm.sh"
+
+alias kubectl="minikube kubectl --"
+alias k="kubectl"
 # starship
 eval "$(starship init zsh)"
 # Wasmer

@@ -71,6 +71,7 @@ require("nvim-treesitter.configs").setup({
         "rust",
         "json",
         "toml",
+        "elm",
     },
     autotag = {
         enable = true,

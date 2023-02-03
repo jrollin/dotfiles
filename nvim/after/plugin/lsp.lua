@@ -14,13 +14,17 @@ setup_auto_format("js")
 setup_auto_format("css")
 setup_auto_format("tsx")
 setup_auto_format("ts")
+setup_auto_format("elm")
 
 -- inject LSP diagnostics, code actions, and more via Lua.
-require("null-ls").setup({
+local null_ls = require("null-ls")
+null_ls.setup({
     sources = {
-        require("null-ls").builtins.formatting.stylua,
-        require("null-ls").builtins.diagnostics.eslint,
-        require("null-ls").builtins.completion.spell,
+        null_ls.builtins.formatting.stylua,
+        null_ls.builtins.formatting.elm_format,
+        null_ls.builtins.formatting.prettier,
+        null_ls.builtins.diagnostics.eslint,
+        null_ls.builtins.completion.luasnip,
     },
 })
 
@@ -88,7 +92,7 @@ end
 require("mason").setup()
 
 require("mason-lspconfig").setup({
-    ensure_installed = { "sumneko_lua", "html", "cssls", "tailwindcss" },
+    ensure_installed = { "sumneko_lua", "html", "cssls", "tailwindcss", "rust_analyzer", "elmls" },
 })
 
 require("mason-lspconfig").setup_handlers({

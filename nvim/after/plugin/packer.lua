@@ -69,6 +69,7 @@ return require("packer").startup(function(use)
             pcall(require("nvim-treesitter.install").update({ with_sync = true }))
         end,
     })
+    use("nvim-treesitter/playground")
     use({ -- Additional text objects via treesitter
         "nvim-treesitter/nvim-treesitter-textobjects",
         after = "nvim-treesitter",
@@ -78,17 +79,26 @@ return require("packer").startup(function(use)
     use("jose-elias-alvarez/null-ls.nvim")
     -- format code
     use("tpope/vim-surround")
-    use("tpope/vim-commentary")
+    use({
+        "numToStr/Comment.nvim",
+        config = function()
+            require("Comment").setup()
+        end,
+    }) -- use("tpope/vim-commentary")
     use("editorconfig/editorconfig-vim")
     use("windwp/nvim-autopairs")
     use("windwp/nvim-ts-autotag")
     -- telescope
     use("nvim-lua/popup.nvim")
     use("nvim-lua/plenary.nvim")
-    use({ "nvim-telescope/telescope.nvim", tag = "0.1.0", requires = { { "nvim-lua/plenary.nvim" } } })
+    use({ "nvim-telescope/telescope.nvim", tag = "0.1.1", requires = { { "nvim-lua/plenary.nvim" } } })
     use("nvim-telescope/telescope-fzy-native.nvim")
     use("nvim-telescope/telescope-file-browser.nvim")
     use("nvim-telescope/telescope-media-files.nvim")
+    use({
+        "nvim-telescope/telescope-ui-select.nvim", -- Use telescope to override vim.ui.select
+        requires = { "nvim-telescope/telescope.nvim" },
+    })
     -- git
     use({ "lewis6991/gitsigns.nvim", requires = { { "nvim-lua/plenary.nvim" } } })
     use("tpope/vim-fugitive")

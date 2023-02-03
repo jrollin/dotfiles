@@ -58,11 +58,11 @@ cmp.setup({
         end, { "i", "s" }),
     },
     sources = {
-        { name = "path" }, -- file paths
+        { name = "nvim_lua" },
         { name = "nvim_lsp", keyword_length = 3 }, -- from language server
         { name = "nvim_lsp_signature_help" },
+        { name = "path" }, -- file paths
         { name = "luasnip", keyword_length = 2 },
-        { name = "nvim_lua", keyword_length = 2 },
         { name = "buffer", keyword_length = 4 },
     },
     formatting = {
@@ -72,6 +72,7 @@ cmp.setup({
                 buffer = "[buf]",
                 nvim_lsp = "[LSP]",
                 nvim_lua = "[lua]",
+                nvim_lsp_signature_help = "[param]",
                 path = "[path]",
                 luasnip = "[snip]",
             },
@@ -79,16 +80,16 @@ cmp.setup({
     },
 })
 
-local function prequire(...)
-    local status, lib = pcall(require, ...)
-    if status then
-        return lib
-    end
-    return nil
-end
+-- local function prequire(...)
+--     local status, lib = pcall(require, ...)
+--     if status then
+--         return lib
+--     end
+--     return nil
+-- end
 
-local luasnip = prequire("luasnip")
-local cmp = prequire("cmp")
+-- local luasnip = prequire("luasnip")
+-- local cmp = prequire("cmp")
 
 local t = function(str)
     return vim.api.nvim_replace_termcodes(str, true, true, true)
