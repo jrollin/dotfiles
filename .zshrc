@@ -3,6 +3,8 @@ export PATH=$HOME/.local/bin:$PATH
 # lua bin (ex: busted for tests)
 export PATH="$PATH:$HOME/.luarocks/bin/"
 
+export DOTFILE_DIR=$HOME/projects/github/dotfiles
+export PROJECT_DIR=$HOME/projects/
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
@@ -113,27 +115,17 @@ setopt INC_APPEND_HISTORY
 setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_SAVE_NO_DUPS
 setopt HIST_FIND_NO_DUPS
+
 # use nvim
 alias vim="nvim"
 alias vi="nvim"
 alias oldvim="vim"
 alias python="python3"
-alias jr="cd /data/projects/mine/julienrollin/"
-alias mine="cd /data/projects/mine"
-alias talan="cd /data/projects/talan"
-alias wasm="cd /data/projects/mine/wasm"
-alias iot="cd /data/projects/mine/iot"
-alias rusty="cd /data/projects/mine/rustproject"
-alias exos="cd ~/snap/exercism"
+alias jr="cd $PROJECT_DIR/github/julienrollin/"
 # create or attach:  ts myapp
-alias ts="tmux new-session -A -s"
-alias tm="~/dotfiles/tm.sh"
+alias tm="$DOTFILE_DIR/tm.sh"
 
 alias kubectl="minikube kubectl --"
 alias k="kubectl"
 # starship
 eval "$(starship init zsh)"
-# Wasmer
-export WASMER_DIR="/home/jrollin/.wasmer"
-[ -s "$WASMER_DIR/wasmer.sh" ] && source "$WASMER_DIR/wasmer.sh"
-fpath+=${ZDOTDIR:-~}/.zsh_functions

@@ -1,0 +1,4 @@
+# tmx auto installs plugin if no directory present (see tmux.conf)
+/tmux/plugins/*
+
+/nvim/plugin/packer_compiled.lua

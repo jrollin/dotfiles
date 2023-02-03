@@ -40,6 +40,13 @@ sudo dpkg-reconfigure console-setup
 choose Terminus
 
 
+## zsh 
+
+Install theme dracula for zsh
+
+https://draculatheme.com/zsh
+
+
 
 ## Neovim Tips
 
@@ -55,3 +62,12 @@ display all non ASCII symbols (digraph)
 Usage:  `<C-K> code`
 
 
+## I3wm
+
+```
+sudo apt install i3 polybar 
+```
+
+configure touchpad and brightness touch
+
+[My Dell xorg gist](https://gist.github.com/jrollin/1208610469474c4315a1f9d6c3e1da8c)
