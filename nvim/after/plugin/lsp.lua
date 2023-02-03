@@ -73,6 +73,9 @@ local on_attach = function(client, bufnr)
     nmap("<leader>a", vim.lsp.buf.code_action, "[A]ction")
     vmap("<leader>a", vim.lsp.buf.range_code_action, "Range [A]ction")
 
+    nmap("<leader>cl", vim.lsp.codelens.run, "[C]ode [L]ens ")
+    nmap("<leader>cr", vim.lsp.codelens.refresh, "[C]ode Lens [R]efresh")
+    --
     -- Lsp rust actions
     nmap("<leader>rr", "<cmd>RustRunnables<CR>", "[R]ust [R]unnables")
     nmap("<leader>rd", "<cmd>RustDebuggables<CR>", "[R]ust [D]ebuggables")

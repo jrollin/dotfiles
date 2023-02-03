@@ -6,6 +6,13 @@
 * zsh
 
 
+TODO
+
+* split ide / install / node vs i3 / rofi etc
+* theme dracula / omz
+* nvim (apt install libfuse2)
+* alacritty as defaut : sudo update-alternatives --config x-terminal-emulator
+
 ## fonts
 
 

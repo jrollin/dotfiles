@@ -57,7 +57,7 @@ install_term() {
         && rm -rf ~/.config/starship.toml \
         && ln -s $(pwd)/starship.toml ~/.config/starship.toml
 
-    cargo install starship
+    cargo install starship --locked
 }
 
 install_ts() {
