@@ -67,7 +67,7 @@ install_ts() {
 
 install_asdf(){
     echo "Installing Asdf..." \
-    && git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.9.0
+    && git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.11.1
     # nodejs
     asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
     asdf install nodejs latest
