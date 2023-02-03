@@ -26,6 +26,11 @@ install_i3menu() {
         && ln -s $(pwd)/polybar ~/.config/polybar  
 }
 
+install_monitor() {
+    echo "installing_monitor.." \
+        && rm -rf ~/.config/monitor_layout.sh \
+        && ln -s $(pwd)/monitor_layout.sh ~/.config/monitor_layout.sh
+}
 
 install_tmux() {
     echo "installing tmux conf" \
@@ -83,6 +88,7 @@ if [[ -z $1 ]]; then
     && install_i3 \
     && install_i3_wallpaper\
     && install_i3menu \
+    && install_monitor \
     && install_tmux \
     && install_zsh \
     && install_term \
