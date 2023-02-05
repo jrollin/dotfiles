@@ -22,7 +22,7 @@ install_rust() {
 
 install_i3status() {
     echo "installing status tools..." \
-        && apt install rofi flameshot feh xbacklight
+        && apt install rofi flameshot feh xbacklight dmenu polybar
 }
 
 install_sound() {

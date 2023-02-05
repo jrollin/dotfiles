@@ -47,8 +47,14 @@ install_tmux() {
 install_zsh() {
     echo "installing zsh" \
         && rm -f ~/.zshrc \
-        && ln -s $(pwd)/.zshrc ~/.zshrc
-         mkdir -p "~/.cache/zsh"
+        && ln -s $(pwd)/.zshrc ~/.zshrc \
+        && mkdir -p "~/.cache/zsh"
+
+    echo "Installing zsh theme..." \
+        && rm -rf ~/.config/dracula.zsh-theme \
+        && git clone https://github.com/dracula/zsh.git ~/.config/dracula.zsh-theme \
+        && rm -f ~/.oh-my-zsh/themes/dracula.zsh-theme \
+        && ln -s ~/.config/dracula.zsh-theme/dracula.zsh-theme  ~/.oh-my-zsh/themes/dracula.zsh-theme
 }
 
 install_term() {
