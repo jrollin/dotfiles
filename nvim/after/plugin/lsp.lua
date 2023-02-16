@@ -95,7 +95,7 @@ end
 require("mason").setup()
 
 require("mason-lspconfig").setup({
-    ensure_installed = { "sumneko_lua", "html", "cssls", "tailwindcss", "rust_analyzer", "elmls" },
+    ensure_installed = { "lua_ls", "html", "cssls", "tailwindcss", "rust_analyzer", "elmls" },
 })
 
 require("mason-lspconfig").setup_handlers({
@@ -137,8 +137,8 @@ require("mason-lspconfig").setup_handlers({
         }
         rt.setup(opts)
     end,
-    ["sumneko_lua"] = function()
-        lspconfig.sumneko_lua.setup({
+    ["lua_ls"] = function()
+        lspconfig.lua_ls.setup({
             settings = {
                 Lua = {
                     runtime = {
