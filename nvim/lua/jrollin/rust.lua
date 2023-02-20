@@ -1,3 +1,9 @@
+if not pcall(require, "rust-tools/executors") then
+    return false
+end
+if not pcall(require, "rust-tools.dap") then
+    return false
+end
 -- rust
 -- Update this path
 -- local extension_path = vim.env.HOME .. '/.vscode/extensions/vadimcn.vscode-lldb-1.6.10/'

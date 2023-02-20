@@ -1,3 +1,6 @@
+if not pcall(require, "nvim-autopairs") then
+    return
+end
 local npairs = require("nvim-autopairs")
 -- use treesitter
 npairs.setup({

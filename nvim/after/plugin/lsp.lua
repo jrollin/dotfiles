@@ -1,3 +1,7 @@
+if not pcall(require, "lspconfig") then
+    return
+end
+
 -- lsp
 local lspconfig = require("lspconfig")
 
@@ -17,6 +21,9 @@ setup_auto_format("ts")
 setup_auto_format("elm")
 
 -- inject LSP diagnostics, code actions, and more via Lua.
+if not pcall(require, "null-ls") then
+    return
+end
 local null_ls = require("null-ls")
 null_ls.setup({
     sources = {
@@ -38,6 +45,9 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagn
 -- vim.lsp.handlers["textDocument/codeAction"] =
 --   require("lsputil.codeAction").code_action_handler
 
+if not pcall(require, "cmp_nvim_lsp") then
+    return
+end
 -- Setup lspconfig with cmp
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
@@ -89,6 +99,13 @@ local on_attach = function(client, bufnr)
     if client.server_capabilities.documentFormattingProvider then
         nmap("<leader>f", "<cmd>lua vim.lsp.buf.format({ async = true })<CR>")
     end
+end
+
+if not pcall(require, "mason") then
+    return
+end
+if not pcall(require, "mason-lspconfig") then
+    return
 end
 
 -- lsp servers

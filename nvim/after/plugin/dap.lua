@@ -1,3 +1,11 @@
+if not pcall(require, "dapui") then
+    return
+end
+
+if not pcall(require, "nvim-dap-virtual-text") then
+    return
+end
+
 require("dapui").setup()
 require("nvim-dap-virtual-text").setup({
     commented = true,

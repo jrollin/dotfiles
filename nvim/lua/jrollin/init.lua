@@ -1,4 +1,6 @@
 require("jrollin.set")
+require("jrollin.packer")
 require("jrollin.mapping")
 require("jrollin.rust")
 require("jrollin.telescope")
+require("jrollin.markdown")

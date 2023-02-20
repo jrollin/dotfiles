@@ -1,3 +1,6 @@
+if not pcall(require, "luasnip") then
+    return
+end
 -- completion
 local has_words_before = function()
     local line, col = unpack(vim.api.nvim_win_get_cursor(0))
@@ -7,6 +10,20 @@ end
 local luasnip = require("luasnip")
 local cmp = require("cmp")
 local lspkind = require("lspkind")
+-- snip
+require("luasnip.loaders.from_lua").load({ path = "~/.config/nvim/snippets/" })
+luasnip.config.set_config({
+    history = true, -- keep around last snippet local to jump back
+    -- updateevents = "TextChanged, TextChangedI",
+    -- enable_autosnippets = true,
+    ext_opts = {
+        [require("luasnip.util.types").choiceNode] = {
+            active = {
+                virt_text = { { "- choice -", "GruvboxOrange" } },
+            },
+        },
+    },
+})
 
 --  completion
 --  Set completeopt to have a better completion experience
@@ -25,7 +42,7 @@ cmp.setup({
     mapping = {
         ["<C-p>"] = cmp.mapping.select_prev_item(),
         ["<C-n>"] = cmp.mapping.select_next_item(),
-        ["<C-d>"] = cmp.mapping.scroll_docs(-4),
+        ["<C-d>"] = cmp.mapping.scroll_docs( -4),
         ["<C-u>"] = cmp.mapping.scroll_docs(4),
         ["<C-Space>"] = cmp.mapping.complete(),
         ["<C-e>"] = cmp.mapping.abort(),
@@ -50,8 +67,8 @@ cmp.setup({
         ["<S-Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
                 cmp.select_prev_item()
-            elseif luasnip.jumpable(-1) then
-                luasnip.jump(-1)
+            elseif luasnip.jumpable( -1) then
+                luasnip.jump( -1)
             else
                 fallback()
             end
@@ -59,11 +76,11 @@ cmp.setup({
     },
     sources = {
         { name = "nvim_lua" },
-        { name = "nvim_lsp", keyword_length = 3 }, -- from language server
+        { name = "nvim_lsp",               keyword_length = 3 }, -- from language server
         { name = "nvim_lsp_signature_help" },
         { name = "path" }, -- file paths
-        { name = "luasnip", keyword_length = 2 },
-        { name = "buffer", keyword_length = 4 },
+        { name = "luasnip",                keyword_length = 2 },
+        { name = "buffer",                 keyword_length = 4 },
     },
     formatting = {
         format = lspkind.cmp_format({
@@ -79,17 +96,6 @@ cmp.setup({
         }),
     },
 })
-
--- local function prequire(...)
---     local status, lib = pcall(require, ...)
---     if status then
---         return lib
---     end
---     return nil
--- end
-
--- local luasnip = prequire("luasnip")
--- local cmp = prequire("cmp")
 
 local t = function(str)
     return vim.api.nvim_replace_termcodes(str, true, true, true)
@@ -119,7 +125,7 @@ end
 _G.s_tab_complete = function()
     if cmp and cmp.visible() then
         cmp.select_prev_item()
-    elseif luasnip and luasnip.jumpable(-1) then
+    elseif luasnip and luasnip.jumpable( -1) then
         return t("<Plug>luasnip-jump-prev")
     else
         return t("<S-Tab>")

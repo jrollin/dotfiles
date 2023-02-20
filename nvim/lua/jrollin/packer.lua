@@ -1,7 +1,15 @@
--- This file can be loaded by calling `lua require('plugins')` from your init.vim
+local ensure_packer = function()
+    local fn = vim.fn
+    local install_path = "~/.local/share/nvim/site/pack/packer/start/packer.nvim"
+    if fn.empty(fn.glob(install_path)) > 0 then
+        fn.system({ "git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path })
+        vim.cmd([[packadd packer.nvim]])
+        return true
+    end
+    return false
+end
 
--- Only required if you have packer configured as `opt`
-vim.cmd([[packadd packer.nvim]])
+local packer_bootstrap = ensure_packer()
 
 return require("packer").startup(function(use)
     -- Packer can manage itself
@@ -11,7 +19,6 @@ return require("packer").startup(function(use)
     --  color ui
     use("gruvbox-community/gruvbox")
     use("folke/lsp-colors.nvim")
-    use("p00f/nvim-ts-rainbow")
     use("norcalli/nvim-colorizer.lua")
 
     -- dev icon
@@ -26,7 +33,8 @@ return require("packer").startup(function(use)
         requires = { "nvim-lualine/lualine.nvim" },
     })
     -- LSP
-    use({ -- LSP Configuration & Plugins
+    use({
+        -- LSP Configuration & Plugins
         "neovim/nvim-lspconfig",
         requires = {
             -- Automatically install LSPs to stdpath for neovim
@@ -68,13 +76,14 @@ return require("packer").startup(function(use)
         run = function()
             pcall(require("nvim-treesitter.install").update({ with_sync = true }))
         end,
+        requires = { "windwp/nvim-ts-autotag", "p00f/nvim-ts-rainbow", "JoosepAlviste/nvim-ts-context-commentstring" },
     })
     use("nvim-treesitter/playground")
-    use({ -- Additional text objects via treesitter
+    use({
+        -- Additional text objects via treesitter
         "nvim-treesitter/nvim-treesitter-textobjects",
         after = "nvim-treesitter",
     })
-    use("JoosepAlviste/nvim-ts-context-commentstring")
     -- idk
     use("jose-elias-alvarez/null-ls.nvim")
     -- format code
@@ -84,10 +93,9 @@ return require("packer").startup(function(use)
         config = function()
             require("Comment").setup()
         end,
-    }) -- use("tpope/vim-commentary")
+    })
     use("editorconfig/editorconfig-vim")
     use("windwp/nvim-autopairs")
-    use("windwp/nvim-ts-autotag")
     -- telescope
     use("nvim-lua/popup.nvim")
     use("nvim-lua/plenary.nvim")
@@ -127,4 +135,10 @@ return require("packer").startup(function(use)
     use("mfussenegger/nvim-dap")
     use("rcarriga/nvim-dap-ui")
     use("theHamsta/nvim-dap-virtual-text")
+
+    -- Automatically set up your configuration after cloning packer.nvim
+    -- Put this at the end after all plugins
+    if packer_bootstrap then
+        require("packer").sync()
+    end
 end)

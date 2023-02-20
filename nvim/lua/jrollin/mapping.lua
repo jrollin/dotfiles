@@ -58,6 +58,10 @@ vim.keymap.set("n", "<C-l>", "<C-w>l")
 vim.keymap.set("n", "m", "[m")
 vim.keymap.set("n", "M", "]m")
 
+
+if not pcall(require, "telescope") then
+    return
+end
 -- custom file search
 vim.keymap.set("n", "<Leader>sd", require("jrollin.telescope").search_dotfiles, { desc = "[S]earch [D]otfiles" })
 vim.keymap.set("n", "<leader>sc", require("jrollin.telescope").search_config, { desc = "[S]earch [C]onfig" })

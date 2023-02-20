@@ -1,4 +1,9 @@
+if not pcall(require, "telescope") then
+    return
+end
 -- custom search
+local actions = require("telescope.actions")
+
 local M = {}
 M.search_dotfiles = function()
     require("telescope.builtin").find_files({
@@ -15,11 +20,10 @@ M.search_config = function()
 end
 
 M.search_files = function()
-    if vim.fn.system("git rev-parse --is-inside-work-tree") == true then
-        M.search_git()
-    else
-        require("telescope.builtin").find_files()
-    end
+    require("telescope.builtin").find_files({
+        prompt_title = "< files >",
+        file_ignore_patterns = { "%.ttf", "%.min.js", "%.min.css" },
+    })
 end
 
 M.search_git = function()
