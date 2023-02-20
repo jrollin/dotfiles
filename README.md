@@ -23,6 +23,14 @@ Configure touchpad and brightness touch for lib xorg
 [My Dell xorg gist](https://gist.github.com/jrollin/1208610469474c4315a1f9d6c3e1da8c)
 
 
+## Get infos 
+
+get infos about machine setup with [neofetch](https://github.com/dylanaraps/neofetch)
+
+```Bash
+sudo apt install neofetch
+```
+
 ## Install 
 
 Os packages (tmux, rust, etc)
@@ -73,7 +81,23 @@ sudo update-alternatives --config x-terminal-emulator
 
 
 
-## Neovim Tips
+## Neovim 
+
+### Requirements
+
+Install packer
+
+```Bash
+ git clone --depth 1 https://github.com/wbthomason/packer.nvim\
+ ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+
+```
+
+in Neovim
+
+```vim
+:PackerSync
+```
 
 
 ### Digraph
