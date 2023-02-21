@@ -1,6 +1,7 @@
 if not pcall(require, "luasnip") then
     return
 end
+
 -- completion
 local has_words_before = function()
     local line, col = unpack(vim.api.nvim_win_get_cursor(0))
@@ -8,18 +9,27 @@ local has_words_before = function()
 end
 
 local luasnip = require("luasnip")
+local types = require("luasnip.util.types")
 local cmp = require("cmp")
 local lspkind = require("lspkind")
+
 -- snip
-require("luasnip.loaders.from_lua").load({ path = "~/.config/nvim/snippets/" })
-luasnip.config.set_config({
+require("luasnip.loaders.from_vscode").lazy_load()
+require("luasnip.loaders.from_lua").lazy_load({ path = "~/.config/nvim/snippets/" })
+
+luasnip.setup({
     history = true, -- keep around last snippet local to jump back
-    -- updateevents = "TextChanged, TextChangedI",
+    updateevents = "TextChanged, TextChangedI",
     -- enable_autosnippets = true,
     ext_opts = {
-        [require("luasnip.util.types").choiceNode] = {
+        [types.choiceNode] = {
             active = {
-                virt_text = { { "- choice -", "GruvboxOrange" } },
+                virt_text = { { "●", "GruvboxOrange" } },
+            },
+        },
+        [types.insertNode] = {
+            active = {
+                virt_text = { { "●", "GruvboxBlue" } },
             },
         },
     },
@@ -139,6 +149,3 @@ vim.api.nvim_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", { expr = true 
 vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", { expr = true })
 vim.api.nvim_set_keymap("i", "<C-E>", "<Plug>luasnip-next-choice", {})
 vim.api.nvim_set_keymap("s", "<C-E>", "<Plug>luasnip-next-choice", {})
-
--- snip lua
-require("luasnip.loaders.from_vscode").lazy_load()
