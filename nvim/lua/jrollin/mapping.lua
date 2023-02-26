@@ -58,7 +58,6 @@ vim.keymap.set("n", "<C-l>", "<C-w>l")
 vim.keymap.set("n", "m", "[m")
 vim.keymap.set("n", "M", "]m")
 
-
 if not pcall(require, "telescope") then
     return
 end
@@ -118,3 +117,6 @@ vim.keymap.set("n", "<F7>", "<Cmd>lua require('dap').step_into()<CR>", { desc = 
 vim.keymap.set("n", "<S-F8>", "<Cmd>lua require('dap').step_out()<CR>", { desc = "step out" })
 
 vim.keymap.set("n", "<C-F9>", "<Cmd>lua require('dap').toggle_breakpoint()<CR>", { desc = "toggle breakpoint" })
+
+-- Treesitter
+vim.keymap.set("n", "<leader>tg", ":TSPlaygroundToggle<CR>")
