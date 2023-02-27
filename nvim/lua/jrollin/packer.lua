@@ -1,4 +1,4 @@
-local ensure_packer = function()
+--local ensure_packer = function()
     local fn = vim.fn
     local install_path = "~/.local/share/nvim/site/pack/packer/start/packer.nvim"
     if fn.empty(fn.glob(install_path)) > 0 then
@@ -6,10 +6,10 @@ local ensure_packer = function()
         vim.cmd([[packadd packer.nvim]])
         return true
     end
-    return false
-end
+--    return false
+--end
 
-local packer_bootstrap = ensure_packer()
+--local packer_bootstrap = ensure_packer()
 
 return require("packer").startup(function(use)
     -- Packer can manage itself

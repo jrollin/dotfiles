@@ -97,8 +97,6 @@ if [[ -z $1 ]]; then
     && install_monitor \
     && install_tmux \
     && install_zsh \
-    && install_term \
-    && install_ts \
     && echo "Finished installation."
   fi
 else

@@ -3,7 +3,7 @@ export PATH=$HOME/.local/bin:$PATH
 # lua bin (ex: busted for tests)
 export PATH="$PATH:$HOME/.luarocks/bin/"
 
-export DOTFILE_DIR=$HOME/projects/github/dotfiles
+export DOTFILE_DIR=$HOME/dotfiles
 export PROJECT_DIR=$HOME/projects/
 
 # Path to your oh-my-zsh installation.
@@ -129,3 +129,5 @@ alias kubectl="minikube kubectl --"
 alias k="kubectl"
 # starship
 eval "$(starship init zsh)"
+
+. "$HOME/.asdf/asdf.sh"

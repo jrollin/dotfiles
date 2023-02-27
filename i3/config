@@ -162,13 +162,13 @@ for_window [class="Pavucontrol|gnome-font-viewer"] floating enable
 ### custom conf
 
 set $firstMonitor eDP1
-set $secondMonitor DP1
+set $secondMonitor DP2
 set $projector VGA1
 
 # add network manager in bar
-exec --no-startup-id nm-applet
+# exec --no-startup-id nm-applet
 # volume systray
-exec --no-startup-id /usr/bin/pasystray
+# exec --no-startup-id /usr/bin/pasystray
 # bluetooth systray
 # exec --no-startup-id /usr/bin/blueman-applet
 # default brightness

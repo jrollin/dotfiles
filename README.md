@@ -56,6 +56,15 @@ fc-cache -fv
 
 ## tmux
 
+Install tpm 
+
+```Bash
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+```
+
+Dans tmux,  `ctrl-A +  I` pour installer les plugins  
+
+
 check colors with this script 
 
 ```Bash
@@ -63,7 +72,17 @@ curl -s https://raw.githubusercontent.com/JohnMorales/dotfiles/master/colors/24-
 ```
 
 
+
+
 ## console setup
+
+Zsh as defaut 
+
+```Bash
+chsh -s /bin/zsh
+sudo chsh -s /bin/zsh
+```
+
 
 If not alacritty as default term 
 
@@ -110,4 +129,9 @@ display all non ASCII symbols (digraph)
 
 Usage:  `<C-K> code`
 
+## Xserver
+
+DPi adjust with `.Xresources`  
+
+https://wiki.archlinux.org/title/HiDPI#X_Server
 
