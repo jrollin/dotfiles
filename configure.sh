@@ -5,6 +5,14 @@ install_neovim() {
   && ln -s $(pwd)/nvim ~/.config/nvim 
 }
 
+install_window() {
+    echo "installing_window.." \
+        && rm -rf ~/.config/gtk-3.0 \
+        && ln -s $(pwd)/gtk-3 ~/.config/gtk-3.0
+}
+
+
+
 install_i3() {
     echo "installing_i3.." \
         && rm -rf ~/.config/i3 \
@@ -91,6 +99,7 @@ if [[ -z $1 ]]; then
   if echo "$answer" | grep -iq "^y" ;then
     echo "Installing dependencies..." \
     install_neovim \
+    && install_window \
     && install_i3 \
     && install_i3_wallpaper\
     && install_i3menu \

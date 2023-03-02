@@ -14,7 +14,7 @@ set $mod Mod4
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
 # font pango:monospace 10
-font pango: JetBrainsMono Nerd Font 10 
+font pango: JetBrainsMono Nerd Font 11 
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
@@ -120,8 +120,6 @@ bindsym $mod+Shift+agrave move container to workspace 10
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
-# polybar status
-exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -165,6 +163,11 @@ set $firstMonitor eDP1
 set $secondMonitor DP2
 set $projector VGA1
 
+# workaround .Xresources
+# exec xrandr --output $firstMonitor --dpi 166 --scale 1
+
+# polybar status
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 # add network manager in bar
 # exec --no-startup-id nm-applet
 # volume systray
@@ -172,9 +175,14 @@ set $projector VGA1
 # bluetooth systray
 # exec --no-startup-id /usr/bin/blueman-applet
 # default brightness
-exec exec xbacklight -set 1
+# exec --no-startup-id xbacklight -set 1
 # background
-exec --no-startup-id feh --bg-fill ~/.config/pictures/blade-runner.jpg
+# exec_always --no-startup-id feh --bg-fill ~/.config/pictures/blade-runner.jpg
+# power mgmt
+# exec_always --no-startup-id xfce4-power-manager
+# exec xfce4-power-manager-settings
+
+exec ~/.config/i3/startup.sh
 
 workspace 1 output $firstMonitor
 workspace 2 output $secondMonitor

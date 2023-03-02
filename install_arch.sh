@@ -13,9 +13,6 @@ pacman -S \
   xdg-utils \
   cmake
 
-
-  
-
 # i3 
 pacman -S \
   polybar \
@@ -23,7 +20,12 @@ pacman -S \
   alacritty \
   flameshot \
   feh \
-  xorg-xbacklight
+  xorg-xbacklight \
+  i3lock
+
+#xorg intel
+## Install Intel graphic drivers
+pacman -S xf86-video-intel
 
 # vim
 pacman -S \
