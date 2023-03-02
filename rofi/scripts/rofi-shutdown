@@ -1,6 +1,6 @@
 #!/usr/bin/sh
 selection=$( \
-	echo "Lock\nLogout\nSuspend\nHibernate\nReboot\nShutdown" |\
+	echo "Lock|Logout|Suspend|Hibernate|Reboot|Shutdown" |  rofi -sep '|'  \
 	rofi -dmenu -i -p 'Option');
 echo $selection;
 
