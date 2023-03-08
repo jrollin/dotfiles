@@ -1,0 +1,23 @@
+#!/usr/bin/sh
+selection=$( \
+    echo "wifi-on|wifi-off|network-on|network-off" |  rofi -sep '|'  \
+	rofi -dmenu -i -p 'Option');
+echo $selection;
+
+sleep .2
+
+case $selection in
+	wifi-on)
+        nmcli radio wifi on
+		;;
+	wifi-off)
+        nmcli radio wifi off
+		;;
+	network-on)
+        nmcli networking on
+		;;
+	network-off)
+        nmcli networking off
+		;;
+esac
+

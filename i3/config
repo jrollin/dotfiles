@@ -182,7 +182,7 @@ exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 # exec_always --no-startup-id xfce4-power-manager
 # exec xfce4-power-manager-settings
 
-exec ~/.config/i3/startup.sh
+exec ~/.config/i3/startup.sh 1 &>> /tmp/i3_startup
 
 workspace 1 output $firstMonitor
 workspace 2 output $secondMonitor
@@ -202,9 +202,12 @@ bindsym XF86AudioRaiseVolume exec $psst pactl set-sink-volume @DEFAULT_SINK@ +5%
 bindsym XF86AudioLowerVolume exec $psst pactl set-sink-volume @DEFAULT_SINK@ -5% && pactl set-sink-mute @DEFAULT_SINK@ 0 $update && amixer -q set Master 2dB- unmute
 bindsym XF86AudioMute exec $psst pactl set-sink-mute @DEFAULT_SINK@ toggle $update && amixer -q set Master toggle $update
 
-
+# session exit / suspend 
 bindsym $mod+Escape exec --no-startup-id ~/.config/rofi/scripts/rofi-shutdown
 bindsym XF86PowerOff exec --no-startup-id ~/.config/rofi/scripts/rofi-shutdown
+
+# networking / wifi 
+bindsym $mod+n exec --no-startup-id ~/.config/rofi/scripts/rofi-wifi
 
 # screen with flameshot
 bindsym Print       exec flameshot full

@@ -17,7 +17,7 @@ case $selection in
         systemctl suspend
 		;;
 	Hibernate)
-        systemctl Hibernate
+        systemctl hibernate
 		;;
 	Reboot)
         systemctl reboot
