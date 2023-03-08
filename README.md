@@ -1,6 +1,6 @@
 # Dotfiles
 
-My config for Ubuntu 22.04
+My config 
 
 * nvim 
 * i3 / demnu / polybar / rofi
@@ -15,7 +15,7 @@ My config for Ubuntu 22.04
 I3wm
 
 ```
-sudo apt install i3
+sudo pacman -S i3-wm
 ```
 
 Configure touchpad and brightness touch for lib xorg
@@ -56,13 +56,13 @@ xset q
 Os packages (tmux, rust, etc)
 
 ```
-./packages.sh
+./install_arch.sh
 ```
 
 Configure tools with my config and make symlinks 
 
 ```
-./install.sh
+./configure.sh
 ```
 
 ## fonts
@@ -103,20 +103,6 @@ chsh -s /bin/zsh
 sudo chsh -s /bin/zsh
 ```
 
-
-If not alacritty as default term 
-
-```Bash
-sudo dpkg-reconfigure console-setup
-```
-=> choose Terminus
-
-
-## Alacritty as defaut
-
-```
-sudo update-alternatives --config x-terminal-emulator
-```
 
 ## Neovim 
 
@@ -165,11 +151,3 @@ screen #0:
 [more info about dpi](https://linuxreviews.org/HOWTO_set_DPI_in_Xorg)
 
 
-With lightdm
-
-```Bash
- /etc/lightdm/lightdm.conf.d/dpi.conf
-
-[SeatDefaults]
-xserver-command=X -dpi 141
-```
