@@ -1,2 +1,7 @@
-Xft.dpi: 96
-Xft.antialias: true
+!-- Xft settings -- !
+Xft.antialias:	1
+Xft.hintstyle:	hintfull
+Xft.rgba:	none
+Xft.dpi:	166
+Xcursor.theme:	xcursor-breeze
+
