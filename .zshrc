@@ -121,7 +121,7 @@ alias vim="nvim"
 alias vi="nvim"
 alias oldvim="vim"
 alias python="python3"
-alias jr="cd $PROJECT_DIR/github/julienrollin/"
+alias jr="cd $PROJECT_DIR/julienrollin/"
 # create or attach:  ts myapp
 alias tm="$DOTFILE_DIR/tm.sh"
 
