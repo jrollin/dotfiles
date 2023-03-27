@@ -53,8 +53,16 @@ do
         if [ $entry_a != $entry_b ]
         then
             TILES[$index]="Dual Screen ${MONITORS[$entry_a]} -> ${MONITORS[$entry_b]}"
-            COMMANDS[$index]="xrandr --output ${MONITORS[$entry_a]} --auto \
-                              --output ${MONITORS[$entry_b]} --auto --left-of ${MONITORS[$entry_a]}"
+            COMMANDS[$index]="xrandr --output ${MONITORS[$entry_a]} --scale 1 --auto \
+                              --output ${MONITORS[$entry_b]} --scale 1 --auto --left-of ${MONITORS[$entry_a]}"
+
+            index+=1
+
+            # manage scale (TODO: refacto)
+            SCALE=1.5
+            TILES[$index]="Dual Screen ${MONITORS[$entry_a]} x${SCALE} -> ${MONITORS[$entry_b]}"
+            COMMANDS[$index]="xrandr --output ${MONITORS[$entry_a]} --scale ${SCALE} --auto \
+                              --output ${MONITORS[$entry_b]} --scale 1 --auto --left-of ${MONITORS[$entry_a]}"
 
             index+=1
         fi

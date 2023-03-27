@@ -2,42 +2,35 @@
 
 install_neovim() {
   echo "Setting up neovim..." \
-  && rm -rf $HOME/.config/nvim $HOME/.fzf \
-  && ln -s $(pwd)/nvim $HOME/.config/nvim 
+  && rm -rf $XDG_CONFIG_HOME/nvim $HOME/.fzf \
+  && ln -s $(pwd)/nvim $XDG_CONFIG_HOME/nvim 
 }
-
-install_window() {
-    echo "installing_window.." \
-        && rm -rf $HOME/.config/gtk-3.0 \
-        && ln -s $(pwd)/gtk-3 $HOME/.config/gtk-3.0
-}
-
 
 install_i3() {
     echo "installing_i3.." \
-        && rm -rf $HOME/.config/i3 \
-        && ln -s $(pwd)/i3 $HOME/.config/i3  
+        && rm -rf $XDG_CONFIG_HOME/i3 \
+        && ln -s $(pwd)/i3 $XDG_CONFIG_HOME/i3  
 }
 
 install_i3_wallpaper() {
     echo "installing_i3wallper.." \
-        && rm -rf $HOME/.config/pictures \
-        && ln -s $(pwd)/pictures $HOME/.config/pictures  
+        && rm -rf $XDG_CONFIG_HOME/pictures \
+        && ln -s $(pwd)/pictures $XDG_CONFIG_HOME/pictures  
 }
 
 install_i3menu() {
     echo "installing_i3menu.." \
-        && rm -rf $HOME/.config/rofi \
-        && ln -s $(pwd)/rofi $HOME/.config/rofi  
+        && rm -rf $XDG_CONFIG_HOME/rofi \
+        && ln -s $(pwd)/rofi $XDG_CONFIG_HOME/rofi  
     echo "installing_polybar.." \
-        && rm -rf $HOME/.config/polybar \
-        && ln -s $(pwd)/polybar $HOME/.config/polybar  
+        && rm -rf $XDG_CONFIG_HOME/polybar \
+        && ln -s $(pwd)/polybar $XDG_CONFIG_HOME/polybar  
 }
 
 install_monitor() {
     echo "installing_monitor.." \
-        && rm -rf $HOME/.config/monitor_layout.sh \
-        && ln -s $(pwd)/monitor_layout.sh $HOME/.config/monitor_layout.sh
+        && rm -rf $XDG_CONFIG_HOME/monitor_layout.sh \
+        && ln -s $(pwd)/monitor_layout.sh $XDG_CONFIG_HOME/monitor_layout.sh
 }
 
 install_tmux() {
@@ -48,8 +41,8 @@ install_tmux() {
         && rm -rf $HOME/.tmux \
         && ln -s $(pwd)/tmux $HOME/.tmux
     echo "installing zellij" \
-        && rm -rf $HOME/.config/zellij \
-        && ln -s $(pwd)/zellij $HOME/.config/zellij
+        && rm -rf $XDG_CONFIG_HOME/zellij \
+        && ln -s $(pwd)/zellij $XDG_CONFIG_HOME/zellij
  }
 
 install_zsh() {
@@ -59,29 +52,29 @@ install_zsh() {
         && mkdir -p "$HOME/.cache/zsh"
 
     echo "Installing zsh theme..." \
-        && rm -rf $HOME/.config/dracula.zsh-theme \
-        && git clone https://github.com/dracula/zsh.git $HOME/.config/dracula.zsh-theme \
+        && rm -rf $XDG_CONFIG_HOME/dracula.zsh-theme \
+        && git clone https://github.com/dracula/zsh.git $XDG_CONFIG_HOME/dracula.zsh-theme \
         && rm -f $HOME/.oh-my-zsh/themes/dracula.zsh-theme \
-        && ln -s $HOME/.config/dracula.zsh-theme/dracula.zsh-theme  $HOME/.oh-my-zsh/themes/dracula.zsh-theme
+        && ln -s $XDG_CONFIG_HOME/dracula.zsh-theme/dracula.zsh-theme  $HOME/.oh-my-zsh/themes/dracula.zsh-theme
 }
 
 install_term() {
     echo "installing term" \
-        && rm -rf $HOME/.config/alacritty \
-        && ln -s $(pwd)/alacritty $HOME/.config/alacritty 
+        && rm -rf $XDG_CONFIG_HOME/alacritty \
+        && ln -s $(pwd)/alacritty $XDG_CONFIG_HOME/alacritty 
 
     cargo install alacritty 
     
     echo "installing starship" \
-        && rm -rf $HOME/.config/starship.toml \
-        && ln -s $(pwd)/starship.toml $HOME/.config/starship.toml
+        && rm -rf $XDG_CONFIG_HOME/starship.toml \
+        && ln -s $(pwd)/starship.toml $XDG_CONFIG_HOME/starship.toml
 
     cargo install starship --locked
 }
 
 install_ts() {
     echo "Installing ts..." \
-        && npm install -g typescript typescript-language-server prettier 
+        && npm install -g typescript prettier neovim
 }
 
 install_asdf(){
@@ -99,7 +92,6 @@ if [[ -z $1 ]]; then
   if echo "$answer" | grep -iq "^y" ;then
     echo "Installing dependencies..." \
     install_neovim \
-    && install_window \
     && install_i3 \
     && install_i3_wallpaper\
     && install_i3menu \

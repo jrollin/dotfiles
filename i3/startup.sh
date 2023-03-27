@@ -7,6 +7,5 @@ xbacklight -set 1
 feh --bg-fill ~/.config/pictures/blade-runner.jpg
 
 ## DPMS monitor setting (standby -> suspend -> off) (seconds)
-xset dpms 300 600 900 &
+xset dpms 300 600 900 
 
-# xrandr --dpi 192

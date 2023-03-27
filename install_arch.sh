@@ -1,7 +1,7 @@
 #/bin/sh
 
 # base
-pacman -S \ 
+pacman -S \
   git \
   unzip \
   curl \
@@ -22,6 +22,13 @@ pacman -S \
   feh \
   xorg-xbacklight \
   i3lock
+
+# utils
+pacman -S \
+    tldr \
+    htop \
+    imagemagick \
+    jq
 
 #xorg intel
 ## Install Intel graphic drivers
