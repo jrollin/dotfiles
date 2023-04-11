@@ -74,6 +74,17 @@ cp fonts/JetBrainsMonoNerd/*.ttf ~/.local/share/fonts/
 fc-cache -fv
 ```
 
+> requires a noto font with emoji (on arch : `noto-fonts-emoji`)
+
+Check if font is ok 
+
+```bash
+echo -e "\xf0\x9f\x90\x8d"
+echo -e "\xee\x82\xa0"
+```
+
+you should see snake icon and branch icon
+
 ## tmux
 
 Install tpm 
