@@ -20,21 +20,6 @@ setup_auto_format("tsx")
 setup_auto_format("ts")
 setup_auto_format("elm")
 
--- inject LSP diagnostics, code actions, and more via Lua.
-if not pcall(require, "null-ls") then
-    return
-end
-local null_ls = require("null-ls")
-null_ls.setup({
-    sources = {
-        null_ls.builtins.formatting.stylua,
-        null_ls.builtins.formatting.elm_format,
-        null_ls.builtins.formatting.prettier,
-        null_ls.builtins.diagnostics.eslint,
-        null_ls.builtins.completion.luasnip,
-    },
-})
-
 -- Enable diagnostics
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
     virtual_text = true,

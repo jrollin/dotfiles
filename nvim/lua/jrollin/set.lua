@@ -38,8 +38,8 @@ vim.opt.laststatus = 2
 -- Show last command in the status line.
 vim.opt.showcmd = true
 
-vim.opt.updatetime = 300 --Faster completion
-vim.opt.timeoutlen = 400 --By default timeoutlen is 1000 ms
+vim.opt.updatetime = 300          --Faster completion
+vim.opt.timeoutlen = 400          --By default timeoutlen is 1000 ms
 
 vim.opt.clipboard = "unnamedplus" --Copy paste between vim and everything else
 

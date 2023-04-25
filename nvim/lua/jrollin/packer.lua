@@ -15,18 +15,18 @@ return require("packer").startup(function(use)
     -- Packer can manage itself
     use("wbthomason/packer.nvim")
     -- file explorer
-    use("kyazdani42/nvim-tree.lua")
+    use("nvim-tree/nvim-tree.lua")
     --  color ui
     use("gruvbox-community/gruvbox")
     use("folke/lsp-colors.nvim")
     use("norcalli/nvim-colorizer.lua")
 
     -- dev icon
-    use("kyazdani42/nvim-web-devicons")
+    use("nvim-tree/nvim-web-devicons")
     -- status line
     use({
         "nvim-lualine/lualine.nvim",
-        requires = { "kyazdani42/nvim-web-devicons", opt = true },
+        requires = { "nvim-tree/nvim-web-devicons", opt = true },
     })
     use({
         "arkav/lualine-lsp-progress",
@@ -41,6 +41,18 @@ return require("packer").startup(function(use)
             "williamboman/mason.nvim",
             "williamboman/mason-lspconfig.nvim",
         },
+    })
+    -- diagnostic
+    use({
+        "folke/trouble.nvim",
+        requires = "nvim-tree/nvim-web-devicons",
+        config = function()
+            require("trouble").setup({
+                -- your configuration comes here
+                -- or leave it empty to use the default settings
+                -- refer to the configuration section below
+            })
+        end,
     })
     -- autocomplete and snippets
     use({
@@ -86,8 +98,8 @@ return require("packer").startup(function(use)
     })
     -- idk
     use("jose-elias-alvarez/null-ls.nvim")
+    use("MunifTanjim/prettier.nvim")
     -- format code
-    -- use("tpope/vim-surround")
     use({
         "kylechui/nvim-surround",
         tag = "*", -- Use for stability; omit to use `main` branch for the latest features
@@ -139,7 +151,9 @@ return require("packer").startup(function(use)
             vim.fn["mkdp#util#install"]()
         end,
     })
-
+    -- global mark
+    use("ThePrimeagen/harpoon")
+    use("chentoast/marks.nvim")
     -- Debugging (needs plenary from above as well)
     use("mfussenegger/nvim-dap")
     use("rcarriga/nvim-dap-ui")

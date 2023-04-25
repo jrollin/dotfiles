@@ -20,6 +20,14 @@ vim.keymap.set("n", "<leader>Y", '"+Y')
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
 
+-- disable annoying pageDown/pageUp tiny key on laptop
+vim.keymap.set("n", "<PageUp>", "<nop>")
+vim.keymap.set("n", "<PageDown>", "<nop>")
+vim.keymap.set("v", "<PageUp>", "<nop>")
+vim.keymap.set("v", "<PageUp>", "<nop>")
+vim.keymap.set("i", "<PageDown>", "<nop>")
+vim.keymap.set("i", "<PageDown>", "<nop>")
+
 -- Nvim tree
 vim.keymap.set("n", "<C-n>", ":NvimTreeToggle<CR>")
 vim.keymap.set("n", "<C-f>", ":NvimTreeFindFile<CR>")
@@ -36,9 +44,10 @@ vim.keymap.set("n", "<esc>", ":noh<return><esc>")
 vim.keymap.set("i", "jk", "<esc>")
 
 -- TAB in normal mode will move to text buffer
-vim.keymap.set("n", "<Tab>", ":bnext<CR>")
+-- vim.keymap.set("n", "<Tab>", ":bnext<CR>")
 -- SHIFT-TAB will go back
-vim.keymap.set("n", "<S-Tab>", ":bprevious<CR>")
+-- vim.keymap.set("n", "<S-Tab>", ":bprevious<CR>")
+
 -- close buffer
 vim.keymap.set("n", "<C-x>", ":bd!<CR>")
 
@@ -67,14 +76,20 @@ vim.keymap.set("n", "<leader>sc", require("jrollin.telescope").search_config, { 
 vim.keymap.set("n", "<Leader>sg", require("jrollin.telescope").search_git, { desc = "[S]earch [G]it" })
 vim.keymap.set("n", "<Leader>sf", require("jrollin.telescope").search_files, { desc = "[S]earch [F]iles" })
 
--- vim.keymap.set('n', '<leader>sf', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
 vim.keymap.set("n", "<leader>sh", require("telescope.builtin").help_tags, { desc = "[S]earch [H]elp" })
 vim.keymap.set("n", "<leader>sw", require("telescope.builtin").grep_string, { desc = "[S]earch current [W]ord" })
 vim.keymap.set("n", "<leader>sr", require("telescope.builtin").live_grep, { desc = "[S]earch by G[r]ep" })
-vim.keymap.set("n", "<leader>sd", require("telescope.builtin").diagnostics, { desc = "[S]earch [D]iagnostics" })
 vim.keymap.set("n", "<leader>sb", require("telescope.builtin").buffers, { desc = "[S]earch [B]uffers" })
 
+-- harpoon marks nav
+vim.keymap.set("n", "<leader>sm", "<Cmd>:Telescope harpoon marks<CR>", { desc = "[S]earch [H]arpoon" })
+vim.keymap.set("n", "<Tab>", require("harpoon.ui").nav_next)
+vim.keymap.set("n", "<S-Tab>", require("harpoon.ui").nav_prev)
+vim.keymap.set("n", "<C-m>", "<Cmd>lua require('harpoon.mark').add_file()<CR>")
+
 -- diagnostics
+-- vim.keymap.set("n", "<leader>sd", require("telescope.builtin").diagnostics, { desc = "[S]earch [D]iagnostics" })
+vim.keymap.set("n", "<leader>sd", "<Cmd>:TroubleToggle<CR>", { desc = "[S]earch [D]iagnostics" })
 vim.keymap.set("n", "<leader>dp", vim.diagnostic.goto_prev, { desc = "[D]iagnostic [P]revious" })
 vim.keymap.set("n", "<leader>dn", vim.diagnostic.goto_next, { desc = "[D]iagnostic [N]ext" })
 
