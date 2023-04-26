@@ -1,16 +1,15 @@
 # Dotfiles
 
-My config 
+My config
 
-* nvim 
-* i3 / demnu / polybar / rofi
-* tmux 
-* zsh / alacritty / starship
-* fonts Nerd with icons
-* arch / lightdm
+- nvim
+- i3 / demnu / polybar / rofi
+- tmux
+- zsh / alacritty / starship
+- fonts Nerd with icons
+- arch / lightdm
 
-## Requirements 
-
+## Requirements
 
 I3wm
 
@@ -22,8 +21,7 @@ Configure touchpad and brightness touch for lib xorg
 
 [My Dell xorg gist](https://gist.github.com/jrollin/1208610469474c4315a1f9d6c3e1da8c)
 
-
-## Get infos 
+## Get infos
 
 get infos about machine setup with [neofetch](https://github.com/dylanaraps/neofetch)
 
@@ -45,13 +43,13 @@ Machine:
   Type: Laptop System: Dell product: XPS 13 9305 v: N/A
 ```
 
-X config 
+X config
 
 ```Bash
 xset q
 ```
 
-## Install 
+## Install
 
 Os packages (tmux, rust, etc)
 
@@ -59,7 +57,7 @@ Os packages (tmux, rust, etc)
 ./install_arch.sh
 ```
 
-Configure tools with my config and make symlinks 
+Configure tools with my config and make symlinks
 
 ```
 ./configure.sh
@@ -67,16 +65,15 @@ Configure tools with my config and make symlinks
 
 ## fonts
 
-
 ```Bash
 mkdir -p ~/.local/share/fonts
-cp fonts/JetBrainsMonoNerd/*.ttf ~/.local/share/fonts/ 
+cp fonts/JetBrainsMonoNerd/*.ttf ~/.local/share/fonts/
 fc-cache -fv
 ```
 
 > requires a noto font with emoji (on arch : `noto-fonts-emoji`)
 
-Check if font is ok 
+Check if font is ok
 
 ```bash
 echo -e "\xf0\x9f\x90\x8d"
@@ -87,52 +84,38 @@ you should see snake icon and branch icon
 
 ## tmux
 
-Install tpm 
+Install tpm
 
 ```Bash
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 ```
 
-Dans tmux,  `ctrl-A +  I` pour installer les plugins  
+Dans tmux, `ctrl-A +  I` pour installer les plugins
 
-
-check colors with this script 
+check colors with this script
 
 ```Bash
 curl -s https://raw.githubusercontent.com/JohnMorales/dotfiles/master/colors/24-bit-color.sh | bash
 ```
 
-
-
-
 ## console setup
 
-Zsh as defaut 
+Zsh as defaut
 
 ```Bash
 chsh -s /bin/zsh
 sudo chsh -s /bin/zsh
 ```
 
-
-## Neovim 
+## Neovim
 
 ### Requirements
 
-Install packer
-
-```Bash
- git clone --depth 1 https://github.com/wbthomason/packer.nvim\
- ~/.local/share/nvim/site/pack/packer/start/packer.nvim
-
-```
-
-in Neovim
+in Neovim on new machine
 
 ```vim
-:PackerSync
+:Lazy restore
 ```
-
 
 ### Digraph
 
@@ -142,14 +125,13 @@ display all non ASCII symbols (digraph)
 :digraphs
 ```
 
-Usage:  `<C-K> code`
+Usage: `<C-K> code`
 
 ## Xserver
 
-DPi adjust with `.Xresources`  
+DPi adjust with `.Xresources`
 
 https://wiki.archlinux.org/title/HiDPI#X_Server
-
 
 ```Bash
 xdpyinfo | grep -B 2 resolution
@@ -160,5 +142,3 @@ screen #0:
 ```
 
 [more info about dpi](https://linuxreviews.org/HOWTO_set_DPI_in_Xorg)
-
-

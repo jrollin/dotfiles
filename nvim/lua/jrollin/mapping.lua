@@ -81,12 +81,6 @@ vim.keymap.set("n", "<leader>sw", require("telescope.builtin").grep_string, { de
 vim.keymap.set("n", "<leader>sr", require("telescope.builtin").live_grep, { desc = "[S]earch by G[r]ep" })
 vim.keymap.set("n", "<leader>sb", require("telescope.builtin").buffers, { desc = "[S]earch [B]uffers" })
 
--- harpoon marks nav
-vim.keymap.set("n", "<leader>sm", "<Cmd>:Telescope harpoon marks<CR>", { desc = "[S]earch [H]arpoon" })
-vim.keymap.set("n", "<Tab>", require("harpoon.ui").nav_next)
-vim.keymap.set("n", "<S-Tab>", require("harpoon.ui").nav_prev)
-vim.keymap.set("n", "<C-m>", "<Cmd>lua require('harpoon.mark').add_file()<CR>")
-
 -- diagnostics
 -- vim.keymap.set("n", "<leader>sd", require("telescope.builtin").diagnostics, { desc = "[S]earch [D]iagnostics" })
 vim.keymap.set("n", "<leader>sd", "<Cmd>:TroubleToggle<CR>", { desc = "[S]earch [D]iagnostics" })
