@@ -34,15 +34,9 @@ install_monitor() {
 }
 
 install_tmux() {
-    echo "installing tmux conf" \
-        && rm -f $HOME/.tmux.conf \
-        && ln -s $(pwd)/.tmux.conf $HOME/.tmux.conf 
     echo "installing tmux tpm" \
-        && rm -rf $HOME/.tmux \
-        && ln -s $(pwd)/tmux $HOME/.tmux
-    echo "installing zellij" \
-        && rm -rf $XDG_CONFIG_HOME/zellij \
-        && ln -s $(pwd)/zellij $XDG_CONFIG_HOME/zellij
+        && rm -rf $XDG_CONFIG_HOME/tmux \
+        && ln -s $(pwd)/tmux $XDG_CONFIG_HOME/tmux
  }
 
 install_zsh() {
