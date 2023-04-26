@@ -30,8 +30,10 @@ font pango: JetBrainsMono Nerd Font 11
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
+set $term alacritty
+
 # start a terminal
-bindsym $mod+Return exec alacritty
+bindsym $mod+Return exec $term
 
 # kill focused window
 bindsym $mod+Shift+A kill
