@@ -20,10 +20,11 @@ require("lazy").setup({
     "norcalli/nvim-colorizer.lua",
 
     -- dev icon
-    "nvim-tree/nvim-web-devicons",
+    { "nvim-tree/nvim-web-devicons", lazy = true },
     -- status line
     {
         "nvim-lualine/lualine.nvim",
+        event = "VeryLazy",
         dependencies = { "nvim-tree/nvim-web-devicons" },
     },
     {
@@ -63,7 +64,6 @@ require("lazy").setup({
             "onsails/lspkind-nvim",
         },
     },
-
     "stevearc/aerial.nvim",
     -- UI stuff (mainly used for lsp overrides)
     "RishabhRD/popfix",
@@ -109,7 +109,7 @@ require("lazy").setup({
         dependencies = { "nvim-telescope/telescope.nvim" },
     },
     -- git
-    { "lewis6991/gitsigns.nvim", dependencies = { "nvim-lua/plenary.nvim" } },
+    { "lewis6991/gitsigns.nvim",     dependencies = { "nvim-lua/plenary.nvim" } },
     "tpope/vim-fugitive",
     -- lang
     -- rust
