@@ -44,9 +44,8 @@ vim.keymap.set("n", "<esc>", ":noh<return><esc>")
 vim.keymap.set("i", "jk", "<esc>")
 
 -- TAB in normal mode will move to text buffer
--- vim.keymap.set("n", "<Tab>", ":bnext<CR>")
--- SHIFT-TAB will go back
--- vim.keymap.set("n", "<S-Tab>", ":bprevious<CR>")
+vim.keymap.set("n", "<S-Tab>", "<cmd>bprevious<cr>", { desc = "Prev buffer" })
+vim.keymap.set("n", "<Tab>", "<cmd>bnext<cr>", { desc = "Next buffer" })
 
 -- close buffer
 vim.keymap.set("n", "<C-x>", ":bd!<CR>")
@@ -79,7 +78,8 @@ vim.keymap.set("n", "<Leader>sf", require("jrollin.telescope").search_files, { d
 vim.keymap.set("n", "<leader>sh", require("telescope.builtin").help_tags, { desc = "[S]earch [H]elp" })
 vim.keymap.set("n", "<leader>sw", require("telescope.builtin").grep_string, { desc = "[S]earch current [W]ord" })
 vim.keymap.set("n", "<leader>sr", require("telescope.builtin").live_grep, { desc = "[S]earch by G[r]ep" })
-vim.keymap.set("n", "<leader>sb", require("telescope.builtin").buffers, { desc = "[S]earch [B]uffers" })
+
+vim.keymap.set("n", "<leader>b", require("telescope.builtin").buffers, { desc = "[S]earch [B]uffers" })
 
 -- diagnostics
 -- vim.keymap.set("n", "<leader>sd", require("telescope.builtin").diagnostics, { desc = "[S]earch [D]iagnostics" })
