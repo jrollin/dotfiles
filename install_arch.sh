@@ -17,11 +17,15 @@ pacman -S \
 pacman -S \
   polybar \
   rofi \
-  alacritty \
   flameshot \
   feh \
   xorg-xbacklight \
   i3lock
+
+# term / shell
+pacman -S \
+  alacritty \
+  starship 
 
 # utils
 pacman -S \

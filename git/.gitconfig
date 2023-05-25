@@ -1,0 +1,7 @@
+[user]
+	email = 1086565+jrollin@users.noreply.github.com
+	name = jrollin
+[core]
+	editor = nvim
+[init]
+	defaultBranch = main

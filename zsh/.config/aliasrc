@@ -1,0 +1,14 @@
+
+# use nvim
+alias vim="nvim"
+alias vi="nvim"
+alias oldvim="vim"
+alias python="python3"
+
+alias kubectl="minikube kubectl --"
+alias k="kubectl"
+
+alias jr="cd $PROJECT_DIR/julienrollin/"
+# create or attach:  ts myapp
+# alias tm="$DOTFILE_DIR/tm.sh"
+
