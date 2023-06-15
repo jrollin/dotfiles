@@ -26,6 +26,8 @@ source "$HOME/.config/zsh/aliasrc"
 source "$HOME/.oh-my-zsh/oh-my-zsh.sh"
 
 . "$HOME/.asdf/asdf.sh"
+# set GO_ROOT env
+. ~/.asdf/plugins/golang/set-env.zsh
 #
 # starship
 eval "$(starship init zsh)"
