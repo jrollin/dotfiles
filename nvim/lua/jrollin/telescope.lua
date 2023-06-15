@@ -20,11 +20,11 @@ M.search_config = function()
 end
 
 M.search_files = function()
-    local project_root = require("nvim-rooter").get_root()
+    -- local project_root = require("nvim-rooter").get_root()
     require("telescope.builtin").find_files({
         prompt_title = "< files >",
         file_ignore_patterns = { "%.ttf", "%.min.js", "%.min.css" },
-        cwd = project_root,
+        -- cwd = project_root,
     })
 end
 

@@ -2,7 +2,7 @@ if not pcall(require, "aerial") then
     return
 end
 require("aerial").setup({
-    -- optionally use on_attach to set keymaps when aerial has attached to a buffer
+    -- optionally use on_attach to set kqymaps when aerial has attached to a buffer
     on_attach = function(bufnr)
         -- Jump forwards/backwards with '{' and '}'
         vim.keymap.set("n", "{", "<cmd>AerialPrev<CR>", { buffer = bufnr })
@@ -10,4 +10,4 @@ require("aerial").setup({
     end,
 })
 -- You probably also want to set a keymap to toggle aerial
-vim.keymap.set("n", "<leader>s", "<cmd>AerialToggle!<CR>")
+-- vim.keymap.set("n", "<leader>s", "<cmd>AerialToggle!<CR>")

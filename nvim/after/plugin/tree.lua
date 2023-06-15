@@ -2,7 +2,8 @@ if not pcall(require, "nvim-tree") then
     return
 end
 
-require("nvim-tree").setup({})
+local opts = {}
+require("nvim-tree").setup(opts)
 
 local function open_nvim_tree()
     -- open the tree

@@ -12,7 +12,6 @@ local function setup_auto_format(ft, command)
     vim.cmd(string.format("autocmd BufWritePre *.%s %s", ft, command))
 end
 
-setup_auto_format("lua")
 setup_auto_format("rs")
 setup_auto_format("js")
 setup_auto_format("css")
@@ -55,8 +54,8 @@ local on_attach = function(client, bufnr)
     nmap("gd", vim.lsp.buf.definition, "[G]oto [D]efinition")
     nmap("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
     nmap("gi", vim.lsp.buf.implementation, "[G]oto [I]mplementation")
-    nmap("<leader>D", vim.lsp.buf.type_definition, "Type [D]efinition")
-    nmap("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
+    nmap("<leader>td", vim.lsp.buf.type_definition, "[T]ype [D]efinition")
+    nmap("<leader>s", require("telescope.builtin").lsp_document_symbols, "Document [S]ymbols")
     nmap("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
 
     -- See `:help K` for why this keymap
@@ -68,13 +67,13 @@ local on_attach = function(client, bufnr)
     nmap("<leader>a", vim.lsp.buf.code_action, "[A]ction")
     vmap("<leader>a", vim.lsp.buf.range_code_action, "Range [A]ction")
 
-    nmap("<leader>cl", vim.lsp.codelens.run, "[C]ode [L]ens ")
-    nmap("<leader>cr", vim.lsp.codelens.refresh, "[C]ode Lens [R]efresh")
+    nmap("<leader>ll", vim.lsp.codelens.run, "Code [L]ens ")
+    nmap("<leader>lr", vim.lsp.codelens.refresh, "Code [L]ens [R]efresh")
     --
     -- Lsp rust actions
-    nmap("<leader>rr", "<cmd>RustRunnables<CR>", "[R]ust [R]unnables")
-    nmap("<leader>rd", "<cmd>RustDebuggables<CR>", "[R]ust [D]ebuggables")
-    nmap("<leader>rh", "<cmd>RustHoverActions<CR>", "[R]ust [H]over Actions")
+    -- nmap("<leader>R", "<cmd>RustRunnables<CR>", "[R]ust [R]unnables")
+    -- nmap("<leader>rd", "<cmd>RustDebuggables<CR>", "[R]ust [D]ebuggables")
+    -- nmap("<leader>rh", "<cmd>RustHoverActions<CR>", "[R]ust [H]over Actions")
 
     -- Create a command `:Format` local to the LSP buffer
     vim.api.nvim_buf_create_user_command(bufnr, "Format", function(_)
