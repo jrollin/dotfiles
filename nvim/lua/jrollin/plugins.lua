@@ -12,13 +12,6 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-    -- set root dir even if not git
-    -- {
-    --     "notjedi/nvim-rooter.lua",
-    --     config = function()
-    --         require("nvim-rooter").setup({ rooter_patterns = { ".git", "package.json", "cargo.toml", "Makefile" } })
-    --     end,
-    -- },
     -- file explorer
     "nvim-tree/nvim-tree.lua",
     --  color ui
@@ -118,6 +111,8 @@ require("lazy").setup({
     -- git
     { "lewis6991/gitsigns.nvim",     dependencies = { "nvim-lua/plenary.nvim" } },
     "tpope/vim-fugitive",
+    -- buffers
+    { "ojroques/nvim-bufdel" },
     -- lang
     -- rust
     "simrat39/rust-tools.nvim",

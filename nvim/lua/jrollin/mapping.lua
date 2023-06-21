@@ -65,7 +65,7 @@ vim.keymap.set("v", ">", ">gv")
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
--- Better window navigation
+-- Better window navigation()
 -- vim.keymap.set("n", "<C-h>", "<C-w>h")
 -- vim.keymap.set("n", "<C-j>", "<C-w>j")
 -- vim.keymap.set("n", "<C-k>", "<C-w>k")
@@ -88,7 +88,8 @@ vim.keymap.set("n", "<leader>sh", require("telescope.builtin").help_tags, { desc
 vim.keymap.set("n", "<leader>sw", require("telescope.builtin").grep_string, { desc = "[S]earch current [W]ord" })
 vim.keymap.set("n", "<leader>sr", require("telescope.builtin").live_grep, { desc = "[S]earch by G[r]ep" })
 
-vim.keymap.set("n", "<leader>b", require("telescope.builtin").buffers, { desc = "[S]earch [B]uffers" })
+vim.keymap.set("n", "<leader>b", require("jrollin.telescope").list_buffers, { desc = "[S]earch [B]uffers" })
+vim.keymap.set("n", "<leader>cb", "<cmd>BufDelOthers<CR>", { desc = "[C]clean [B]uffers" })
 vim.keymap.set("n", "<leader>sq", require("telescope.builtin").quickfix, { desc = "[S]earch [q]uicklist" })
 vim.keymap.set("n", "<leader>sl", require("telescope.builtin").loclist, { desc = "[S]earch [l]oclist" })
 

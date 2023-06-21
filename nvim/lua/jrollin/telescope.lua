@@ -3,6 +3,7 @@ if not pcall(require, "telescope") then
 end
 -- custom search
 local actions = require("telescope.actions")
+local utils = require("telescope.utils")
 
 local M = {}
 M.search_dotfiles = function()
@@ -28,6 +29,13 @@ M.search_files = function()
     })
 end
 
+M.list_buffers = function()
+    local git_root = vim.fn.system("git rev-parse --is-inside-work-tree")
+    require("telescope.builtin").buffers({
+        prompt_title = "< My buffers >",
+        cwd = git_root,
+    })
+end
 M.search_git = function()
     require("telescope.builtin").git_files({
         prompt_title = "< gitfiles >",
