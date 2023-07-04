@@ -19,7 +19,7 @@ require("nvim-treesitter.configs").setup({
     playground = {
         enable = true,
         disable = {},
-        updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
+        updatetime = 25,     -- Debounced time for highlighting nodes in the playground from source code
         persist_queries = false, -- Whether the query persists across vim sessions
         keybindings = {
             toggle_query_editor = "o",
@@ -62,8 +62,14 @@ require("nvim-treesitter.configs").setup({
                 ["if"] = "@function.inner",
                 ["ac"] = "@class.outer",
                 ["ic"] = "@class.inner",
-                ["ar"] = "@block.outer",
-                ["ir"] = "@block.inner",
+                ["ab"] = "@block.outer",
+                ["ib"] = "@block.inner",
+                ["at"] = "@call.outer",
+                ["it"] = "@call.inner",
+                ["ip"] = "@parameter.inner",
+                ["ap"] = "@parameter.outer",
+                ["am"] = "@conditional.outer",
+                ["im"] = "@conditional.inner",
             },
         },
     },
