@@ -81,7 +81,7 @@ if not pcall(require, "telescope") then
     return
 end
 -- custom file search
-vim.keymap.set("n", "<Leader>sg", require("jrollin.telescope").search_git, { desc = "[S]earch [G]it" })
+vim.keymap.set("n", "<Leader>g", require("jrollin.telescope").search_git, { desc = "[S]earch [G]it" })
 vim.keymap.set("n", "<Leader>sf", require("jrollin.telescope").search_files, { desc = "[S]earch [F]iles" })
 
 vim.keymap.set("n", "<leader>sh", require("telescope.builtin").help_tags, { desc = "[S]earch [H]elp" })
