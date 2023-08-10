@@ -1,7 +1,19 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-SNAME="${1:-coding}"
-echo $SNAME
+if [[ $# -eq 1 ]]; then
+    selected=$1
+else
+    # select name with fzf among provided directories
+    selected=$(find ~/projects/ ~/dotfiles/ -mindepth 1 -maxdepth 1 -type d | fzf)
+fi
+
+if [[ -z $selected ]]; then
+    exit 0
+fi
+
+# cleanup name 
+SNAME=$(basename "$selected" | tr . _)
+
 # name session and window
 tmux new-session -s $SNAME -n sources -d
 
