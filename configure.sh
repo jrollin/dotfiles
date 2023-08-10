@@ -3,9 +3,16 @@ DOTFILES_PATH=$(pwd)
 ZSH_PLUGINS=$XDG_CONFIG_HOME/zsh-plugins
 
 install_scripts() {
-  echo "Setting local scripts .." \
-  && rm -rf $HOME/.local/bin  \
-  && ln -s $DOTFILES_PATH/scripts $HOME/.local/bin
+    echo "Setting local scripts .." 
+    # monitor
+    rm -f $HOME/.local/bin/monitor_layout \
+    && ln -s $DOTFILES_PATH/scripts/monitor_layout $HOME/.local/bin/monitor_layout 
+    # tm
+    rm -f $HOME/.local/bin/tm \
+    && ln -s $DOTFILES_PATH/scripts/tm $HOME/.local/bin/tm 
+    # virtualcam
+    rm -f $HOME/.local/bin/virtualcam  \
+    && ln -s $DOTFILES_PATH/scripts/virtualcam $HOME/.local/bin/virtualcam
 }
 
 install_neovim() {
