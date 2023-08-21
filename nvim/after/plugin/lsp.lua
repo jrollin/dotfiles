@@ -17,7 +17,6 @@ setup_auto_format("js")
 setup_auto_format("css")
 setup_auto_format("tsx")
 setup_auto_format("ts")
-setup_auto_format("elm")
 
 -- Enable diagnostics
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
@@ -36,7 +35,6 @@ end
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 local on_attach = function(client, bufnr)
-  print("client: ", client.name)
   local nmap = function(keys, func, desc)
     if desc then
       desc = "LSP: " .. desc
@@ -56,7 +54,7 @@ local on_attach = function(client, bufnr)
   nmap("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
   nmap("gi", vim.lsp.buf.implementation, "[G]oto [I]mplementation")
   nmap("<leader>td", vim.lsp.buf.type_definition, "[T]ype [D]efinition")
-  nmap("<leader>s", require("telescope.builtin").lsp_document_symbols, "Document [S]ymbols")
+  -- nmap("<leader>s", require("telescope.builtin").lsp_document_symbols, "Document [S]ymbols")
   nmap("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
 
   -- See `:help K` for why this keymap
@@ -92,7 +90,7 @@ end
 require("mason").setup()
 
 require("mason-lspconfig").setup({
-  ensure_installed = { "lua_ls", "html", "cssls", "tailwindcss", "rust_analyzer", "elmls" },
+  ensure_installed = { "html", "tsserver", "rust_analyzer" },
 })
 
 require("mason-lspconfig").setup_handlers({
@@ -149,6 +147,7 @@ require("mason-lspconfig").setup_handlers({
           workspace = {
             -- Make the server aware of Neovim runtime files
             library = vim.api.nvim_get_runtime_file("", true),
+            checkThirdParty = false,
           },
           -- Do not send telemetry data containing a randomized but unique identifier
           telemetry = {

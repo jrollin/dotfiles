@@ -1,4 +1,4 @@
 if not pcall(require, "nvim-ts-autotag") then
-    return
+  return
 end
 require("nvim-ts-autotag").setup()

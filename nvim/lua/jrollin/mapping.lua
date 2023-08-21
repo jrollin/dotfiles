@@ -78,7 +78,7 @@ vim.keymap.set("n", "m", "[m")
 vim.keymap.set("n", "M", "]m")
 
 if not pcall(require, "telescope") then
-    return
+  return
 end
 -- custom file search
 vim.keymap.set("n", "<Leader>g", require("jrollin.telescope").search_git, { desc = "[S]earch [G]it" })
@@ -99,6 +99,17 @@ vim.keymap.set("n", "<leader>sd", "<Cmd>:TroubleToggle<CR>", { desc = "[S]earch 
 vim.keymap.set("n", "<leader>dp", vim.diagnostic.goto_prev, { desc = "[D]iagnostic [P]revious" })
 vim.keymap.set("n", "<leader>dn", vim.diagnostic.goto_next, { desc = "[D]iagnostic [N]ext" })
 
+vim.keymap.set(
+  "n",
+  "<leader>cf",
+  "<CMD>Telescope lsp_document_symbols symbols=function,module<CR>",
+  { desc = "[C]urrent [F]unctions" }
+)
+-- aerial structure
+vim.keymap.set("n", "<leader>s", "<cmd>AerialToggle!<CR>")
+vim.keymap.set("n", "{", "<cmd>AerialPrev<CR>", { buffer = bufnr })
+vim.keymap.set("n", "}", "<cmd>AerialNext<CR>", { buffer = bufnr })
+
 -- git
 vim.keymap.set("n", "<Leader>gb", require("jrollin.telescope").git_branches, { desc = "[G]it [B]ranches" })
 vim.keymap.set("n", "<Leader>gs", require("telescope.builtin").git_status, { desc = "[G]it [S]tatus" })
@@ -109,16 +120,16 @@ vim.keymap.set("n", "<leader><leader>do", "<Cmd>lua require('dap').step_over()<C
 vim.keymap.set("n", "<leader><leader>di", "<Cmd>lua require('dap').step_into()<CR>", { desc = "step into" })
 vim.keymap.set("n", "<leader><leader>dt", "<Cmd>lua require('dap').step_out()<CR>", { desc = "step out" })
 vim.keymap.set(
-    "n",
-    "<leader><leader>db",
-    "<Cmd>lua require('dap').toggle_breakpoint()<CR>",
-    { desc = "toggle breakpoint" }
+  "n",
+  "<leader><leader>db",
+  "<Cmd>lua require('dap').toggle_breakpoint()<CR>",
+  { desc = "toggle breakpoint" }
 )
 vim.keymap.set(
-    "n",
-    "<leader><leader>dB",
-    "<Cmd>lua require('dap').set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>",
-    { desc = "toggle breakpoint" }
+  "n",
+  "<leader><leader>dB",
+  "<Cmd>lua require('dap').set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>",
+  { desc = "toggle breakpoint" }
 )
 vim.keymap.set("n", "<leader><leader>dr", "<Cmd>lua require('dap').repl.toggle()<CR>", { desc = "toggle repl" })
 vim.keymap.set("n", "<leader><leader>du", "<Cmd>lua require('dapui').toggle()<CR>", { desc = "toggle dap ui" })
