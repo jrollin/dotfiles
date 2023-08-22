@@ -106,6 +106,7 @@ vim.keymap.set(
   { desc = "[C]urrent [F]unctions" }
 )
 -- aerial structure
+vim.keymap.set("n", "<leader>ss", "<cmd>Telescope aerial<CR>")
 vim.keymap.set("n", "<leader>s", "<cmd>AerialToggle!<CR>")
 vim.keymap.set("n", "{", "<cmd>AerialPrev<CR>", { buffer = bufnr })
 vim.keymap.set("n", "}", "<cmd>AerialNext<CR>", { buffer = bufnr })
