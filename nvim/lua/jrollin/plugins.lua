@@ -143,6 +143,16 @@ require("lazy").setup({
       vim.fn["mkdp#util#install"]()
     end,
   },
+  -- flutter
+  {
+    "akinsho/flutter-tools.nvim",
+    lazy = false,
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "stevearc/dressing.nvim", -- optional for vim.ui.select
+    },
+    config = true,
+  },
   -- Debugging (needs plenary from above as well)
   "mfussenegger/nvim-dap",
   "rcarriga/nvim-dap-ui",

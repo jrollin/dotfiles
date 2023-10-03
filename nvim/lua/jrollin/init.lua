@@ -5,3 +5,5 @@ require("jrollin.rust")
 require("jrollin.telescope")
 -- require("jrollin.markdown")
 require("jrollin.snippets.markdown")
+
+-- require("summarize")

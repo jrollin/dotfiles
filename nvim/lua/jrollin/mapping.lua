@@ -132,7 +132,7 @@ vim.keymap.set(
   "<Cmd>lua require('dap').set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>",
   { desc = "toggle breakpoint" }
 )
-vim.keymap.set("n", "<leader><leader>dr", "<Cmd>lua require('dap').repl.toggle()<CR>", { desc = "toggle repl" })
+vim.keymap.set("n", "<leader><leader>dr", "<cmd>lua require('dap').repl.toggle()<cr>", { desc = "toggle repl" })
 vim.keymap.set("n", "<leader><leader>du", "<Cmd>lua require('dapui').toggle()<CR>", { desc = "toggle dap ui" })
 ---- intellij shortkeys
 -- Resume program (F9)
@@ -153,3 +153,17 @@ vim.keymap.set("n", "<C-F9>", "<Cmd>lua require('dap').toggle_breakpoint()<CR>",
 
 -- Treesitter
 vim.keymap.set("n", "<leader>tg", ":TSPlaygroundToggle<CR>")
+
+-- call custom script to scrap url
+vim.keymap.set(
+  "n",
+  "<leader>S",
+  "<CMD>execute 'r! scrapr  -u '.shellescape(@+, 1) <CR>",
+  { desc = "Retrieve url infos" }
+)
+vim.keymap.set(
+  "v",
+  "<leader>S",
+  "<CMD>execute 'r! scrapr  -u '.shellescape(@+, 1) <CR>",
+  { desc = "Retrieve url infos" }
+)
