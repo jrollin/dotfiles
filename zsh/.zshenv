@@ -19,8 +19,8 @@ export XDG_CACHE_HOME="$HOME/.cache"
 
 
 # personal 
-export DOTFILE_DIR=$HOME/dotfiles
-export PROJECT_DIR=$HOME/projects/
+export DOTFILES_DIR=$HOME/dotfiles/
+export PROJECTS_DIR=$HOME/projects/
 
 # lua bin (ex: busted for tests)
 export PATH="$PATH:$HOME/.luarocks/bin/"
@@ -28,3 +28,23 @@ export PATH="$PATH:$HOME/.luarocks/bin/"
 # export ZSH="$HOME/.oh-my-zsh"
 
 
+# flutter
+
+export JAVA_HOME='/usr/lib/jvm/java-8-openjdk/jre'
+# export JAVA_HOME="/home/julien/.asdf/installs/java/openjdk-16/"
+export PATH=$JAVA_HOME/bin:$PATH 
+
+export PATH="$PATH:$HOME/flutter/bin"
+ 
+export ANDROID_HOME="$HOME/Android/"
+export ANDROID_SDK_ROOT="$HOME/Android/Sdk"
+export PATH=$PATH:$ANDROID_SDK_ROOT/platform-tools
+# when os package ?
+# export PATH=$PATH:$ANDROID_SDK_ROOT/tools/bin
+# export PATH=$PATH:$ANDROID_ROOT/emulator
+# export PATH=$PATH:$ANDROID_SDK_ROOT/tools
+export PATH=$PATH:$ANDROID_SDK_ROOT/emulator
+export PATH=$PATH:$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/
+
+export ANDROID_STUDIO="$HOME/android-studio"
+export PATH=$PATH:$ANDROID_STUDIO/bin/

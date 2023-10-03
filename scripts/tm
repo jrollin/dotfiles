@@ -4,7 +4,8 @@ if [[ $# -eq 1 ]]; then
     selected=$1
 else
     # select name with fzf among provided directories
-    selected=$(find ~/projects/ ~/dotfiles/ -mindepth 1 -maxdepth 1 -type d | fzf)
+    # selected=$(find ~/projects/ ~/dotfiles/ -mindepth 1 -maxdepth 1 -type d | fzf)
+    selected=$(pwd)
 fi
 
 if [[ -z $selected ]]; then
@@ -13,7 +14,7 @@ fi
 
 # cleanup name 
 SNAME=$(basename "$selected" | tr . _)
-
+echo $NAME
 # name session and window
 tmux new-session -s $SNAME -n sources -d
 
