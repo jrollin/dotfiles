@@ -49,6 +49,13 @@ local on_attach = function(client, bufnr)
     vim.keymap.set("v", keys, func, { buffer = bufnr, desc = desc })
   end
 
+  local imap = function(keys, func, desc)
+    if desc then
+      desc = "LSP: " .. desc
+    end
+    vim.keymap.set("i", keys, func, { buffer = bufnr, desc = desc })
+  end
+
   -- Keybindings for LSPs
   nmap("gd", vim.lsp.buf.definition, "[G]oto [D]efinition")
   nmap("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
@@ -60,6 +67,7 @@ local on_attach = function(client, bufnr)
   -- See `:help K` for why this keymap
   nmap("K", vim.lsp.buf.hover, "Hover Documentation")
   nmap("<C-k>", vim.lsp.buf.signature_help, "Signature Documentation")
+  imap("<C-k>", vim.lsp.buf.signature_help, "Signature Documentation")
 
   -- Lsp actions
   nmap("<leader>r", vim.lsp.buf.rename, "[R]ename")
