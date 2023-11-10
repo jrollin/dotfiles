@@ -77,24 +77,7 @@ vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 vim.keymap.set("n", "m", "[m")
 vim.keymap.set("n", "M", "]m")
 
-if not pcall(require, "telescope") then
-  return
-end
--- custom file search
-vim.keymap.set("n", "<Leader>g", require("jrollin.telescope").search_git, { desc = "[S]earch [G]it" })
-vim.keymap.set("n", "<Leader>sf", require("jrollin.telescope").search_files, { desc = "[S]earch [F]iles" })
-
-vim.keymap.set("n", "<leader>sh", require("telescope.builtin").help_tags, { desc = "[S]earch [H]elp" })
-vim.keymap.set("n", "<leader>sw", require("telescope.builtin").grep_string, { desc = "[S]earch current [W]ord" })
-vim.keymap.set("n", "<leader>sr", require("telescope.builtin").live_grep, { desc = "[S]earch by G[r]ep" })
-
-vim.keymap.set("n", "<leader>b", require("jrollin.telescope").list_buffers, { desc = "[S]earch [B]uffers" })
-vim.keymap.set("n", "<leader>cb", "<cmd>BufDelOthers<CR>", { desc = "[C]clean [B]uffers" })
-vim.keymap.set("n", "<leader>sq", require("telescope.builtin").quickfix, { desc = "[S]earch [q]uicklist" })
-vim.keymap.set("n", "<leader>sl", require("telescope.builtin").loclist, { desc = "[S]earch [l]oclist" })
-
 -- diagnostics
--- vim.keymap.set("n", "<leader>sd", require("telescope.builtin").diagnostics, { desc = "[S]earch [D]iagnostics" })
 vim.keymap.set("n", "<leader>sd", "<Cmd>:TroubleToggle<CR>", { desc = "[S]earch [D]iagnostics" })
 vim.keymap.set("n", "<leader>dp", vim.diagnostic.goto_prev, { desc = "[D]iagnostic [P]revious" })
 vim.keymap.set("n", "<leader>dn", vim.diagnostic.goto_next, { desc = "[D]iagnostic [N]ext" })
@@ -110,10 +93,6 @@ vim.keymap.set("n", "<leader>s", "<cmd>Telescope aerial<CR>")
 -- vim.keymap.set("n", "<leader>s", "<cmd>AerialToggle!<CR>")
 vim.keymap.set("n", "{", "<cmd>AerialPrev<CR>", { buffer = bufnr })
 vim.keymap.set("n", "}", "<cmd>AerialNext<CR>", { buffer = bufnr })
-
--- git
-vim.keymap.set("n", "<Leader>gb", require("jrollin.telescope").git_branches, { desc = "[G]it [B]ranches" })
-vim.keymap.set("n", "<Leader>gs", require("telescope.builtin").git_status, { desc = "[G]it [S]tatus" })
 
 -- dap debug
 vim.keymap.set("n", "<leader><leader>dc", "<Cmd>lua require('dap').continue()<CR>", { desc = "start debugging" })

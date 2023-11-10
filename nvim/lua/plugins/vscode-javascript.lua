@@ -1,0 +1,3 @@
+return {
+  "xabikos/vscode-javascript",
+}
