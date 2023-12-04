@@ -21,6 +21,7 @@ export XDG_CACHE_HOME="$HOME/.cache"
 # personal 
 export DOTFILES_DIR=$HOME/dotfiles/
 export PROJECTS_DIR=$HOME/projects/
+export DATA_DIR=/data/
 
 # lua bin (ex: busted for tests)
 export PATH="$PATH:$HOME/.luarocks/bin/"

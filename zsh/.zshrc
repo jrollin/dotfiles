@@ -32,3 +32,8 @@ source "$HOME/.oh-my-zsh/oh-my-zsh.sh"
 # starship
 eval "$(starship init zsh)"
 
+
+# >>>> Vagrant command completion (start)
+fpath=(/opt/vagrant/embedded/gems/gems/vagrant-2.3.7/contrib/zsh $fpath)
+compinit
+# <<<<  Vagrant command completion (end)

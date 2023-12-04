@@ -14,4 +14,4 @@ alias pr="cd $PROJECTS_DIR/"
 alias dot="cd $DOTFILES_DIR/"
 
 # fuzzy search 
-alias my="cd \$(find $PROJECTS_DIR $DOTFILES_DIR -mindepth 1 -maxdepth 1 -type d | fzf)"
+alias my="cd \$(find $PROJECTS_DIR $DOTFILES_DIR $DATA_DIR -mindepth 1 -maxdepth 1 -type d | fzf)"
