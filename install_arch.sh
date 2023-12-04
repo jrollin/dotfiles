@@ -11,7 +11,8 @@ pacman -S \
   direnv \
   base-devel \
   xdg-utils \
-  cmake
+  cmake \
+  sshpass
 
 # i3 
 pacman -S \
