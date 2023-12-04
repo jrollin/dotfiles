@@ -204,6 +204,10 @@ bindsym XF86AudioRaiseVolume exec $psst pactl set-sink-volume @DEFAULT_SINK@ +5%
 bindsym XF86AudioLowerVolume exec $psst pactl set-sink-volume @DEFAULT_SINK@ -5% && pactl set-sink-mute @DEFAULT_SINK@ 0 $update && amixer -q set Master 2dB- unmute
 bindsym XF86AudioMute exec $psst pactl set-sink-mute @DEFAULT_SINK@ toggle $update && amixer -q set Master toggle $update
 
+# bind audio with left / right too
+# bindsym $mod+Left exec $psst pactl set-sink-volume @DEFAULT_SINK@ +5% && pactl set-sink-mute @DEFAULT_SINK@ 0 $update && amixer -q set Master 2dB+ unmute"
+# bindsym $mod+Right exec "$psst pactl set-sink-volume @DEFAULT_SINK@ -5% && pactl set-sink-mute @DEFAULT_SINK@ 0 $update && amixer -q set Master 2dB- unmute"
+
 # session exit / suspend 
 bindsym $mod+Escape exec --no-startup-id ~/.config/rofi/scripts/rofi-shutdown
 bindsym XF86PowerOff exec --no-startup-id ~/.config/rofi/scripts/rofi-shutdown
@@ -215,3 +219,5 @@ bindsym $mod+n exec --no-startup-id ~/.config/rofi/scripts/rofi-wifi
 bindsym Print       exec flameshot full
 bindsym Shift+Print exec flameshot gui
 
+# Power Profiles menu switcher (rofi)
+bindsym $mod+Shift+p exec ~/.config/rofi/scripts/power-profiles
