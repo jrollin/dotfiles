@@ -146,3 +146,6 @@ vim.keymap.set(
   "<CMD>execute 'r! scrapr  -u '.shellescape(@+, 1) <CR>",
   { desc = "Retrieve url infos" }
 )
+
+vim.keymap.set("n", "CV", "<CMD>execute 'r! scrapr  -u '.shellescape(@+, 1) <CR>", { desc = "Retrieve url infos" })
+vim.keymap.set("v", "CV", "<CMD>execute 'r! scrapr  -u '.shellescape(@+, 1) <CR>", { desc = "Retrieve url infos" })

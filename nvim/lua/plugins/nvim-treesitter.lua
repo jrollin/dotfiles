@@ -81,6 +81,7 @@ local config = function()
     },
     ensure_installed = {
       "query",
+      "vim",
       "c",
       "markdown",
       "markdown_inline",
@@ -94,6 +95,10 @@ local config = function()
     autotag = {
       enable = true,
     },
+    hightlight = {
+      -- list of language that will be disabled
+      -- disable = { "c", "rust" },
+    },
   })
 end
 
@@ -102,7 +107,6 @@ return {
   dependencies = {
     "windwp/nvim-ts-autotag",
     "p00f/nvim-ts-rainbow",
-    "JoosepAlviste/nvim-ts-context-commentstring",
     -- Additional text objects via treesitter
     "nvim-treesitter/nvim-treesitter-textobjects",
   },
