@@ -83,10 +83,10 @@ vim.keymap.set("n", "<leader>dp", vim.diagnostic.goto_prev, { desc = "[D]iagnost
 vim.keymap.set("n", "<leader>dn", vim.diagnostic.goto_next, { desc = "[D]iagnostic [N]ext" })
 
 vim.keymap.set(
-  "n",
-  "<leader>cf",
-  "<CMD>Telescope lsp_document_symbols symbols=function,module<CR>",
-  { desc = "[C]urrent [F]unctions" }
+    "n",
+    "<leader>cf",
+    "<CMD>Telescope lsp_document_symbols symbols=function,module<CR>",
+    { desc = "[C]urrent [F]unctions" }
 )
 -- aerial structure
 vim.keymap.set("n", "<leader>s", "<cmd>Telescope aerial<CR>")
@@ -94,57 +94,21 @@ vim.keymap.set("n", "<leader>s", "<cmd>Telescope aerial<CR>")
 vim.keymap.set("n", "{", "<cmd>AerialPrev<CR>", { buffer = bufnr })
 vim.keymap.set("n", "}", "<cmd>AerialNext<CR>", { buffer = bufnr })
 
--- dap debug
-vim.keymap.set("n", "<leader><leader>dc", "<Cmd>lua require('dap').continue()<CR>", { desc = "start debugging" })
-vim.keymap.set("n", "<leader><leader>do", "<Cmd>lua require('dap').step_over()<CR>", { desc = "step over" })
-vim.keymap.set("n", "<leader><leader>di", "<Cmd>lua require('dap').step_into()<CR>", { desc = "step into" })
-vim.keymap.set("n", "<leader><leader>dt", "<Cmd>lua require('dap').step_out()<CR>", { desc = "step out" })
-vim.keymap.set(
-  "n",
-  "<leader><leader>db",
-  "<Cmd>lua require('dap').toggle_breakpoint()<CR>",
-  { desc = "toggle breakpoint" }
-)
-vim.keymap.set(
-  "n",
-  "<leader><leader>dB",
-  "<Cmd>lua require('dap').set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>",
-  { desc = "toggle breakpoint" }
-)
-vim.keymap.set("n", "<leader><leader>dr", "<cmd>lua require('dap').repl.toggle()<cr>", { desc = "toggle repl" })
-vim.keymap.set("n", "<leader><leader>du", "<Cmd>lua require('dapui').toggle()<CR>", { desc = "toggle dap ui" })
----- intellij shortkeys
--- Resume program (F9)
--- Step Over (F8): executing a program one line at a time
--- Step into (F7) : inside the method to demonstrate what gets executed
--- -- Smart step into (Shift + F7)
--- Step out (Shift + F8):  take you to the call method and back up the hierarchy branch of your code
--- -- Run to cursor (Alt + F9)
--- -- Evaluate expression (Alt + F8)
--- Toggle (Ctrl + F8)
--- -- view breakpoints (Ctrl + Shift + F8)
-vim.keymap.set("n", "<F9>", "<Cmd>lua require('dap').continue()<CR>", { desc = "start debugging" })
-vim.keymap.set("n", "<F8>", "<Cmd>lua require('dap').step_over()<CR>", { desc = "step over" })
-vim.keymap.set("n", "<F7>", "<Cmd>lua require('dap').step_into()<CR>", { desc = "step into" })
-vim.keymap.set("n", "<S-F8>", "<Cmd>lua require('dap').step_out()<CR>", { desc = "step out" })
-
-vim.keymap.set("n", "<C-F9>", "<Cmd>lua require('dap').toggle_breakpoint()<CR>", { desc = "toggle breakpoint" })
-
 -- Treesitter
 vim.keymap.set("n", "<leader>tg", ":TSPlaygroundToggle<CR>")
 
 -- call custom script to scrap url
 vim.keymap.set(
-  "n",
-  "<leader>S",
-  "<CMD>execute 'r! scrapr  -u '.shellescape(@+, 1) <CR>",
-  { desc = "Retrieve url infos" }
+    "n",
+    "<leader>S",
+    "<CMD>execute 'r! scrapr  -u '.shellescape(@+, 1) <CR>",
+    { desc = "Retrieve url infos" }
 )
 vim.keymap.set(
-  "v",
-  "<leader>S",
-  "<CMD>execute 'r! scrapr  -u '.shellescape(@+, 1) <CR>",
-  { desc = "Retrieve url infos" }
+    "v",
+    "<leader>S",
+    "<CMD>execute 'r! scrapr  -u '.shellescape(@+, 1) <CR>",
+    { desc = "Retrieve url infos" }
 )
 
 vim.keymap.set("n", "CV", "<CMD>execute 'r! scrapr  -u '.shellescape(@+, 1) <CR>", { desc = "Retrieve url infos" })
