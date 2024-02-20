@@ -1,0 +1,12 @@
+# Default config for sway
+#
+# Copy this to ~/.config/sway/config and edit it to your liking.
+#
+# Read `man 5 sway` for a complete reference.
+
+
+
+# xwayland disable
+
+include $HOME/.config/sway/conf.d/*
+include /etc/sway/config-vars.d/*

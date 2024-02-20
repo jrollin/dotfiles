@@ -9,7 +9,8 @@ export EDITOR="nvim"
 export VISUAL="nvim"
 export TERMINAL="alacritty"
 export BROWSER="firefox"
-export PATH=$HOME/.local/bin:$PATH
+export CARGO_PATH=$HOME/.cargo/bin:$PATH
+export PATH=$HOME/.local/bin:$CARGO_PATH:PATH
 
 
 # XDG 
@@ -21,7 +22,8 @@ export XDG_CACHE_HOME="$HOME/.cache"
 # personal 
 export DOTFILES_DIR=$HOME/dotfiles/
 export PROJECTS_DIR=$HOME/projects/
-export DATA_DIR=/data/
+export WORK_DIR=$HOME/workspace/
+# export DATA_DIR=/data/
 
 # lua bin (ex: busted for tests)
 export PATH="$PATH:$HOME/.luarocks/bin/"
@@ -49,3 +51,7 @@ export PATH=$PATH:$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/
 
 export ANDROID_STUDIO="$HOME/android-studio"
 export PATH=$PATH:$ANDROID_STUDIO/bin/
+
+export PATH=$PATH:$HOME/Downloads/sonar-scanner-5.0.1.3006-linux/bin/
+
+if [ -e /home/julien/.nix-profile/etc/profile.d/nix.sh ]; then . /home/julien/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer

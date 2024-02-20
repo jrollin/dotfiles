@@ -37,3 +37,11 @@ eval "$(starship init zsh)"
 fpath=(/opt/vagrant/embedded/gems/gems/vagrant-2.3.7/contrib/zsh $fpath)
 compinit
 # <<<<  Vagrant command completion (end)
+
+# pnpm
+export PNPM_HOME="/home/julien/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end

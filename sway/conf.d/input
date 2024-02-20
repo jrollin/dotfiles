@@ -1,0 +1,10 @@
+#input type:keyboard xkb_capslock enabled
+input type:keyboard xkb_numlock enabled
+
+input * xkb_layout "fr" 
+
+
+input type:touchpad {
+    tap enabled
+    natural_scroll enabled
+}

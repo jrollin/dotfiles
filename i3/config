@@ -170,19 +170,6 @@ set $projector VGA1
 
 # polybar status
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
-# add network manager in bar
-# exec --no-startup-id nm-applet
-# volume systray
-# exec --no-startup-id /usr/bin/pasystray
-# bluetooth systray
-# exec --no-startup-id /usr/bin/blueman-applet
-# default brightness
-# exec --no-startup-id xbacklight -set 1
-# background
-# exec_always --no-startup-id feh --bg-fill ~/.config/pictures/blade-runner.jpg
-# power mgmt
-# exec_always --no-startup-id xfce4-power-manager
-# exec xfce4-power-manager-settings
 
 exec ~/.config/i3/startup.sh 1 &>> /tmp/i3_startup
 
@@ -194,10 +181,14 @@ bindsym $mod+o move workspace to output left
 bindsym $mod+p move workspace to output right
 
 # screen brightness
-bindsym XF86MonBrightnessDown   exec xbacklight -dec 1  # && cat /sys/class/backlight/intel_backlight/actual_brightness > ~/.i3/screen_brightness.log
-bindsym XF86MonBrightnessUp     exec xbacklight -inc 1 #&& cat /sys/class/backlight/intel_backlight/actual_brightness > ~/.i3/screen_brightness.log
-bindsym $mod+F6 exec "xbacklight -dec 1" 
-bindsym $mod+F7 exec "xbacklight -inc 1"
+# bindsym XF86MonBrightnessDown   exec xbacklight -dec 1  # && cat /sys/class/backlight/intel_backlight/actual_brightness > ~/.i3/screen_brightness.log
+# bindsym XF86MonBrightnessUp     exec xbacklight -inc 1 #&& cat /sys/class/backlight/intel_backlight/actual_brightness > ~/.i3/screen_brightness.log
+# bindsym $mod+F6 exec "xbacklight -dec 1" 
+# bindsym $mod+F7 exec "xbacklight -inc 1"
+
+# screen brightness
+bindsym XF86MonBrightnessDown   exec "brightnessctl set 2%-" 
+bindsym XF86MonBrightnessUp     exec "brightnessctl set 2%+"
 
 # fix for ubuntu ? add amixer command
 bindsym XF86AudioRaiseVolume exec $psst pactl set-sink-volume @DEFAULT_SINK@ +5% && pactl set-sink-mute @DEFAULT_SINK@ 0 $update && amixer -q set Master 2dB+ unmute

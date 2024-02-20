@@ -142,3 +142,17 @@ screen #0:
 ```
 
 [more info about dpi](https://linuxreviews.org/HOWTO_set_DPI_in_Xorg)
+
+
+Chrome 
+
+
+
+    Go to chrome://flags
+
+    Search "Preferred Ozone platform"
+
+    Set it to "Wayland"
+
+    Restart
+

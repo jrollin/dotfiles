@@ -5,3 +5,6 @@
 	editor = nvim
 [init]
 	defaultBranch = main
+
+[includeIf "gitdir:~/workspace/"] # job needs, like workspace/* so all included projects
+  path = .gitconfig-job

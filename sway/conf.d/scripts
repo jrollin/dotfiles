@@ -1,0 +1,11 @@
+bindsym $mod+Shift+s exec $HOME/.local/bin/monitor_layout
+
+# session exit / suspend 
+bindsym $mod+Escape exec --no-startup-id ~/.config/rofi/scripts/rofi-shutdown
+bindsym XF86PowerOff exec --no-startup-id ~/.config/rofi/scripts/rofi-shutdown
+
+# networking / wifi 
+bindsym $mod+n exec --no-startup-id ~/.config/rofi/scripts/rofi-wifi
+
+# Power Profiles menu switcher (rofi)
+bindsym $mod+Shift+p exec ~/.config/rofi/scripts/power-profiles

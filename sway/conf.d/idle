@@ -1,0 +1,5 @@
+# The following instructs swayidle to lock the screen after 30 minutes and turn it off five seconds after: 
+exec swayidle -w \
+	timeout 1800 'swaylock -f' \
+	timeout 1805 'swaymsg "output * power off"' \
+	resume 'swaymsg "output * power on"'

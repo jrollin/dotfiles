@@ -1,0 +1,9 @@
+!-- copied for sway !
+!-- Xft settings -- !
+Xft.antialias:	1
+Xft.hintstyle:	hintfull
+Xft.rgba:	none
+!-- 192 for scale 2 --!
+Xft.dpi:	166
+Xcursor.theme:	xcursor-breeze
+

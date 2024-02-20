@@ -1,0 +1,4 @@
+#save clipboard
+exec wl-paste -t text --watch clipman store --no-persist
+
+bar swaybar_command waybar

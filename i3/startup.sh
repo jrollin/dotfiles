@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # light
-xbacklight -set 1
+# xbacklight -set 1
+brightnessctl set 15%
 
 # background
 feh --bg-fill ~/dotfiles/pictures/foundation_landscape.jpg

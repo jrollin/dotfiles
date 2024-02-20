@@ -32,14 +32,22 @@ install_i3() {
         && rm -rf $XDG_CONFIG_HOME/i3 \
         && ln -s $DOTFILES_PATH/i3 $XDG_CONFIG_HOME/i3  
 }
+install_sway() {
+    echo "installing_sway.." \
+        && rm -rf $XDG_CONFIG_HOME/sway \
+        && ln -s $DOTFILES_PATH/sway $XDG_CONFIG_HOME/sway
+    echo "installing_swaybar.." \
+        && rm -rf $XDG_CONFIG_HOME/waybar \
+        && ln -s $DOTFILES_PATH/waybar $XDG_CONFIG_HOME/waybar
+}
 
-install_i3_wallpaper() {
+install_wallpaper() {
     echo "installing_i3wallper.." \
         && rm -rf $XDG_CONFIG_HOME/pictures \
         && ln -s $DOTFILES_PATH/pictures $XDG_CONFIG_HOME/pictures  
 }
 
-install_i3menu() {
+install_menu() {
     echo "installing_i3menu.." \
         && rm -rf $XDG_CONFIG_HOME/rofi \
         && ln -s $DOTFILES_PATH/rofi $XDG_CONFIG_HOME/rofi  
@@ -69,13 +77,17 @@ install_zsh() {
     echo "installing zsh env" \
         && rm -f $HOME/.zshenv \
         && ln -s $DOTFILES_PATH/zsh/.zshenv $HOME/.zshenv 
+
+    echo "installing zsh profile" \
+        && rm -f $HOME/.zprofile \
+        && ln -s $DOTFILES_PATH/zsh/.zprofile $HOME/.zprofile 
     
     echo "installing zsh alias" \
         && rm -f $XDG_CONFIG_HOME/zsh  \
         && ln -s $DOTFILES_PATH/zsh/.config $XDG_CONFIG_HOME/zsh 
     
     echo "installing zsh plugins dir" \
-        && rm -f $ZSH_PLUGINS \
+        && rm -rf $ZSH_PLUGINS \
         && mkdir -p $ZSH_PLUGINS
 }
 
@@ -110,6 +122,24 @@ install_term() {
         && ln -s $DOTFILES_PATH/starship $XDG_CONFIG_HOME/starship
 }
 
+install_nix() {
+    echo "installing nix" \
+        && rm -rf $XDG_CONFIG_HOME/nix \
+        && ln -s $DOTFILES_PATH/nix $XDG_CONFIG_HOME/nix 
+    
+}
+install_x(){
+
+    echo "installing xdefault" \
+        && rm -rf $XDG_CONFIG_HOME/.Xdefaults \
+        && ln -s $DOTFILES_PATH/.Xdefaults $XDG_CONFIG_HOME/.Xdefaults 
+    
+    echo "installing xresources" \
+        && rm -rf $XDG_CONFIG_HOME/.Xresources \
+        && ln -s $DOTFILES_PATH/.Xresources $XDG_CONFIG_HOME/.Xresources
+
+}
+
 install_gtk() {
     echo "installing gtk3" \
         && rm -rf $XDG_CONFIG_HOME/gtk-3.0 \
@@ -138,8 +168,9 @@ if [[ -z $1 ]]; then
     && install_neovim \
     && install_git \
     && install_i3 \
-    && install_i3_wallpaper\
-    && install_i3menu \
+    && install_sway \
+    && install_wallpaper\
+    && install_menu \
     && install_monitor \
     && install_tmux \
     && install_zsh \
