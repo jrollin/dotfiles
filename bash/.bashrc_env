@@ -1,0 +1,26 @@
+# /* vim: set filetype=sh : */
+
+# common 
+export LANG=fr_FR.UTF-8
+export EDITOR="nvim"
+export VISUAL="nvim"
+export TERMINAL="alacritty"
+export BROWSER="firefox"
+
+# XDG 
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_CACHE_HOME="$HOME/.cache"
+
+# personal 
+export DOTFILES_DIR=$HOME/dotfiles/
+export PROJECTS_DIR=$HOME/projects/
+export WORK_DIR=$HOME/workspace/
+
+# starship
+if command -v starship 1> /dev/null
+then
+  export STARSHIP_CONFIG=$HOME/.config/starship.toml
+  export STARSHIP_CACHE=~/.starship/cache
+  eval "$(starship init bash)"
+fi

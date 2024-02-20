@@ -68,6 +68,22 @@ install_tmux() {
         && ln -s $DOTFILES_PATH/tmux $XDG_CONFIG_HOME/tmux
  }
 
+install_bash() {
+    echo "installing bashrc" \
+        && rm -f $HOME/.bashrc \
+        && ln -s $DOTFILES_PATH/bash/.bashrc $HOME/.bashrc 
+
+    echo "installing bash profile" \
+        && rm -f $HOME/.bash_profile \
+        && ln -s $DOTFILES_PATH/bash/.bash_profile $HOME/.bash_profile 
+
+    echo "installing bashrc files" \
+        && rm -f $HOME/.bashrc_{alias,env,path} \
+        && ln -s $DOTFILES_PATH/bash/.bashrc_alias $HOME/.bashrc_alias \
+        && ln -s $DOTFILES_PATH/bash/.bashrc_env $HOME/.bashrc_env \
+        && ln -s $DOTFILES_PATH/bash/.bashrc_path $HOME/.bashrc_path 
+}
+
 install_zsh() {
     echo "installing zsh" \
         && rm -f $HOME/.zshrc \
@@ -164,17 +180,16 @@ if [[ -z $1 ]]; then
   read answer
   if echo "$answer" | grep -iq "^y" ;then
     echo "Installing ..." \
-    install_scripts \
+    && install_scripts \
     && install_neovim \
     && install_git \
     && install_i3 \
-    && install_sway \
+    && install_x \
     && install_wallpaper\
     && install_menu \
     && install_monitor \
     && install_tmux \
-    && install_zsh \
-    && install_zsh_plugins \
+    && install_bash \
     && install_gtk \
     && echo "Finished installation."
   fi

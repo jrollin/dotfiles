@@ -1,7 +1,7 @@
 import = [".~/.config/alacritty/dracula.toml"]
 
 [shell]
-program = "/bin/zsh"
+program = "/bin/bash"
 # args = ["-l"]
 
 [env]

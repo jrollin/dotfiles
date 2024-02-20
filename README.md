@@ -98,15 +98,6 @@ check colors with this script
 curl -s https://raw.githubusercontent.com/JohnMorales/dotfiles/master/colors/24-bit-color.sh | bash
 ```
 
-## console setup
-
-Zsh as defaut
-
-```Bash
-chsh -s /bin/zsh
-sudo chsh -s /bin/zsh
-```
-
 ## Neovim
 
 ### Requirements
@@ -143,10 +134,7 @@ screen #0:
 
 [more info about dpi](https://linuxreviews.org/HOWTO_set_DPI_in_Xorg)
 
-
-Chrome 
-
-
+Chrome
 
     Go to chrome://flags
 
@@ -155,4 +143,3 @@ Chrome
     Set it to "Wayland"
 
     Restart
-

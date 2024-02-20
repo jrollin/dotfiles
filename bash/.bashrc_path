@@ -1,0 +1,27 @@
+# /* vim: set filetype=sh : */
+
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/bin" ]
+then
+  PATH="$HOME/bin:$PATH"
+fi
+
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/.local/bin" ]
+then
+  PATH="$HOME/.local/bin:$PATH"
+fi
+
+# set PATH so it includes user's private npm-global if it exists
+if [ -d "$HOME/.npm-global" ]
+then
+   PATH="$HOME/.npm-global/bin:$PATH"
+fi
+
+# set PATH so it includes rust cargo bin
+if [ -d "$HOME/.cargo" ]
+then
+   PATH="$HOME/.cargo/bin:$PATH"
+fi
+
+
