@@ -1,6 +1,3 @@
-# If not running interactively, don't do anything
-[[ $- != *i* ]] && return
-
 # custom env 
 if [ -f "$HOME/.bashrc_env" ]; then
     . "$HOME/.bashrc_env"

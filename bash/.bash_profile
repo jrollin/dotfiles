@@ -1,4 +1,4 @@
-/* vim: set filetype=sh : */
+# /* vim: set filetype=sh : */
 
 if [ -f ~/.bashrc ]; then
     source ~/.bashrc
