@@ -24,3 +24,12 @@ then
   export STARSHIP_CACHE=~/.starship/cache
   eval "$(starship init bash)"
 fi
+
+
+# asdf 
+
+if [ -d "$HOME/.cargo" ]
+then
+. "$HOME/.asdf/asdf.sh"
+fi
+
