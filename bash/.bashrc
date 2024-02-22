@@ -8,6 +8,11 @@ if [ -f "$HOME/.bashrc_path" ]; then
     . "$HOME/.bashrc_path"
 fi
 
+# auto completion
+if [ -f /etc/bash.bashrc ]; then
+  . /etc/bash.bashrc
+fi
+
 # custom aliases
 if [ -f "$HOME/.bashrc_alias" ]; then
     . "$HOME/.bashrc_alias"
