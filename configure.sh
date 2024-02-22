@@ -78,10 +78,11 @@ install_bash() {
         && ln -s $DOTFILES_PATH/bash/.bash_profile $HOME/.bash_profile 
 
     echo "installing bashrc files" \
-        && rm -f $HOME/.bashrc_{alias,env,path} \
+        && rm -f $HOME/.bashrc_{alias,env,path,ssh} \
         && ln -s $DOTFILES_PATH/bash/.bashrc_alias $HOME/.bashrc_alias \
         && ln -s $DOTFILES_PATH/bash/.bashrc_env $HOME/.bashrc_env \
-        && ln -s $DOTFILES_PATH/bash/.bashrc_path $HOME/.bashrc_path 
+        && ln -s $DOTFILES_PATH/bash/.bashrc_path $HOME/.bashrc_path \
+        && ln -s $DOTFILES_PATH/bash/.bashrc_ssh $HOME/.bashrc_ssh
 }
 
 install_zsh() {

@@ -20,3 +20,8 @@ alias ff="cd \$(find $PROJECTS_DIR $DOTFILES_DIR $WORK_DIR -mindepth 1 -maxdepth
 # dive docker image
 alias dive="docker run -ti --rm  -v /var/run/docker.sock:/var/run/docker.sock wagoodman/dive"
 
+# 
+alias gst="git status"
+alias gcb="git checkout -b"
+alias gpr="git pull --rebase"
+alias ggpush="git push origin upsteam"

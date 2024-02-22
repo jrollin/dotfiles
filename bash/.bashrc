@@ -12,3 +12,8 @@ fi
 if [ -f "$HOME/.bashrc_alias" ]; then
     . "$HOME/.bashrc_alias"
 fi
+
+#ssh agent
+if [ -f "$HOME/.bashrc_ssh" ]; then
+    . "$HOME/.bashrc_ssh"
+fi
