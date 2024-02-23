@@ -1,0 +1,10 @@
+# /* vim: set filetype=sh : */
+
+set show-all-if-ambiguous on
+set menu-complete-display-prefix on
+
+TAB: menu-complete
+"\e[Z": menu-complete-backward
+
+set colored-completion-prefix on
+set colored-stats on

@@ -83,6 +83,10 @@ install_bash() {
         && ln -s $DOTFILES_PATH/bash/.bashrc_env $HOME/.bashrc_env \
         && ln -s $DOTFILES_PATH/bash/.bashrc_path $HOME/.bashrc_path \
         && ln -s $DOTFILES_PATH/bash/.bashrc_ssh $HOME/.bashrc_ssh
+
+    echo "installing bash inputrc" \
+        && rm -f $HOME/.inputrc \
+        && ln -s $DOTFILES_PATH/bash/.inputrc $HOME/.inputrc 
 }
 
 install_zsh() {
