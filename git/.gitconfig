@@ -6,5 +6,39 @@
 [init]
 	defaultBranch = main
 
+[color]
+	ui = auto
+[alias]
+    co = checkout
+    br = branch
+    ci = commit
+    st = status
+
+[pull]
+	rebase = true
+
+[fetch]
+	prune = true
+
+[rerere]
+  # Activate recording of resolved conflicts
+  enabled = true
+
+[column]
+    # better display branches
+    ui = auto
+
+[branch]
+    # show branch with last commit first
+	sort = -committerdate
+
+# git maintenance start
+# cleanup stuff with cron in background, faster repo
+[maintenance]
+    auto = false
+    strategy = incremental
+
 [includeIf "gitdir:~/workspace/"] # job needs, like workspace/* so all included projects
-  path = .gitconfig-job
+    path = .gitconfig
+
+

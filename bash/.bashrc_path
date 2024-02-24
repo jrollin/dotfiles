@@ -30,4 +30,18 @@ if [ -f "$HOME/.asdf/asdf.sh" ]; then
     . "$HOME/.asdf/completions/asdf.bash"
 fi
 
+# starship
+if command -v starship 1> /dev/null
+then
+  export STARSHIP_CONFIG=$HOME/.config/starship.toml
+  export STARSHIP_CACHE=~/.starship/cache
+  eval "$(starship init bash)"
+fi
+
+
+# cargo
+if [ -f "$HOME/.cargo/env" ]
+then
+    source "$HOME/.cargo/env"
+fi
 

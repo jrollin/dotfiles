@@ -17,24 +17,4 @@ export DOTFILES_DIR=$HOME/dotfiles/
 export PROJECTS_DIR=$HOME/projects/
 export WORK_DIR=$HOME/workspace/
 
-# starship
-if command -v starship 1> /dev/null
-then
-  export STARSHIP_CONFIG=$HOME/.config/starship.toml
-  export STARSHIP_CACHE=~/.starship/cache
-  eval "$(starship init bash)"
-fi
-
-
-# asdf 
-if [ -d "$HOME/.asdf" ]
-then
-. "$HOME/.asdf/asdf.sh"
-fi
-
-# cargo
-if [ -f "$HOME/.cargo/env" ]
-then
-    source "$HOME/.cargo/env"
-fi
 
