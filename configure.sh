@@ -137,10 +137,18 @@ install_term() {
     echo "installing term" \
         && rm -rf $XDG_CONFIG_HOME/alacritty \
         && ln -s $DOTFILES_PATH/alacritty $XDG_CONFIG_HOME/alacritty 
-    
-    echo "installing starship" \
+}
+
+install_prompt() {
+    echo "installing prompt starship" \
         && rm -rf $XDG_CONFIG_HOME/starship \
         && ln -s $DOTFILES_PATH/starship $XDG_CONFIG_HOME/starship
+}
+install_shell_fish() {
+    echo "installing shell fish" \
+        && rm -rf $XDG_CONFIG_HOME/fish \
+        && ln -s $DOTFILES_PATH/fish $XDG_CONFIG_HOME/fish 
+    
 }
 
 install_nix() {
@@ -173,7 +181,7 @@ install_ts() {
 
 install_asdf(){
     echo "Installing Asdf..." \
-    && git clone https://github.com/asdf-vm/asdf.git $HOME/.asdf --branch v0.11.1
+    && git clone https://github.com/asdf-vm/asdf.git $HOME/.asdf --branch v0.14.0
     # nodejs
     asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
     asdf install nodejs latest
@@ -193,8 +201,11 @@ if [[ -z $1 ]]; then
     && install_wallpaper\
     && install_menu \
     && install_monitor \
+    && install_term \
     && install_tmux \
+    && install_prompt \
     && install_bash \
+    && install_shell_fish \
     && install_gtk \
     && echo "Finished installation."
   fi

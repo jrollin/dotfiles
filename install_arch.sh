@@ -26,7 +26,8 @@ pacman -S \
 # term / shell
 pacman -S \
   alacritty \
-  starship 
+  starship \
+  fish
 
 # utils
 pacman -S \

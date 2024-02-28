@@ -1,7 +1,9 @@
 import = [".~/.config/alacritty/dracula.toml"]
 
 [shell]
-program = "/bin/bash"
+# program = "/bin/bash"
+program= "/usr/bin/fish"
+
 # args = ["-l"]
 
 [env]

@@ -5,7 +5,7 @@ My config
 - nvim
 - i3 / demnu / polybar / rofi
 - tmux
-- zsh / alacritty / starship
+- fish / alacritty / starship
 - fonts Nerd with icons
 - arch / lightdm
 
@@ -61,6 +61,12 @@ Configure tools with my config and make symlinks
 
 ```
 ./configure.sh
+```
+
+Change shell (ex: fish)
+
+```Bash
+chsh -s /usr/bin/fish
 ```
 
 ## fonts

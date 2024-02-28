@@ -1,0 +1,21 @@
+cargo install \
+# idae
+alacritty \
+starship \
+# http serve
+miniserve \
+# changelog
+git-cliff \
+cargo-fmt \
+# build
+clippy \
+rustdoc \
+# test
+cargo-tarpaulin \
+cargo-watch \
+# deps
+cargo-update \
+cargo-udeps --locked \
+# database
+sqlx \
+sqlx-cli 

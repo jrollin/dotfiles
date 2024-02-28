@@ -26,7 +26,7 @@ echo "Installing packages..." \
 
 install_shell() {
     echo "installing shell..." \
-        && apt install zsh tmux direnv
+        && apt install fish tmux direnv
 }
 
 install_rust() {
