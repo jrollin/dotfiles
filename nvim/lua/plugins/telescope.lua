@@ -138,6 +138,9 @@ local config = function()
                 filetypes = { "png", "webp", "jpg", "jpeg" },
                 find_cmd = "rg", -- find command (defaults to `fd`)
             },
+            ["ui-select"] = {
+                require("telescope.themes").get_dropdown(),
+            },
         },
     })
     -- load_extension, somewhere after setup function:

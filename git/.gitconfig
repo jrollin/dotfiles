@@ -39,6 +39,6 @@
     strategy = incremental
 
 [includeIf "gitdir:~/workspace/"] # job needs, like workspace/* so all included projects
-    path = .gitconfig
+    path = .gitconfig-job
 
 

@@ -16,9 +16,9 @@ if [ -f "$HOME/.bashrc_alias" ]; then
 fi
 
 #ssh agent
-if [ -f "$HOME/.bashrc_ssh" ]; then
-    . "$HOME/.bashrc_ssh"
-fi
+# if [ -f "$HOME/.bashrc_ssh" ]; then
+#     . "$HOME/.bashrc_ssh"
+# fi
 
 
 # git autocomplete

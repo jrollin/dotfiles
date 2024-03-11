@@ -81,7 +81,9 @@ local config = function()
     },
     ensure_installed = {
       "query",
+      "bash",
       "vim",
+      "vimdoc",
       "c",
       "markdown",
       "markdown_inline",
