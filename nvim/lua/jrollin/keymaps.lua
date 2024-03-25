@@ -1,11 +1,6 @@
 -- Save a file with leader-w.
 vim.keymap.set("n", "<leader>w", ":w<CR>")
 
--- surround plugin reminder
--- surround (ys), delete (ds) change (cs) change tag aroung (cst)
--- ex: surround sentence with " :  yss"
--- ex: change " by ' around work  :  csw"'
-
 -- real delete, not cut, paste to void register
 vim.keymap.set("n", "<leader>d", '"_d')
 vim.keymap.set("x", "<leader>d", '"_d')
@@ -74,41 +69,24 @@ vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 -- remap because azerty mapping
 -- [m - move to the start of a method.
 -- ]m - move to the end of a method.
-vim.keymap.set("n", "m", "[m")
-vim.keymap.set("n", "M", "]m")
+-- vim.keymap.set("n", "m", "[m")
+-- vim.keymap.set("n", "M", "]m")
 
--- diagnostics
-vim.keymap.set("n", "<leader>sd", "<Cmd>:TroubleToggle<CR>", { desc = "[S]earch [D]iagnostics" })
-vim.keymap.set("n", "<leader>dp", vim.diagnostic.goto_prev, { desc = "[D]iagnostic [P]revious" })
-vim.keymap.set("n", "<leader>dn", vim.diagnostic.goto_next, { desc = "[D]iagnostic [N]ext" })
-
-vim.keymap.set(
-    "n",
-    "<leader>cf",
-    "<CMD>Telescope lsp_document_symbols symbols=function,module<CR>",
-    { desc = "[C]urrent [F]unctions" }
-)
 -- aerial structure
 vim.keymap.set("n", "<leader>s", "<cmd>Telescope aerial<CR>")
--- vim.keymap.set("n", "<leader>s", "<cmd>AerialToggle!<CR>")
-vim.keymap.set("n", "{", "<cmd>AerialPrev<CR>", { buffer = bufnr })
-vim.keymap.set("n", "}", "<cmd>AerialNext<CR>", { buffer = bufnr })
-
--- Treesitter
-vim.keymap.set("n", "<leader>tg", ":TSPlaygroundToggle<CR>")
 
 -- call custom script to scrap url
 vim.keymap.set(
-    "n",
-    "<leader>S",
-    "<CMD>execute 'r! scrapr  -u '.shellescape(@+, 1) <CR>",
-    { desc = "Retrieve url infos" }
+  "n",
+  "<leader>S",
+  "<CMD>execute 'r! scrapr  -u '.shellescape(@+, 1) <CR>",
+  { desc = "Retrieve url infos" }
 )
 vim.keymap.set(
-    "v",
-    "<leader>S",
-    "<CMD>execute 'r! scrapr  -u '.shellescape(@+, 1) <CR>",
-    { desc = "Retrieve url infos" }
+  "v",
+  "<leader>S",
+  "<CMD>execute 'r! scrapr  -u '.shellescape(@+, 1) <CR>",
+  { desc = "Retrieve url infos" }
 )
 
 vim.keymap.set("n", "CV", "<CMD>execute 'r! scrapr  -u '.shellescape(@+, 1) <CR>", { desc = "Retrieve url infos" })

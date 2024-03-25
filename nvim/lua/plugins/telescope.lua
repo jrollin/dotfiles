@@ -63,7 +63,7 @@ local config = function()
     vim.keymap.set("n", "<leader>sw", require("telescope.builtin").grep_string, { desc = "[S]earch current [W]ord" })
     vim.keymap.set("n", "<leader>sr", require("telescope.builtin").live_grep, { desc = "[S]earch by G[r]ep" })
 
-    vim.keymap.set("n", "<leader>b", M.list_buffers, { desc = "[S]earch [B]uffers" })
+    vim.keymap.set("n", "<leader>b", require("telescope.builtin").buffers, { desc = "[S]earch [B]uffers" })
     vim.keymap.set("n", "<leader>cb", "<cmd>BufDelOthers<CR>", { desc = "[C]clean [B]uffers" })
     vim.keymap.set("n", "<leader>sq", require("telescope.builtin").quickfix, { desc = "[S]earch [q]uicklist" })
     vim.keymap.set("n", "<leader>sl", require("telescope.builtin").loclist, { desc = "[S]earch [l]oclist" })
