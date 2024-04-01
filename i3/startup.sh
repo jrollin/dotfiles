@@ -11,7 +11,7 @@ fi
 
 
 # background
-feh --bg-fill ~/dotfiles/pictures/foundation_landscape.jpg
+./bg.sh
 
 ## DPMS monitor setting (standby -> suspend -> off) (seconds)
 xset dpms 300 600 900 
