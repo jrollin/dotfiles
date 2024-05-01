@@ -11,7 +11,7 @@ fi
 
 
 # background
-./bg.sh
+$HOME/dotfiles/i3/bg.sh
 
 ## DPMS monitor setting (standby -> suspend -> off) (seconds)
 xset dpms 300 600 900 
