@@ -15,7 +15,7 @@ if [ "$MACHINE" = "julien-xps13" ]; then
     polybar DP2 --config=~/.config/polybar/config_mine.ini 2>&1 | tee -a /tmp/polybar2.log & disown
 else
     polybar mine --config=~/.config/polybar/config_pro.ini 2>&1 | tee -a /tmp/polybar1.log & disown
-    polybar DP2 --config=~/.config/polybar/config_pro.ini 2>&1 | tee -a /tmp/polybar2.log & disown
+    polybar DP1 --config=~/.config/polybar/config_pro.ini 2>&1 | tee -a /tmp/polybar2.log & disown
 fi
 
 
