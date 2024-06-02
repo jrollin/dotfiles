@@ -2,3 +2,8 @@
 /tmux/plugins/*
 
 /nvim/plugin/packer_compiled.lua
+/nvim/lazy-lock.json
+
+/fish/fish_variables
+
+/gtk-3.0/bookmarks
