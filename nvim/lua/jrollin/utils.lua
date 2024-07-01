@@ -1,27 +1,27 @@
 -- define common lsp keymap
---
-local lsp_keymap = function(bufnr)
-  local bufnr = bufnr or 0
 
+local M = {}
+
+function M.lsp_keymap(bufnr)
   local nmap = function(keys, func, desc)
     if desc then
       desc = "LSP: " .. desc
     end
-    vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
+    vim.keymap.set("n", keys, func, { noremap = true, silent = true, buffer = bufnr, desc = desc })
   end
 
   local vmap = function(keys, func, desc)
     if desc then
       desc = "LSP: " .. desc
     end
-    vim.keymap.set("v", keys, func, { buffer = bufnr, desc = desc })
+    vim.keymap.set("v", keys, func, { noremap = true, silent = true, buffer = bufnr, desc = desc })
   end
 
   local imap = function(keys, func, desc)
     if desc then
       desc = "LSP: " .. desc
     end
-    vim.keymap.set("i", keys, func, { buffer = bufnr, desc = desc })
+    vim.keymap.set("i", keys, func, { noremap = true, silent = true, buffer = bufnr, desc = desc })
   end
   -- Keybindings for LSPs
   nmap("gd", vim.lsp.buf.definition, "[G]oto [D]efinition")
@@ -43,4 +43,4 @@ local lsp_keymap = function(bufnr)
   nmap("<leader>lr", vim.lsp.codelens.refresh, "Code [L]ens [R]efresh")
 end
 
-return { lsp_keymap = lsp_keymap }
+return M
