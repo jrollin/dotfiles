@@ -7,7 +7,6 @@ local config = function()
     vim.cmd(string.format("autocmd BufWritePre *.%s %s", ft, command))
   end
 
-  setup_auto_format("rs")
   setup_auto_format("js")
   setup_auto_format("css")
   setup_auto_format("tsx")
@@ -23,55 +22,15 @@ local config = function()
   local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
   local on_attach = function(client, bufnr)
-    local nmap = function(keys, func, desc)
-      if desc then
-        desc = "LSP: " .. desc
-      end
-      vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
-    end
-
-    local vmap = function(keys, func, desc)
-      if desc then
-        desc = "LSP: " .. desc
-      end
-      vim.keymap.set("v", keys, func, { buffer = bufnr, desc = desc })
-    end
-
-    local imap = function(keys, func, desc)
-      if desc then
-        desc = "LSP: " .. desc
-      end
-      vim.keymap.set("i", keys, func, { buffer = bufnr, desc = desc })
-    end
-
-    -- Keybindings for LSPs
-    nmap("gd", vim.lsp.buf.definition, "[G]oto [D]efinition")
-    nmap("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
-    nmap("gi", vim.lsp.buf.implementation, "[G]oto [I]mplementation")
-    nmap("<leader>td", vim.lsp.buf.type_definition, "[T]ype [D]efinition")
-    -- nmap("<leader>s", require("telescope.builtin").lsp_document_symbols, "Document [S]ymbols")
-    nmap("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
-
-    -- See `:help K` for why this keymap
-    nmap("K", vim.lsp.buf.hover, "Hover Documentation")
-    nmap("<C-k>", vim.lsp.buf.signature_help, "Signature Documentation")
-    imap("<C-k>", vim.lsp.buf.signature_help, "Signature Documentation")
-
-    -- Lsp actions
-    nmap("<leader>r", vim.lsp.buf.rename, "[R]ename")
-    nmap("<leader>a", vim.lsp.buf.code_action, "[A]ction")
-    vmap("<leader>a", vim.lsp.buf.range_code_action, "Range [A]ction")
-
-    nmap("<leader>ll", vim.lsp.codelens.run, "Code [L]ens ")
-    nmap("<leader>lr", vim.lsp.codelens.refresh, "Code [L]ens [R]efresh")
-
+    -- lsp keymap
+    require("jrollin.utils").lsp_keymap(bufnr)
     -- Create a command `:Format` local to the LSP buffer
     vim.api.nvim_buf_create_user_command(bufnr, "Format", function(_)
       vim.lsp.buf.format()
     end, { desc = "Format current buffer with LSP" })
 
     if client.server_capabilities.documentFormattingProvider then
-      nmap("<leader>f", "<cmd>lua vim.lsp.buf.format({ async = true })<CR>")
+      vim.keymap.set("n", "<leader>f", "<cmd>lua vim.lsp.buf.format({ async = true })<CR>")
     end
   end
 
@@ -85,7 +44,7 @@ local config = function()
       "tailwindcss",
       "lua_ls",
       "pyright",
-      "rust_analyzer",
+      -- "rust_analyzer", -- managed by plugin rustaceannvim
     },
     -- auto-install configured servers (with lspconfig)
     automatic_installation = true, -- not the same as ensure_installed
@@ -114,35 +73,7 @@ local config = function()
         capabilities = capabilities,
       })
     end,
-    -- Next, you can provide targeted overrides for specific servers.
-    ["rust_analyzer"] = function()
-      local rt = require("rust-tools")
-      local rustopts = require("jrollin.lsp.rust")
-      -- override
-      rustopts.server = {
-        on_attach = on_attach,
-        capabilities = capabilities,
-        settings = {
-          ["rust-analyzer"] = {
-            assist = {
-              importEnforceGranularity = true,
-              importPrefix = "crate",
-            },
-            checkOnSave = {
-              -- default: `cargo check`
-              command = "clippy",
-            },
-            inlayHints = {
-              lifetimeElisionHints = {
-                enable = true,
-                useParameterNames = true,
-              },
-            },
-          },
-        },
-      }
-      rt.setup(rustopts)
-    end,
+
     ["lua_ls"] = function()
       lspconfig.lua_ls.setup({
         settings = {
@@ -169,6 +100,22 @@ local config = function()
       })
     end,
   })
+
+  --[[ vim.g.rustaceanvim = {
+    server = {
+      cmd = function()
+        local mason_registry = require("mason-registry")
+        local ra_binary = mason_registry.is_installed("rust-analyzer")
+            -- This may need to be tweaked, depending on the operating system.
+            and mason_registry.get_package("rust-analyzer"):get_install_path() .. "/rust-analyzer"
+          or "rust-analyzer"
+        return { ra_binary } -- You can add args to the list, such as '--log-file'
+      end,
+
+      on_attach = on_attach,
+      capabilities = capabilities,
+    },
+  } ]]
 end
 
 return {

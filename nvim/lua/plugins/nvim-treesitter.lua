@@ -1,5 +1,5 @@
 local config = function()
-  require("nvim-treesitter.configs").setup({
+  local opts = {
     highlight = {
       enable = true,
       custom_captures = {
@@ -144,7 +144,8 @@ local config = function()
       -- list of language that will be disabled
       -- disable = { "c", "rust" },
     },
-  })
+  }
+  require("nvim-treesitter.configs").setup(opts)
 end
 
 return {

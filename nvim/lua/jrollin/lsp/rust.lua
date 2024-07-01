@@ -1,4 +1,35 @@
 -- rust
+
+-- Next, you can provide targeted overrides for specific servers.
+--[[ ["rust_analyzer"] = function()
+      local rt = require("rust-tools")
+      local rustopts = require("jrollin.lsp.rust")
+      -- override
+      rustopts.server = {
+        on_attach = on_attach,
+        capabilities = capabilities,
+        settings = {
+          ["rust-analyzer"] = {
+            assist = {
+              importEnforceGranularity = true,
+              importPrefix = "crate",
+            },
+            checkOnSave = {
+              -- default: `cargo check`
+              command = "clippy",
+            },
+            inlayHints = {
+              lifetimeElisionHints = {
+                enable = true,
+                useParameterNames = true,
+              },
+            },
+          },
+        },
+      }
+      rt.setup(rustopts)
+    end, ]]
+
 -- Update this path
 -- local extension_path = vim.env.HOME .. '/.vscode/extensions/vadimcn.vscode-lldb-1.6.10/'
 local extension_path = vim.fn.glob(vim.fn.stdpath("data") .. "/mason/packages/codelldb/extension/")

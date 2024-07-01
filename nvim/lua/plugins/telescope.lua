@@ -19,11 +19,21 @@ local config = function()
   end
 
   M.search_files = function()
-    -- local project_root = require("nvim-rooter").get_root()
+    local project_root = require("nvim-rooter").get_root()
+    print("root", project_root)
     require("telescope.builtin").find_files({
-      prompt_title = "< files >",
+      prompt_title = "< files in " .. project_root .. " >",
       file_ignore_patterns = { "%.ttf", "%.min.js", "%.min.css" },
-      -- cwd = project_root,
+      cwd = project_root,
+    })
+  end
+
+  M.grep_files = function()
+    local project_root = require("nvim-rooter").get_root()
+    print("root", project_root)
+    require("telescope.builtin").live_grep({
+      prompt_title = "< grep files in " .. project_root .. " >",
+      cwd = project_root,
     })
   end
 
@@ -58,10 +68,10 @@ local config = function()
   -- custom file search
   vim.keymap.set("n", "<Leader>g", M.search_git, { desc = "[S]earch [G]it" })
   vim.keymap.set("n", "<Leader>sf", M.search_files, { desc = "[S]earch [F]iles" })
+  vim.keymap.set("n", "<leader>sg", M.grep_files, { desc = "[S]earch by G[r]ep" })
 
   vim.keymap.set("n", "<leader>sh", builtin.help_tags, { desc = "[S]earch [H]elp" })
   vim.keymap.set("n", "<leader>sw", builtin.grep_string, { desc = "[S]earch current [W]ord" })
-  vim.keymap.set("n", "<leader>sr", builtin.live_grep, { desc = "[S]earch by G[r]ep" })
 
   vim.keymap.set("n", "<leader>b", builtin.buffers, { desc = "[S]earch [B]uffers" })
   vim.keymap.set("n", "<leader>cb", "<cmd>BufDelOthers<CR>", { desc = "[C]clean [B]uffers" })
@@ -149,7 +159,7 @@ local config = function()
   require("telescope").load_extension("media_files")
   require("telescope").load_extension("ui-select")
   require("telescope").load_extension("aerial")
-  require("telescope").load_extension("dap")
+  -- require("telescope").load_extension("dap")
 end
 
 return {
