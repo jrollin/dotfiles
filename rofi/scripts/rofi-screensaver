@@ -1,0 +1,17 @@
+#!/usr/bin/sh
+selection=$( \
+    echo "screensaver-on|screensaver-off" |  rofi -sep '|'  \
+	rofi -dmenu -i -p 'Option');
+echo $selection;
+
+sleep .2
+
+case $selection in
+	screensaver-on)
+        xset s on && xset +dpms
+		;;
+	screensaver-off)
+        xset s off && xset -dpms
+		;;
+esac
+

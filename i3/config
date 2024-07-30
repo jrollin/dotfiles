@@ -202,6 +202,9 @@ bindsym XF86PowerOff exec --no-startup-id ~/.config/rofi/scripts/rofi-shutdown
 # networking / wifi 
 bindsym $mod+n exec --no-startup-id ~/.config/rofi/scripts/rofi-wifi
 
+# networking / wifi 
+bindsym $mod+Shift+z exec --no-startup-id ~/.config/rofi/scripts/rofi-screensaver
+
 # screen with flameshot
 bindsym Print       exec flameshot full
 bindsym Shift+Print exec flameshot gui
