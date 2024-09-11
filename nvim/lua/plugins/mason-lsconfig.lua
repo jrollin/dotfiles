@@ -38,11 +38,12 @@ local config = function()
   require("mason-lspconfig").setup({
     -- list of servers for mason to install
     ensure_installed = {
-      "tsserver",
+      "ts_ls",
       "html",
       "cssls",
       "tailwindcss",
       "lua_ls",
+      -- python
       "pyright",
       -- "rust_analyzer", -- managed by plugin rustaceannvim
     },
@@ -53,13 +54,18 @@ local config = function()
   require("mason-tool-installer").setup({
     ensure_installed = {
       -- formatter
-      "prettier", -- prettier formatter
-      "stylua", -- lua formatter
-      "isort", -- python formatter
-      "black", -- python formatter
-      -- linter
-      "pylint", -- python linter
-      "eslint_d", -- js linter
+      "prettier",
+      -- javascript linter
+      "eslint_d",
+      -- lua
+      -- lua formatter
+      "stylua",
+      -- python
+      -- python formatter
+      "isort",
+      "black",
+      -- python linter
+      "pylint",
     },
   })
 
