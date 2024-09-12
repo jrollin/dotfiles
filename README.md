@@ -106,23 +106,7 @@ curl -s https://raw.githubusercontent.com/JohnMorales/dotfiles/master/colors/24-
 
 ## Neovim
 
-### Requirements
-
-in Neovim on new machine
-
-```vim
-:Lazy restore
-```
-
-### Digraph
-
-display all non ASCII symbols (digraph)
-
-```
-:digraphs
-```
-
-Usage: `<C-K> code`
+[Specific doc](./nvim/README.md)
 
 ## Xserver
 

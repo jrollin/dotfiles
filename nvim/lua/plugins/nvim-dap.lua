@@ -20,6 +20,15 @@ local config = function()
       name = "Listen for Xdebug",
       port = 9003,
     },
+    {
+      type = "php",
+      request = "launch",
+      name = "Listen for Xdebug docker WS",
+      port = 9003,
+      pathMappings = {
+        ["/var/www/html"] = "${workspaceFolder}",
+      },
+    },
   }
 
   -- VSCODE JS (Node/Chrome/Terminal/Jest)
