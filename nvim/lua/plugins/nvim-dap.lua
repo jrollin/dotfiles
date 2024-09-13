@@ -405,6 +405,13 @@ return {
       end,
       desc = "Toggle breakpoint",
     },
+    {
+      "<leader>?",
+      function()
+        require("dapui").eval(nil, { enter = true })
+      end,
+      desc = "Eval expression under cursor",
+    },
   },
   dependencies = {
     "rcarriga/nvim-dap-ui",
