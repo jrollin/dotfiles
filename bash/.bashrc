@@ -117,3 +117,7 @@ shopt -s expand_aliases
 
 # Enable history appending instead of overwriting.  #139609
 shopt -s histappend 
+
+# >>>> Vagrant command completion (start)
+. /opt/vagrant/embedded/gems/gems/vagrant-2.4.1/contrib/bash/completion.sh
+# <<<<  Vagrant command completion (end)
