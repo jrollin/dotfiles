@@ -3,6 +3,11 @@ local config = function()
   require("nvim-dap-virtual-text").setup({
     commented = true,
   })
+  require("mason-nvim-dap").setup({
+    ensure_installed = { "lua", "js", "php" },
+    handlers = {},
+  })
+
   local dap, dapui, dap_utils = require("dap"), require("dapui"), require("dap.utils")
 
   -- php xdebug
@@ -34,9 +39,10 @@ local config = function()
   -- VSCODE JS (Node/Chrome/Terminal/Jest)
   require("dap-vscode-js").setup({
     -- Path to vscode-js-debug installation.
+    -- nvim data : ~/.local/share/nvim/
     debugger_path = vim.fn.resolve(vim.fn.stdpath("data") .. "/lazy/vscode-js-debug"),
-    debugger_cmd = { "js-debug-adapter" },
-    adapters = { "chrome", "pwa-node", "pwa-chrome", "pwa-msedge", "node-terminal", "pwa-extensionHost" },
+    -- debugger_cmd = { "js-debug-adapter" },
+    adapters = { "node", "chrome", "pwa-node", "pwa-chrome", "pwa-msedge", "node-terminal", "pwa-extensionHost" },
   })
 
   local exts = {
@@ -48,36 +54,8 @@ local config = function()
     "svelte",
   }
 
-  for i, ext in ipairs(exts) do
+  for _, ext in ipairs(exts) do
     dap.configurations[ext] = {
-      {
-        type = "pwa-chrome",
-        request = "launch",
-        name = 'Launch Chrome with "localhost" ' .. ext,
-        url = function()
-          local co = coroutine.running()
-          return coroutine.create(function()
-            vim.ui.input({ prompt = "Enter URL: ", default = "http://localhost:3000" }, function(url)
-              if url == nil or url == "" then
-                return
-              else
-                coroutine.resume(co, url)
-              end
-            end)
-          end)
-        end,
-        port = 9222,
-        webRoot = vim.fn.getcwd(),
-        protocol = "inspector",
-        sourceMaps = true,
-        userDataDir = false,
-        skipFiles = { "<node_internals>/**", "node_modules/**", "${workspaceFolder}/node_modules/**" },
-        resolveSourceMapLocations = {
-          "${workspaceFolder}/apps/**/**",
-          "${workspaceFolder}/**",
-          "!**/node_modules/**",
-        },
-      },
       {
         type = "pwa-node",
         request = "launch",
@@ -87,10 +65,6 @@ local config = function()
         sourceMaps = true,
         protocol = "inspector",
         runtimeExecutable = "node",
-        -- runtimeArgs = {
-        --   "run-script",
-        --   "dev",
-        -- },
         resolveSourceMapLocations = {
           "${workspaceFolder}/**",
           "!**/node_modules/**",
@@ -157,15 +131,36 @@ local config = function()
         console = "integratedTerminal",
         skipFiles = { "<node_internals>/**", "node_modules/**" },
       },
+      -- debug client side
       {
-        type = "pwa-node",
+        type = "pwa-chrome",
         request = "launch",
-        name = "Launch Test Current File (pwa-node with deno)",
-        cwd = vim.fn.getcwd(),
-        runtimeArgs = { "test", "--inspect-brk", "--allow-all", "${file}" },
-        runtimeExecutable = "deno",
-        attachSimplePort = 9229,
+        name = 'Launch Chrome with "localhost" ' .. ext,
+        url = function()
+          local co = coroutine.running()
+          return coroutine.create(function()
+            vim.ui.input({ prompt = "Enter URL: ", default = "http://localhost:3000" }, function(url)
+              if url == nil or url == "" then
+                return
+              else
+                coroutine.resume(co, url)
+              end
+            end)
+          end)
+        end,
+        port = 9222,
+        webRoot = vim.fn.getcwd(),
+        protocol = "inspector",
+        sourceMaps = true,
+        userDataDir = false,
+        skipFiles = { "<node_internals>/**", "node_modules/**", "${workspaceFolder}/node_modules/**" },
+        resolveSourceMapLocations = {
+          "${workspaceFolder}/apps/**/**",
+          "${workspaceFolder}/**",
+          "!**/node_modules/**",
+        },
       },
+      -- Debug nodejs processes (make sure to add --inspect when you run the process)
       {
         type = "pwa-chrome",
         request = "attach",
@@ -190,87 +185,6 @@ local config = function()
       },
     }
   end
-  -- -- javascript
-  -- dap.adapters["pwa-node"] = {
-  --   type = "server",
-  --   -- allow from localhost
-  --   host = "::1",
-  --   --  means nvim-dap will automatically assign a random open port
-  --   port = "${port}",
-  --   executable = {
-  --     -- command = vim.fn.stdpath("data") .. "/mason/bin/js-debug-adapter", -- Path to VSCode Debugger
-  --     command = "js-debug-adapter",
-  --     args = { "${port}" },
-  --   },
-  -- }
-  -- dap.configurations["javascript"] = {
-  --   {
-  --     type = "pwa-node",
-  --     request = "launch",
-  --     name = "Launch file",
-  --     program = "${file}",
-  --     cwd = "${workspaceFolder}",
-  --   },
-  --   {
-  --     -- another set of configs here
-  --   },
-  -- }
-  --
-  -- for _, language in ipairs({ "typescript", "javascript", "typescriptreact" }) do
-  --   require("dap").configurations[language] = {
-  --     -- attach to a node process that has been started with
-  --     -- `--inspect` for longrunning tasks or `--inspect-brk` for short tasks
-  --     -- npm script -> `node --inspect-brk ./node_modules/.bin/vite dev`
-  --     {
-  --       -- use nvim-dap-vscode-js's pwa-node debug adapter
-  --       type = "pwa-node",
-  --       -- attach to an already running node process with --inspect flag
-  --       -- default port: 9222
-  --       request = "attach",
-  --       -- allows us to pick the process using a picker
-  --       processId = require("dap.utils").pick_process,
-  --       -- name of the debug action you have to select for this config
-  --       name = "Attach debugger to existing `node --inspect` process",
-  --       -- for compiled languages like TypeScript or Svelte.js
-  --       sourceMaps = true,
-  --       -- resolve source maps in nested locations while ignoring node_modules
-  --       resolveSourceMapLocations = {
-  --         "${workspaceFolder}/**",
-  --         "!**/node_modules/**",
-  --       },
-  --       -- path to src in vite based projects (and most other projects as well)
-  --       cwd = "${workspaceFolder}/src",
-  --       -- we don't want to debug code inside node_modules, so skip it!
-  --       skipFiles = { "${workspaceFolder}/node_modules/**/*.js" },
-  --     },
-  --     {
-  --       type = "pwa-chrome",
-  --       name = "Launch Chrome to debug client",
-  --       request = "launch",
-  --       url = "http://localhost:5173",
-  --       sourceMaps = true,
-  --       protocol = "inspector",
-  --       port = 9222,
-  --       webRoot = "${workspaceFolder}/src",
-  --       -- skip files from vite's hmr
-  --       skipFiles = { "**/node_modules/**/*", "**/@vite/*", "**/src/client/*", "**/src/*" },
-  --     },
-  --     -- only if language is javascript, offer this debug action
-  --     language == "javascript"
-  --         and {
-  --           -- use nvim-dap-vscode-js's pwa-node debug adapter
-  --           type = "pwa-node",
-  --           -- launch a new process to attach the debugger to
-  --           request = "launch",
-  --           -- name of the debug action you have to select for this config
-  --           name = "Launch file in new node process",
-  --           -- launch current file
-  --           program = "${file}",
-  --           cwd = "${workspaceFolder}",
-  --         }
-  --       or nil,
-  --   }
-  -- end
 
   dap.listeners.after.event_initialized["dapui_config"] = function()
     dapui.open()
@@ -417,8 +331,9 @@ return {
     "rcarriga/nvim-dap-ui",
     "theHamsta/nvim-dap-virtual-text",
     "nvim-neotest/nvim-nio",
-    "mxsdev/nvim-dap-vscode-js",
+    "jay-babu/mason-nvim-dap.nvim",
     -- Install the vscode-js-debug adapter
+    "mxsdev/nvim-dap-vscode-js",
     {
       "microsoft/vscode-js-debug",
       -- After install, build it and rename the dist directory to out
