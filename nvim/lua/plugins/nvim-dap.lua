@@ -1,3 +1,12 @@
+local js_based_languages = {
+  "javascript",
+  "typescript",
+  "javascriptreact",
+  "typescriptreact",
+  "vue",
+  "svelte",
+}
+
 local config = function()
   require("dapui").setup()
   require("nvim-dap-virtual-text").setup({
@@ -42,19 +51,17 @@ local config = function()
     -- nvim data : ~/.local/share/nvim/
     debugger_path = vim.fn.resolve(vim.fn.stdpath("data") .. "/lazy/vscode-js-debug"),
     -- debugger_cmd = { "js-debug-adapter" },
-    adapters = { "node", "chrome", "pwa-node", "pwa-chrome", "pwa-msedge", "node-terminal", "pwa-extensionHost" },
+    adapters = {
+      "node",
+      "chrome",
+      "pwa-node",
+      "pwa-chrome",
+      "pwa-msedge",
+      "pwa-extensionHost",
+      "node-terminal",
+    },
   })
-
-  local exts = {
-    "javascript",
-    "typescript",
-    "javascriptreact",
-    "typescriptreact",
-    "vue",
-    "svelte",
-  }
-
-  for _, ext in ipairs(exts) do
+  for _, ext in ipairs(js_based_languages) do
     dap.configurations[ext] = {
       {
         type = "pwa-node",
@@ -183,6 +190,12 @@ local config = function()
         processId = dap_utils.pick_process,
         skipFiles = { "<node_internals>/**" },
       },
+      -- Divider for the launch.json derived configs
+      {
+        name = "----- ↓ launch.json configs ↓ -----",
+        type = "",
+        request = "launch",
+      },
     }
   end
 
@@ -219,7 +232,16 @@ return {
     {
       "<leader><leader>dc",
       function()
-        require("dap").continue({})
+        if vim.fn.filereadable(".vscode/launch.json") then
+          local dap_vscode = require("dap.ext.vscode")
+          dap_vscode.load_launchjs(nil, {
+            ["pwa-node"] = js_based_languages,
+            ["chrome"] = js_based_languages,
+            ["node"] = js_based_languages,
+            ["pwa-chrome"] = js_based_languages,
+          })
+        end
+        require("dap").continue()
       end,
       desc = "Start debugging",
     },
@@ -301,7 +323,16 @@ return {
     {
       "<F9>",
       function()
-        require("dap").continue({})
+        if vim.fn.filereadable(".vscode/launch.json") then
+          local dap_vscode = require("dap.ext.vscode")
+          dap_vscode.load_launchjs(nil, {
+            ["pwa-node"] = js_based_languages,
+            ["chrome"] = js_based_languages,
+            ["node"] = js_based_languages,
+            ["pwa-chrome"] = js_based_languages,
+          })
+        end
+        require("dap").continue()
       end,
       desc = "Start debugging",
     },
@@ -339,6 +370,10 @@ return {
       -- After install, build it and rename the dist directory to out
       build = "npm install --legacy-peer-deps --no-save && npx gulp vsDebugServerBundle && rm -rf out && mv dist out",
       version = "1.*",
+    },
+    {
+      "Joakker/lua-json5",
+      build = "./install.sh",
     },
   },
 }
