@@ -187,7 +187,9 @@ local config = function()
         request = "attach",
         name = "Attach Program (pwa-node, select pid)",
         cwd = vim.fn.getcwd(),
-        processId = dap_utils.pick_process,
+        processId = function()
+          return dap_utils.pick_process({ filter = "node" })
+        end,
         skipFiles = { "<node_internals>/**" },
       },
       -- Divider for the launch.json derived configs
