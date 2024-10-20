@@ -82,6 +82,8 @@ local config = function()
   vim.keymap.set("n", "<Leader>gb", M.git_branches, { desc = "[G]it [B]ranches" })
   vim.keymap.set("n", "<Leader>gs", builtin.git_status, { desc = "[G]it [S]tatus" })
 
+  vim.keymap.set("n", "<leader>tw", ":Telescope whop<CR>", { noremap = true, desc = "whop.nvim (telescope)" })
+
   -- ignore patterns
   local _bad = { ".*%.min.js", ".*%.min.css", "*.ttf" } -- Put all filetypes that slow you down in this array
   local bad_files = function(filepath)
@@ -151,6 +153,9 @@ local config = function()
       ["ui-select"] = {
         require("telescope.themes").get_dropdown(),
       },
+      whop = {
+        preview_buffer_line_limit = 1000, -- default is 1000
+      },
     },
   })
   -- load_extension, somewhere after setup function:
@@ -160,6 +165,7 @@ local config = function()
   require("telescope").load_extension("ui-select")
   require("telescope").load_extension("aerial")
   -- require("telescope").load_extension("dap")
+  require("telescope").load_extension("whop")
 end
 
 return {
@@ -172,6 +178,7 @@ return {
     "nvim-telescope/telescope-media-files.nvim",
     "nvim-telescope/telescope-ui-select.nvim", -- Use telescope to override vim.ui.select
     "stevearc/aerial.nvim",
+    "biozz/whop.nvim",
   },
   config = config,
   lazy = false,

@@ -3,3 +3,4 @@ require("jrollin.plugins")
 require("jrollin.keymaps")
 -- extends
 require("jrollin.snippets.markdown")
+require("jrollin.command.ansible")
