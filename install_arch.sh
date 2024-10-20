@@ -34,7 +34,8 @@ pacman -S \
     tldr \
     htop \
     imagemagick \
-    jq
+    jq  \
+    socat
 
 #xorg intel
 ## Install Intel graphic drivers

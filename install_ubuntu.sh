@@ -16,7 +16,6 @@ install_basics() {
       # tools
       # most larges files
       ncdu 
-
 }
 
 install_search() {
@@ -72,7 +71,7 @@ install_blue() {
 
 install_utils() {
     echo "installing utils.." \
-    && apt install tldr htop  jq
+    && apt install tldr htop  jq socat
 }
 
 install_laptop() {
