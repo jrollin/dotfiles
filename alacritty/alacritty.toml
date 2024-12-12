@@ -1,6 +1,6 @@
-import = [".~/.config/alacritty/dracula.toml"]
+general.import = [".~/.config/alacritty/dracula.toml"]
 
-[shell]
+[terminal.shell]
 # program = "/bin/bash"
 program= "/usr/bin/fish"
 
