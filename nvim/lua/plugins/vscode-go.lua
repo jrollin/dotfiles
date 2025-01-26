@@ -1,3 +1,0 @@
-return {
-  "golang/vscode-go",
-}

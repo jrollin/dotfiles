@@ -12,8 +12,8 @@ in Neovim on new machine
 
 display all non ASCII symbols (digraph)
 
-```
-:digraphs
+```bash
+hdigraphs
 ```
 
 ## Debug with Dap
@@ -64,8 +64,8 @@ xdebug.start_with_request=yes
 
 ### Node JS
 
-> source: https://www.darricheng.com/posts/setting-up-nodejs-debugging-in-neovim/
+> source: <https://www.darricheng.com/posts/setting-up-nodejs-debugging-in-neovim/>
 
 install `js-debug-adapter` with Mason
 
-Rely on Miscrosoft vscode plugin : https://github.com/microsoft/vscode-js-debug
+Rely on Miscrosoft vscode plugin : <https://github.com/microsoft/vscode-js-debug>
