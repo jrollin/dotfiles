@@ -12,3 +12,6 @@ vim.g.lazyvim_cmp = "blink.cmp"
 vim.opt.laststatus = 3
 
 vim.opt.cursorline = false -- Enable highlighting of the current line
+
+-- hide codeb rendering (ex: codeblock)
+vim.opt.conceallevel = 0
