@@ -7,6 +7,8 @@ vim.g.snacks_animate = false
 
 vim.g.lazyvim_cmp = "blink.cmp"
 
+vim.opt.relativenumber = false -- Relative line numbers
+
 -- AI : avante
 -- views can only be fully collapsed with the global statusline
 vim.opt.laststatus = 3
