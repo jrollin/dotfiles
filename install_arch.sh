@@ -2,79 +2,81 @@
 
 # base
 pacman -S \
-  git \
-  unzip \
-  curl \
-  zsh \
-  xclip \
-  tree \
-  direnv \
-  base-devel \
-  xdg-utils \
-  cmake \
-  sshpass
+	git \
+	unzip \
+	curl \
+	zsh \
+	xclip \
+	tree \
+	direnv \
+	base-devel \
+	xdg-utils \
+	cmake \
+	sshpass
 
-# i3 
+# i3
 pacman -S \
-  polybar \
-  rofi \
-  flameshot \
-  feh \
-  xorg-xbacklight \
-  i3lock
+	polybar \
+	rofi \
+	flameshot \
+	feh \
+	xorg-xbacklight \
+	i3lock
 
 # term / shell
 pacman -S \
-  alacritty \
-  starship \
-  fish
+	alacritty \
+	starship \
+	fish
 
 # utils
 pacman -S \
-    tldr \
-    htop \
-    imagemagick \
-    jq  \
-    socat
+	tldr \
+	htop \
+	imagemagick \
+	jq \
+	socat
 
 #xorg intel
 ## Install Intel graphic drivers
 pacman -S \
-    xf86-video-intel \
-    intel-media-driver  
-
+	xf86-video-intel \
+	intel-media-driver
 
 # vim
 pacman -S \
-  neovim \
-  ripgrep \
-  fzf 
+	neovim \
+	ripgrep \
+	fzf \
+	fd
 
-
-# network 
+# network
 pacman -S \
-  networkmanager \
-  iw \
-  wpa_supplicant \
-  wireless_tools \
-  netctl \
-  bluez \
-  bluez-utils 
+	networkmanager \
+	iw \
+	wpa_supplicant \
+	wireless_tools \
+	netctl \
+	bluez \
+	bluez-utils
 
 # sound
 pacman -S \
-  pipewire-{audio,jack,alsa,pulse} \
-  wireplumber \
-  xdg-desktop-portal-gtk \
-  pavucontrol
-
+	pipewire-{audio,jack,alsa,pulse} \
+	wireplumber \
+	xdg-desktop-portal-gtk \
+	pavucontrol
 
 # test hardware aceleration :
 # mpv --hwdec=auto PATH/videofile
 # vainfo
 # glxinfo | grep "direct rendering"
 sudo pacman -S \
-    mpv \
-    libva-utils \
-    vdpauinfo \
-    glxinfo  
+	mpv \
+	libva-utils \
+	vdpauinfo \
+	glxinfo
+
+# lang
+pacman -S \
+	go

@@ -1,9 +1,9 @@
 # common 
 set -x LANG fr_FR.UTF-8
-set -x EDITOR "nvim"
-set -x VISUAL "nvim"
-set -x TERMINAL "alacritty"
-set -x BROWSER "firefox"
+set -x EDITOR nvim
+set -x VISUAL nvim
+set -x TERMINAL alacritty
+set -x BROWSER firefox
 
 # XDG 
 set -x XDG_CONFIG_HOME "$HOME/.config"
@@ -19,20 +19,23 @@ set -x WORK_DIR $HOME/workspace/
 [ -d $HOME/.cargo ] && set --export CARGO_ROOT "$HOME/.cargo"
 # npm
 [ -d $HOME/.npm-global ] && set --export NPM_ROOT "$HOME/.npm-global"
-#  asdf 
-if test -d $HOME/.asdf;
-    source $HOME/.asdf/asdf.fish
-    # to add autocomplete to fish
-    # create symlink
-    # ln -s ~/.asdf/completions/asdf.fish ~/.config/fish/completions
-end
 
 # Extend PATH
 # cargo
-if test -d $HOME/.cargo; if not contains "$HOME/.cargo" $PATH; set --prepend PATH $CARGO_ROOT/bin; end; end
-if not contains $HOME/.local/bin $PATH; set --prepend PATH $HOME/.local/bin; end
+if test -d $HOME/.cargo
+    if not contains "$HOME/.cargo" $PATH
+        set --prepend PATH $CARGO_ROOT/bin
+    end
+end
+if not contains $HOME/.local/bin $PATH
+    set --prepend PATH $HOME/.local/bin
+end
 # npm
-if test -d $HOME/.npm-global; if not contains "$HOME/.npm-global" $PATH; set --prepend PATH $NPM_ROOT/bin; end; end
+if test -d $HOME/.npm-global
+    if not contains "$HOME/.npm-global" $PATH
+        set --prepend PATH $NPM_ROOT/bin
+    end
+end
 
 # Warnings 
 [ ! -d $HOME/.cargo ] && echo "cargo is missing; install by running: curl https://sh.rustup.rs -sSf | sh"
@@ -40,4 +43,3 @@ if test -d $HOME/.npm-global; if not contains "$HOME/.npm-global" $PATH; set --p
 
 # prompt
 starship init fish | source
-
