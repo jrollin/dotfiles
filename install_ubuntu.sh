@@ -20,7 +20,7 @@ install_basics() {
 
 install_search() {
 echo "Installing packages..." \
-    && apt install ripgrep fzf  
+    && apt install ripgrep fzf  fd-find
 }
 
 install_shell() {
