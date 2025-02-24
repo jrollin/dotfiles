@@ -4,10 +4,10 @@ return {
   name = "ansible-cmd",
   lazy = true,
   keys = {
-    { "<leader>aie", mode = "v", desc = "Ansible Vault encrypt selection with file" },
-    { "<leader>aid", mode = "v", desc = "Ansible Vault decrypt selection with file" },
-    { "<leader>afv", desc = "Ansible Vault view file" },
-    { "<leader>afe", desc = "Ansible Vault encrypt file" },
+    { "<leader>aie", mode = "v", desc = "Ansible Vault encrypt selection with vault file" },
+    { "<leader>aiv", mode = "v", desc = "Ansible Vault view selection with vault file" },
+    { "<leader>afe", desc = "Ansible Vault encrypt file with vault file" },
+    { "<leader>afv", desc = "Ansible Vault view file with vault file" },
   },
   config = function()
     -- Create the module
@@ -55,12 +55,12 @@ return {
     function ansible.execute_inline_with_file_picker_vault(cmd_prefix, selection)
       ansible.select_file(cmd_prefix, "Vault file", function(picked)
         -- Build full command
-        local full_cmd = "echo '"
-          .. selection
-          .. "'  | tr -d ' ' | "
-          .. cmd_prefix
-          .. "  --vault-password-file "
-          .. picked.value
+        local escaped_content = string.gsub(selection, "'", "'\\''")
+        local full_cmd = string.format(
+          "sh -c 'echo \\'%s\\' | tr -d \" \" | ansible-vault decrypt --vault-password-file %s && echo'",
+          escaped_content,
+          picked.value
+        )
         -- Execute the command
         ansible.execute_command(full_cmd)
       end)
@@ -120,29 +120,59 @@ return {
         stdout_buffered = true,
         stderr_buffered = true,
         on_stdout = function(_, data)
-          if data and #data > 1 then
-            vim.api.nvim_buf_set_option(buf, "modifiable", true)
-            vim.api.nvim_buf_set_lines(buf, 2, -1, false, data)
-            vim.api.nvim_buf_set_option(buf, "modifiable", false)
+          -- Check if data exists and is a table
+          if data then
+            local filtered_data = {}
+            if type(data) == "table" then
+              -- Filter out empty strings if needed
+              for _, line in ipairs(data) do
+                if line and line ~= "" then
+                  table.insert(filtered_data, line)
+                end
+              end
+            else
+              table.insert(filtered_data, data)
+            end
+
+            if #filtered_data > 0 then
+              vim.api.nvim_buf_set_option(buf, "modifiable", true)
+              vim.api.nvim_buf_set_lines(buf, 0, 2, false, { "✓ Completed: " })
+              vim.api.nvim_buf_set_lines(buf, -1, -1, false, filtered_data)
+              vim.api.nvim_buf_set_option(buf, "modifiable", false)
+            end
           end
         end,
         on_stderr = function(_, data)
-          if data and #data > 1 then
-            vim.api.nvim_buf_set_option(buf, "modifiable", true)
-            vim.api.nvim_buf_set_lines(buf, -1, -1, false, data)
-            vim.api.nvim_buf_set_option(buf, "modifiable", false)
+          -- Similar filtering for stderr
+          if data then
+            local filtered_data = {}
+            if type(data) == "table" then
+              -- Filter out empty strings if needed
+              for _, line in ipairs(data) do
+                if line and line ~= "" then
+                  table.insert(filtered_data, line)
+                end
+              end
+            else
+              table.insert(filtered_data, data)
+            end
+
+            if #filtered_data > 0 then
+              vim.api.nvim_buf_set_option(buf, "modifiable", true)
+              vim.api.nvim_buf_set_lines(buf, 0, 2, false, { "✗ Failed to decrypt" })
+              vim.api.nvim_buf_set_lines(buf, -1, -1, false, filtered_data)
+              vim.api.nvim_buf_set_option(buf, "modifiable", false)
+            end
           end
         end,
         on_exit = function(_, code)
           vim.api.nvim_buf_set_option(buf, "modifiable", true)
           if code == 0 then
-            vim.api.nvim_buf_set_lines(buf, 0, 2, false, { "✓ Completed: ", "" })
-            print(vim.inspect(cmd))
-            vim.api.nvim_buf_set_lines(buf, -1, -1, false, cmd)
+            vim.api.nvim_buf_set_lines(buf, -1, -1, false, { "✓ Command completed successfully", "" })
           else
-            vim.api.nvim_buf_set_lines(buf, 0, 2, false, { "✗ Failed: ", "" })
-            vim.api.nvim_buf_set_lines(buf, -1, -1, false, cmd)
+            vim.api.nvim_buf_set_lines(buf, -1, -1, false, { "✗ Command failed with code " .. code, "" })
           end
+          -- Add the executed command at the end of the buffer for reference
           vim.api.nvim_buf_set_option(buf, "modifiable", false)
         end,
       })
@@ -151,6 +181,7 @@ return {
     function trim(s)
       return (string.gsub(s, "^%s*(.-)%s*$", "%1"))
     end
+
     -- inline
     vim.keymap.set("v", "<leader>aie", function()
       -- Important: Quittez d'abord le mode visuel
@@ -162,13 +193,13 @@ return {
       end, 100)
     end, { desc = "Ansible vault encrypt selection with vault file" })
 
-    vim.keymap.set("v", "<leader>aid", function()
+    vim.keymap.set("v", "<leader>aiv", function()
       -- Important: Quittez d'abord le mode visuel
       vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "n", false)
       -- Attendez un peu
       vim.defer_fn(function()
         local selection = trim(get_visual_selection())
-        ansible.execute_inline_with_file_picker_vault("ansible-vault decrypt", selection)
+        ansible.execute_inline_with_file_picker_vault("ansible-vault view", selection)
       end, 100)
     end, { desc = "Ansible vault decrypt selection with vault file" })
 
@@ -180,6 +211,11 @@ return {
     vim.keymap.set("n", "<leader>aef", function()
       ansible.execute_with_file_picker_vault("ansible-vault encrypt", "File to encrypt")
     end, { desc = "Ansible Vault decrypt with vault file " })
+
+    -- comand
+    vim.api.nvim_create_user_command("ansile", function()
+      print("hello")
+    end, {})
 
     -- Make the module globally available
     package.loaded.ansible = ansible
