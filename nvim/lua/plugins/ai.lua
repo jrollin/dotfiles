@@ -44,18 +44,29 @@ local opts = {
       all_theirs = "ca",
       both = "cb",
       cursor = "cc",
-      next = "]x",
-      prev = "[x",
+      -- override
+      --next = "]x",
+      --prev = "[x",
+      next = "n",
+      prev = "p",
     },
     suggestion = {
-      accept = "<M-l>",
-      next = "<M-]>",
-      prev = "<M-[>",
-      dismiss = "<C-]>",
+      -- accept = "<M-l>",
+      -- next = "<M-]>",
+      -- prev = "<M-[>",
+      -- dismiss = "<C-]>",
+      -- overide
+      accept = "<M-a>",
+      next = "<M-l>",
+      prev = "<M-h>",
+      dismiss = "<C-d>",
     },
     jump = {
-      next = "]]",
-      prev = "[[",
+      -- next = "]]",
+      -- prev = "[[",
+      -- override
+      next = "<A-l>",
+      prev = "<A-h>",
     },
     submit = {
       normal = "<CR>",
