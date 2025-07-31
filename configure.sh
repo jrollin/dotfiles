@@ -18,6 +18,9 @@ install_scripts() {
 	# tm
 	rm -f "$HOME/.local/bin/tm" &&
 		ln -s "$DOTFILES_PATH/scripts/tm" "$HOME/.local/bin/tm"
+	# tmux plugin
+	rm -f "$HOME/.local/bin/tmux-select-url" &&
+		ln -s "$DOTFILES_PATH/scripts/tmux-select-url" "$HOME/.local/bin/tmux-select-url"
 	# virtualcam
 	rm -f "$HOME/.local/bin/virtualcam" &&
 		ln -s "$DOTFILES_PATH/scripts/virtualcam" "$HOME/.local/bin/virtualcam"
