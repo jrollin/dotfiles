@@ -1,38 +1,96 @@
 #!/bin/bash
+set -euo pipefail
 
-if [[ $# -eq 1 ]]; then
-    selected=$1
-else
-    # select name with fzf among provided directories
-    # selected=$(find ~/projects/ ~/dotfiles/ -mindepth 1 -maxdepth 1 -type d | fzf)
-    selected=$(pwd)
+# Default editor
+EDITOR=${EDITOR:-vi}
+
+# Help function
+show_help() {
+	echo "Usage: $0 [directory] [-h|--help] [-k|--kill]"
+	echo "  directory    Target directory (default: current directory)"
+	echo "  -h, --help   Show this help"
+	echo "  -k, --kill   Kill existing session before creating new one"
+	exit 0
+}
+
+# Parse arguments
+KILL_EXISTING=false
+selected=""
+
+while [[ $# -gt 0 ]]; do
+	case $1 in
+	-h | --help)
+		show_help
+		;;
+	-k | --kill)
+		KILL_EXISTING=true
+		shift
+		;;
+	-*)
+		echo "Unknown option: $1" >&2
+		show_help
+		;;
+	*)
+		if [[ -z "$selected" ]]; then
+			selected="$1"
+		else
+			echo "Multiple directories specified" >&2
+			exit 1
+		fi
+		shift
+		;;
+	esac
+done
+
+# If no directory specified, use current directory
+if [[ -z "$selected" ]]; then
+	selected=$(pwd)
 fi
 
-if [[ -z $selected ]]; then
-    exit 0
+if [[ -z "$selected" ]]; then
+	exit 0
 fi
 
-# cleanup name 
+# Verify directory exists
+if [[ ! -d "$selected" ]]; then
+	echo "Error: Directory '$selected' does not exist" >&2
+	exit 1
+fi
+
+# cleanup name
 SNAME=$(basename "$selected" | tr . _)
-echo $NAME
-# name session and window
-tmux new-session -s $SNAME -n sources -d
+echo "Creating tmux session: $SNAME"
+# Check if tmux is available
+if ! command -v tmux >/dev/null 2>&1; then
+	echo "Error: tmux is not installed" >&2
+	exit 1
+fi
+
+# Handle existing session
+if tmux has-session -t "$SNAME" 2>/dev/null; then
+	if [[ "$KILL_EXISTING" == "true" ]]; then
+		echo "Killing existing session: $SNAME"
+		tmux kill-session -t "$SNAME"
+	else
+		echo "Session '$SNAME' already exists. Use -k to kill it first, or attach with: tmux attach -t $SNAME"
+		exit 1
+	fi
+fi
+
+# Change to target directory and create session
+cd "$selected"
+tmux new-session -s "$SNAME" -n sources -d
 
 # create new named window
-tmux new-window -t $SNAME -n term -d
+tmux new-window -t "$SNAME" -n term -d
 
 # select window and split
-tmux select-window -t $SNAME:term 
-# tmux split-window -h
-# cmd
-# tmux send-keys -t $SNAME:term "git status" Enter
+tmux select-window -t "$SNAME:term"
 
-# select window
-tmux select-window -t $SNAME:sources
-# vi
-tmux send-keys -t $SNAME:sources "vi " Enter
+# select window and start editor
+tmux select-window -t "$SNAME:sources"
+tmux send-keys -t "$SNAME:sources" "$EDITOR" Enter
 
-
-tmux -u attach -t $SNAME
-
-
+# Attach to session
+echo "Attaching to session: $SNAME"
+tmux -u attach -t "$SNAME"
