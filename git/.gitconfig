@@ -42,3 +42,5 @@
     path = .gitconfig-job
 
 
+[push]
+	default = current
