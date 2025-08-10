@@ -1,120 +1,129 @@
 return {
-  -- use code companion for mistral / copilot
-  {
-    "olimorris/codecompanion.nvim",
-    opts = {},
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-treesitter/nvim-treesitter",
-      -- extensions
-      "ravitemer/mcphub.nvim",
-    },
-    config = function()
-      require("codecompanion").setup({
-        adapters = {
-          mistral = function()
-            return require("codecompanion.adapters").extend("mistral", {
-              env = {
-                api_key = "cmd:head -n1 ~/.mistral_key | tr -d '\\n'",
-                url = "https://api.mistral.ai",
-              },
-              schema = {
-                model = {
-                  default = "codestral-latest",
-                },
-              },
-            })
-          end,
+  -- claude code
 
-          codestral = function()
-            return require("codecompanion.adapters").extend("mistral", {
-              env = {
-                api_key = "cmd:head -n1 ~/.mistral_codestral_key | tr -d '\\n'",
-                url = "https://codestral.mistral.ai",
-              },
-              schema = {
-                model = {
-                  -- default = "codestral-latest",
-                  default = "mistral-large-latest",
-                },
-              },
-            })
-          end,
-          anthropic = function()
-            return require("codecompanion.adapters").extend("anthropic", {
-              env = {
-                api_key = "cmd:head -n1 ~/.claude_api_key | tr -d '\\n'",
-              },
-            })
-          end,
-        },
-        strategies = {
-          chat = {
-            adapter = "mistral",
-            keymaps = {
-              close = {
-                -- override to avoid mistyping with default <C-c>
-                modes = { n = "<C-q>", i = "<C-q>" },
-                opts = {},
-              },
-            },
-          },
-          inline = {
-            adapter = "mistral",
-          },
-        },
-        extensions = {
-          mcphub = {
-            callback = "mcphub.extensions.codecompanion",
-            opts = {
-              make_vars = true,
-              make_slash_commands = true,
-              show_result_in_chat = true,
-            },
-          },
-        },
-      })
-    end,
+  {
+    "coder/claudecode.nvim",
+    dependencies = { "folke/snacks.nvim" },
+    config = true,
     keys = {
+      -- { "<leader>a", nil, desc = "AI/Claude Code" },
+      { "<leader>ac", "<cmd>ClaudeCode<cr>", desc = "Toggle Claude" },
+      { "<leader>af", "<cmd>ClaudeCodeFocus<cr>", desc = "Focus Claude" },
+      { "<leader>ar", "<cmd>ClaudeCode --resume<cr>", desc = "Resume Claude" },
+      { "<leader>aC", "<cmd>ClaudeCode --continue<cr>", desc = "Continue Claude" },
+      { "<leader>am", "<cmd>ClaudeCodeSelectModel<cr>", desc = "Select Claude model" },
+      { "<leader>ab", "<cmd>ClaudeCodeAdd %<cr>", desc = "Add current buffer" },
+      { "<leader>as", "<cmd>ClaudeCodeSend<cr>", mode = "v", desc = "Send to Claude" },
       {
-        "<leader>aa",
-        "<cmd>CodeCompanionActions<CR>",
-        mode = { "n", "v" },
-        desc = "Code companion actions",
+        "<leader>as",
+        "<cmd>ClaudeCodeTreeAdd<cr>",
+        desc = "Add file",
+        ft = { "NvimTree", "neo-tree", "oil" },
       },
-      { "<leader>ac", "<cmd>CodeCompanionChat toggle<CR>", mode = { "n", "v" }, desc = "Code companion chat" },
-      { "<leader>al", "<cmd>CodeCompanionChat add<CR>", mode = { "v" }, desc = "Code companion addd to chat" },
+      -- Diff management
+      { "<leader>aa", "<cmd>ClaudeCodeDiffAccept<cr>", desc = "Accept diff" },
+      { "<leader>ad", "<cmd>ClaudeCodeDiffDeny<cr>", desc = "Deny diff" },
     },
-  },
-  -- cleaner diff when using the inline assistant
-  {
-    "echasnovski/mini.diff",
-    config = function()
-      local diff = require("mini.diff")
-      diff.setup({
-        -- Disabled by default
-        source = diff.gen_source.none(),
-      })
-    end,
-  },
-  -- render markdown in code companion
-  {
-    "MeanderingProgrammer/render-markdown.nvim",
-    ft = { "codecompanion" },
   },
 
-  {
-    "OXY2DEV/markview.nvim",
-    lazy = false,
-    -- For `nvim-treesitter` users.
-    priority = 49,
-    opts = {
-      preview = {
-        filetypes = { "codecompanion" },
-        ignore_buftypes = {},
-      },
-    },
-  },
+  -- use code companion for mistral / copilot
+  -- {
+  --   "olimorris/codecompanion.nvim",
+  --   opts = {},
+  --   dependencies = {
+  --     "nvim-lua/plenary.nvim",
+  --     "nvim-treesitter/nvim-treesitter",
+  --     -- extensions
+  --     "ravitemer/mcphub.nvim",
+  --   },
+  --   config = function()
+  --     require("codecompanion").setup({
+  --       adapters = {
+  --         mistral = function()
+  --           return require("codecompanion.adapters").extend("mistral", {
+  --             env = {
+  --               api_key = "cmd:head -n1 ~/.mistral_key | tr -d '\\n'",
+  --               url = "https://api.mistral.ai",
+  --             },
+  --             schema = {
+  --               model = {
+  --                 default = "codestral-latest",
+  --               },
+  --             },
+  --           })
+  --         end,
+  --
+  --         codestral = function()
+  --           return require("codecompanion.adapters").extend("mistral", {
+  --             env = {
+  --               api_key = "cmd:head -n1 ~/.mistral_codestral_key | tr -d '\\n'",
+  --               url = "https://codestral.mistral.ai",
+  --             },
+  --             schema = {
+  --               model = {
+  --                 -- default = "codestral-latest",
+  --                 default = "mistral-large-latest",
+  --               },
+  --             },
+  --           })
+  --         end,
+  --         anthropic = function()
+  --           return require("codecompanion.adapters").extend("anthropic", {
+  --             env = {
+  --               api_key = "cmd:head -n1 ~/.claude_api_key | tr -d '\\n'",
+  --             },
+  --           })
+  --         end,
+  --       },
+  --       strategies = {
+  --         chat = {
+  --           adapter = "mistral",
+  --           keymaps = {
+  --             close = {
+  --               -- override to avoid mistyping with default <C-c>
+  --               modes = { n = "<C-q>", i = "<C-q>" },
+  --               opts = {},
+  --             },
+  --           },
+  --         },
+  --         inline = {
+  --           adapter = "mistral",
+  --         },
+  --       },
+  --       extensions = {
+  --         mcphub = {
+  --           callback = "mcphub.extensions.codecompanion",
+  --           opts = {
+  --             make_vars = true,
+  --             make_slash_commands = true,
+  --             show_result_in_chat = true,
+  --           },
+  --         },
+  --       },
+  --     })
+  --   end,
+  --   keys = {
+  --     {
+  --       "<leader>aa",
+  --       "<cmd>CodeCompanionActions<CR>",
+  --       mode = { "n", "v" },
+  --       desc = "Code companion actions",
+  --     },
+  --     { "<leader>ac", "<cmd>CodeCompanionChat toggle<CR>", mode = { "n", "v" }, desc = "Code companion chat" },
+  --     { "<leader>al", "<cmd>CodeCompanionChat add<CR>", mode = { "v" }, desc = "Code companion addd to chat" },
+  --   },
+  -- },
+  -- -- cleaner diff when using the inline assistant
+  -- {
+  --   "echasnovski/mini.diff",
+  --   config = function()
+  --     local diff = require("mini.diff")
+  --     diff.setup({
+  --       -- Disabled by default
+  --       source = diff.gen_source.none(),
+  --     })
+  --   end,
+  -- },
 
   -- alternative ai :
   -- avante plugin

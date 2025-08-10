@@ -15,5 +15,11 @@ vim.opt.laststatus = 3
 
 vim.opt.cursorline = false -- Enable highlighting of the current line
 
--- hide codeb rendering (ex: codeblock)
-vim.opt.conceallevel = 0
+-- hide codeb rendering (ex: markdown codeblock)
+-- vim.opt.conceallevel = 0
+--
+--
+
+-- spell check
+-- vim.opt_local.spell = false
+vim.opt.spelllang = { "en", "fr" }
