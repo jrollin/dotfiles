@@ -24,6 +24,15 @@ return {
       { "<leader>aa", "<cmd>ClaudeCodeDiffAccept<cr>", desc = "Accept diff" },
       { "<leader>ad", "<cmd>ClaudeCodeDiffDeny<cr>", desc = "Deny diff" },
     },
+    opts = {
+      terminal = {
+        provider = "external",
+        provider_opts = {
+          external_terminal_cmd = "alacritty -e %s", -- Replace with your preferred terminal program. %s is replaced with claude command
+          -- external_terminal_cmd = "tmux new-window -n 'claude' -d && tmux send-keys -t 'claude'  %s ",
+        },
+      },
+    },
   },
 
   -- use code companion for mistral / copilot
