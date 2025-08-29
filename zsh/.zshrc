@@ -21,6 +21,21 @@ setopt HIST_SAVE_NO_DUPS
 setopt HIST_FIND_NO_DUPS
 
 
+
+# Android SDK
+if [ -d "$HOME/android-sdk" ]; then
+    export ANDROID_HOME="$HOME/android-sdk"
+    
+    if [ -d "$ANDROID_HOME/platform-tools" ]; then
+        export PATH="$PATH:$ANDROID_HOME/platform-tools"
+    fi
+fi
+
+# Java Home
+if [ -d "/usr/lib/jvm/java-17-openjdk" ]; then
+    export JAVA_HOME="/usr/lib/jvm/java-17-openjdk"
+fi
+
 source "$HOME/.config/zsh/aliasrc"
 
 source "$HOME/.oh-my-zsh/oh-my-zsh.sh"

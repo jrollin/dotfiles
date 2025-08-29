@@ -37,9 +37,25 @@ if test -d $HOME/.npm-global
     end
 end
 
+# Android SDK
+if test -d "$HOME/android-sdk"
+    set -gx ANDROID_HOME $HOME/android-sdk
+
+    if test -d "$ANDROID_HOME/platform-tools"
+        set -gx PATH $PATH $ANDROID_HOME/platform-tools
+    end
+end
+
+# Java Home
+if test -d /usr/lib/jvm/java-17-openjdk
+    set -gx JAVA_HOME /usr/lib/jvm/java-17-openjdk
+end
+
+# playwright skip download 
+set -gx PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD 1
+
 # Warnings 
 [ ! -d $HOME/.cargo ] && echo "cargo is missing; install by running: curl https://sh.rustup.rs -sSf | sh"
-
 
 # prompt
 starship init fish | source
