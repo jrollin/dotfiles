@@ -190,6 +190,8 @@ install_ts() {
 		npm install -g typescript prettier neovim
 }
 
+# package manager :  asdf or mise
+# vim
 install_asdf() {
 	echo "Installing Asdf..." &&
 		git clone https://github.com/asdf-vm/asdf.git "$HOME/.asdf" --branch v0.14.0
@@ -197,6 +199,14 @@ install_asdf() {
 	asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
 	asdf install nodejs latest
 	asdf global nodejs latest
+}
+
+install_mise() {
+	echo "Installing mise ..." &&
+		curl https://mise.run | sh
+	echo "Setting up mise..." &&
+		rm -rf "$XDG_CONFIG_HOME/mise" &&
+		ln -s "$DOTFILES_PATH/mise" "$XDG_CONFIG_HOME/mise"
 }
 
 if [[ -z "${1:-}" ]]; then
