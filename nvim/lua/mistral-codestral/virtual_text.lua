@@ -9,6 +9,9 @@ local current_completions = {}
 local current_index = 0
 local config = {}
 
+-- Cache mistral module reference for performance
+local mistral_module = nil
+
 -- Status tracking
 local status = {
   state = "idle", -- "idle", "waiting", "completions"
@@ -49,49 +52,56 @@ local function clear_virtual_text()
   pcall(M.refresh_statusbar)
 end
 
--- Validate and match prefix like Windsurf does
+-- Validate and match prefix to avoid showing duplicate text
 local function validate_completion_prefix(completion_line, current_line, cursor_col)
   if not completion_line or completion_line == "" then
     return ""
   end
   
-  -- Extract the part of current line before cursor
-  local line_prefix = current_line:sub(1, cursor_col)
+  -- Extract the part of current line before and after cursor
+  local line_before_cursor = current_line:sub(1, cursor_col)
+  local line_after_cursor = current_line:sub(cursor_col + 1)
   
-  -- Simple case: if completion starts with what's already typed
-  local matching_prefix = 0
-  local max_check = math.min(#completion_line, #line_prefix)
-  
-  -- Check if the end of line_prefix matches the start of completion_line
-  for i = 1, max_check do
-    local completion_char = completion_line:sub(i, i)
-    local line_char = line_prefix:sub(cursor_col - max_check + i, cursor_col - max_check + i)
+  -- Check if completion would duplicate existing text after cursor
+  if line_after_cursor and #line_after_cursor > 0 then
+    -- If completion starts with text that already exists after cursor, remove that overlap
+    local overlap_length = 0
+    local max_check = math.min(#completion_line, #line_after_cursor)
     
-    if completion_char == line_char then
-      matching_prefix = i
-    else
-      break
+    for i = 1, max_check do
+      if completion_line:sub(i, i) == line_after_cursor:sub(i, i) then
+        overlap_length = i
+      else
+        break
+      end
+    end
+    
+    -- If there's an overlap, skip that part of the completion
+    if overlap_length > 0 then
+      completion_line = completion_line:sub(overlap_length + 1)
     end
   end
   
-  -- Alternative approach: check if completion starts after cursor position
-  if matching_prefix == 0 then
-    -- Check for suffix matching (completion continues from where we are)
-    local start_check = math.max(1, #line_prefix - #completion_line + 1)
-    local suffix_part = line_prefix:sub(start_check)
+  -- Check if completion matches what's already typed (prefix matching)
+  local matching_prefix = 0
+  local max_prefix_check = math.min(#completion_line, #line_before_cursor)
+  
+  -- Look for matching suffix in line_before_cursor with prefix in completion_line
+  for len = 1, max_prefix_check do
+    local line_suffix = line_before_cursor:sub(-len)
+    local completion_prefix = completion_line:sub(1, len)
     
-    if completion_line:sub(1, #suffix_part) == suffix_part then
-      matching_prefix = #suffix_part
+    if line_suffix == completion_prefix then
+      matching_prefix = len
     end
   end
   
   -- Return the completion text after removing matched prefix
-  if matching_prefix > 0 and matching_prefix <= #completion_line then
-    local result = completion_line:sub(matching_prefix + 1)
-    return result
+  if matching_prefix > 0 then
+    return completion_line:sub(matching_prefix + 1)
   end
   
-  -- If no match found, return the full completion
+  -- Return the full completion (after overlap removal)
   return completion_line
 end
 
@@ -146,26 +156,19 @@ local function show_virtual_text(completion, cursor_row, cursor_col)
 
     local virt_text = {{ display_text, "Comment" }}
     
-    -- Use Windsurf-style positioning with virt_text_win_col
-    local display_col
-    if i == 1 then
-      -- First line: calculate virtual column position after cursor
-      local virt_col = vim.fn.virtcol({ cursor_row + 1, cursor_col + 1 })
-      display_col = virt_col
-    else
-      -- Subsequent lines: show at beginning of line
-      display_col = 1
-    end
-
-    -- Always place extmark at column 0, use virt_text_win_col for positioning
+    -- Position virtual text without affecting cursor or overriding existing text
     local extmark_opts = {
       virt_text = virt_text,
-      virt_text_win_col = display_col - 1, -- 0-indexed
-      priority = config.virtual_text.priority,
+      virt_text_pos = "eol", -- Always position at end of line
+      priority = config.virtual_text.priority or 100,
       hl_mode = "combine",
     }
 
-    pcall(vim.api.nvim_buf_set_extmark, bufnr, namespace, row, 0, extmark_opts)
+    -- For the first line, we want to place the extmark at the cursor position
+    -- but display the virtual text at end of line to avoid cursor movement
+    local extmark_col = (i == 1) and cursor_col or 0
+    
+    pcall(vim.api.nvim_buf_set_extmark, bufnr, namespace, row, extmark_col, extmark_opts)
     
     ::continue::
   end
@@ -180,10 +183,14 @@ local function request_virtual_completions()
   status.state = "waiting"
   M.refresh_statusbar()
 
-  local mistral = require("mistral-codestral")
-  local context = mistral.get_fim_context_enhanced()
+  -- Use cached module reference
+  if not mistral_module then
+    mistral_module = require("mistral-codestral")
+  end
+  
+  local context = mistral_module.get_fim_context_enhanced()
 
-  mistral.request_completion(function(completion)
+  mistral_module.request_completion(function(completion)
     if completion and completion ~= "" then
       -- For now, we just use one completion, but this could be extended
       -- to request multiple completions for cycling
@@ -293,7 +300,10 @@ function M.accept()
     
     clear_virtual_text()
     if completion ~= "" then
-      require("mistral-codestral").insert_completion(completion)
+      if not mistral_module then
+        mistral_module = require("mistral-codestral")
+      end
+      mistral_module.insert_completion(completion)
     end
   elseif config.virtual_text.accept_fallback then
     -- Execute fallback key
@@ -319,7 +329,10 @@ function M.accept_word()
     if processed_line ~= "" then
       local word = processed_line:match("^%S+") or processed_line
       clear_virtual_text()
-      require("mistral-codestral").insert_completion(word)
+      if not mistral_module then
+        mistral_module = require("mistral-codestral")
+      end
+      mistral_module.insert_completion(word)
     else
       clear_virtual_text()
     end
@@ -343,7 +356,10 @@ function M.accept_line()
     
     clear_virtual_text()
     if processed_line ~= "" then
-      require("mistral-codestral").insert_completion(processed_line)
+      if not mistral_module then
+        mistral_module = require("mistral-codestral")
+      end
+      mistral_module.insert_completion(processed_line)
     end
   end
 end
@@ -390,6 +406,16 @@ function M.setup(mistral_config)
     vim.api.nvim_create_autocmd({ "TextChangedI" }, {
       group = group,
       callback = function()
+        -- Use cached module reference and check if buffer should be excluded
+        if not mistral_module then
+          mistral_module = require("mistral-codestral")
+        end
+        
+        if mistral_module.is_buffer_excluded() then
+          return
+        end
+        
+        -- Legacy filetype checking (kept for backward compatibility)
         local ft = vim.bo.filetype
         local ft_enabled = vt_config.filetypes[ft]
         if ft_enabled == false then
@@ -397,6 +423,23 @@ function M.setup(mistral_config)
         end
         if ft_enabled == nil and not vt_config.default_filetype_enabled then
           return
+        end
+
+        -- Check minimum character requirement
+        local min_chars = vt_config.min_chars or 1
+        if min_chars > 1 then
+          local cursor = vim.api.nvim_win_get_cursor(0)
+          local current_line = vim.api.nvim_get_current_line()
+          local cursor_col = cursor[2]
+          
+          -- Get the current word or context before cursor
+          local line_before_cursor = current_line:sub(1, cursor_col)
+          local current_word = line_before_cursor:match("%S+$") or ""
+          
+          -- Only trigger if we have enough characters in current context
+          if #current_word < min_chars then
+            return
+          end
         end
 
         M.debounced_complete()
@@ -426,28 +469,17 @@ function M.setup(mistral_config)
 
     if bindings.accept then
       vim.keymap.set("i", bindings.accept, function()
+        -- Only handle mistral completions, let blink.cmp handle its own Tab via keymap config
         if #current_completions > 0 and current_index > 0 then
           M.accept()
-          return ""  -- Don't insert anything when completion is accepted
         else
-          -- Fallback: check for other completion engines or insert normal tab
-          -- This allows blink.cmp or other completion plugins to handle Tab
-          local fallback_key = vim.api.nvim_replace_termcodes(bindings.accept, true, false, true)
-          
-          -- Try to use blink.cmp Tab handling if available
-          local blink_ok, blink = pcall(require, "blink.cmp")
-          if blink_ok and blink.is_open() then
-            return fallback_key  -- Let blink.cmp handle it
-          end
-          
-          -- Default fallback: return the original key for normal indentation
-          return fallback_key
+          -- Fallback to original Tab behavior for blink.cmp and normal indentation
+          local tab_key = vim.api.nvim_replace_termcodes("<Tab>", true, false, true)
+          vim.api.nvim_feedkeys(tab_key, "n", false)
         end
       end, {
-        desc = "Accept Codestral completion or fallback",
-        expr = true,
-        replace_keycodes = false,  -- Handle replace_termcodes manually above
-        silent = false,
+        desc = "Accept Codestral completion or fallback to Tab",
+        silent = true,
       })
     end
 

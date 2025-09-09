@@ -60,14 +60,10 @@ function BlinkSource:get_completions(context, callback)
     return
   end
 
-  -- Check if available for current filetype
-  local ft = vim.bo.filetype
-  if mistral_config.virtual_text and mistral_config.virtual_text.filetypes then
-    local ft_setting = mistral_config.virtual_text.filetypes[ft]
-    if ft_setting == false then
-      callback({ items = {} })
-      return
-    end
+  -- Check if buffer should be excluded (includes all filetype and buffer checks)
+  if mistral.is_buffer_excluded(context.bufnr) then
+    callback({ items = {} })
+    return
   end
 
   -- Generate cache key
@@ -119,11 +115,12 @@ function M.create_blink_items(completion, context, strategy, config)
 
   -- Main completion item
   local main_item = {
-    label = "🤖 " .. completion:gsub("\n", " ⏎ "):sub(1, 60) .. (#lines > 1 and "..." or ""),
+    label = completion:gsub("\n", " ⏎ "):sub(1, 60) .. (#lines > 1 and "..." or ""),
     insertText = completion,
     kind = #lines > 1 and require("blink.cmp.types").CompletionItemKind.Snippet
       or require("blink.cmp.types").CompletionItemKind.Text,
     detail = string.format("Codestral • %s • %d lines", strategy, #lines),
+    source_name = "mistral_codestral",
     documentation = {
       kind = "markdown",
       value = string.format(

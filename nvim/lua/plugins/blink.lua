@@ -1,10 +1,17 @@
 return {
   "saghen/blink.cmp",
   lazy = false,
-  dependencies = "rafamadriz/friendly-snippets",
+  dependencies = {
+    "rafamadriz/friendly-snippets",
+    "nvim-tree/nvim-web-devicons",
+  },
   version = "1.*",
   opts = {
-    keymap = { preset = "default" },
+    keymap = { 
+      preset = "default",
+      -- Add Tab acceptance to the default preset
+      ['<Tab>'] = { 'select_and_accept', 'snippet_forward', 'fallback' },
+    },
     sources = {
       default = { "lsp", "path", "snippets", "mistral_codestral", "buffer" },
       providers = {
@@ -30,6 +37,24 @@ return {
       },
       ghost_text = {
         enabled = vim.g.ai_cmp,
+      },
+      menu = {
+        draw = {
+          columns = { { "kind_icon" }, { "label", "label_description", gap = 1 } },
+          components = {
+            kind_icon = {
+              ellipsis = false,
+              text = function(ctx)
+                -- Use custom nerd font icon for mistral_codestral source
+                if ctx.source_name == "mistral_codestral" then
+                  return "󰭶" -- nerd font robot/AI icon
+                end
+                return ctx.kind_icon .. ctx.icon_gap
+              end,
+              highlight = "BlinkCmpKindIcon",
+            },
+          },
+        },
       },
     },
     signature = { enabled = true },

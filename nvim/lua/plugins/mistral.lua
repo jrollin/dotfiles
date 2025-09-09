@@ -3,6 +3,7 @@ return {
   name = "mistral-codestral.nvim",
   dependencies = {
     "nvim-lua/plenary.nvim",
+    "nvim-tree/nvim-web-devicons",
     -- Choose ONE completion engine:
     -- "hrsh7th/nvim-cmp", -- Traditional & mature
     -- OR
@@ -23,16 +24,50 @@ return {
       max_tokens = 256,
       enable_cmp_source = true,
       completion_engine = "blink.cmp",
+      debug = false, -- Set to true to enable debug logging
       -- Virtual text configuration for inline AI suggestions
       virtual_text = {
         enabled = true,
         manual = false,
-        idle_delay = 200,
+        idle_delay = 800, -- Increased from 200ms to 800ms for less intrusive suggestions
+        min_chars = 3, -- Require at least 3 characters before showing suggestions
         key_bindings = {
           accept = "<Tab>",
           accept_word = "<C-Right>",
           accept_line = "<C-Down>",
           clear = "<C-c>",
+        },
+      },
+      -- Buffer and filetype exclusions
+      exclusions = {
+        -- Additional filetypes to disable (neo-tree and other common plugins)
+        filetypes = {
+          "neo-tree",
+          "neo-tree-popup", 
+          "help",
+          "alpha",
+          "dashboard",
+          "nvim-tree",
+          "trouble",
+          "lspinfo",
+          "mason",
+          "lazy",
+          "TelescopePrompt",
+          "TelescopeResults",
+        },
+        -- Buffer patterns to exclude
+        buffer_patterns = {
+          "^neo%-tree",
+          "^NvimTree",
+          "^%[Scratch%]",
+        },
+        -- Buffer types to exclude
+        buftypes = {
+          "help",
+          "nofile",
+          "quickfix", 
+          "terminal",
+          "prompt",
         },
       },
     })

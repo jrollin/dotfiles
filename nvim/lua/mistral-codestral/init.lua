@@ -10,6 +10,7 @@ local default_config = {
   stop_tokens = { "\n\n" },
   timeout = 10000, -- 10 seconds
   enabled = true, -- Global enable/disable
+  debug = false, -- Enable debug logging
 
   -- Completion engine integration
   enable_cmp_source = true,
@@ -21,6 +22,7 @@ local default_config = {
     enabled = false,
     manual = false,
     idle_delay = 200,
+    min_chars = 1, -- Minimum characters required before showing suggestions
     priority = 65535,
     filetypes = {},
     default_filetype_enabled = true,
@@ -31,6 +33,27 @@ local default_config = {
       next = "<M-]>",
       prev = "<M-[>",
       clear = "<C-c>",
+    },
+  },
+
+  -- Buffer and filetype exclusions (can be overridden in user config)
+  exclusions = {
+    -- Essential filetypes where completions should be disabled
+    filetypes = {
+      "help",
+      "qf", -- quickfix  
+    },
+    -- Essential buffer patterns to exclude
+    buffer_patterns = {
+      "^term://",
+      "^%[Command Line%]",
+    },
+    -- Essential buffer types to exclude
+    buftypes = {
+      "help",
+      "quickfix", 
+      "terminal",
+      "prompt",
     },
   },
 
@@ -60,6 +83,45 @@ local default_config = {
 
 local config = {}
 local namespace_id = vim.api.nvim_create_namespace("mistral_codestral")
+
+-- Debug logging function
+local function debug_log(message, level)
+  if config.debug then
+    level = level or vim.log.levels.DEBUG
+    vim.notify("[Mistral Codestral] " .. message, level)
+  end
+end
+
+-- Validate exclusion patterns
+local function validate_exclusion_patterns()
+  if not config.exclusions then
+    return true
+  end
+  
+  local valid = true
+  
+  -- Check buffer_patterns for valid regex
+  if config.exclusions.buffer_patterns then
+    for i, pattern in ipairs(config.exclusions.buffer_patterns) do
+      local ok = pcall(function()
+        string.match("test", pattern)
+      end)
+      
+      if not ok then
+        debug_log("Invalid regex pattern in buffer_patterns[" .. i .. "]: " .. pattern, vim.log.levels.WARN)
+        valid = false
+      end
+    end
+  end
+  
+  -- Log configuration for debugging
+  debug_log("Exclusion configuration loaded:")
+  debug_log("  - Filetypes: " .. (#(config.exclusions.filetypes or {})) .. " entries")
+  debug_log("  - Buffer patterns: " .. (#(config.exclusions.buffer_patterns or {})) .. " entries") 
+  debug_log("  - Buffer types: " .. (#(config.exclusions.buftypes or {})) .. " entries")
+  
+  return valid
+end
 
 -- LSP workspace root detection
 local function find_workspace_root()
@@ -114,6 +176,164 @@ local function get_buffer_language()
 
   -- Fallback to filetype
   return vim.bo.filetype
+end
+
+-- Cache for buffer exclusion results to improve performance
+local exclusion_cache = {}
+local cache_invalidation_autocmd = nil
+
+-- Clear exclusion cache for a specific buffer or all buffers
+local function clear_exclusion_cache(bufnr)
+  if bufnr then
+    exclusion_cache[bufnr] = nil
+  else
+    exclusion_cache = {}
+  end
+end
+
+-- Initialize cache invalidation autocmd
+local function setup_cache_invalidation()
+  if cache_invalidation_autocmd then
+    return -- Already setup
+  end
+  
+  cache_invalidation_autocmd = vim.api.nvim_create_augroup("MistralCodestralExclusionCache", { clear = true })
+  
+  -- Clear cache when buffer properties change
+  vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile", "BufWritePost", "FileType" }, {
+    group = cache_invalidation_autocmd,
+    callback = function(ev)
+      clear_exclusion_cache(ev.buf)
+    end,
+  })
+  
+  -- Clear cache when buffers are deleted
+  vim.api.nvim_create_autocmd("BufDelete", {
+    group = cache_invalidation_autocmd,
+    callback = function(ev)
+      clear_exclusion_cache(ev.buf)
+    end,
+  })
+end
+
+-- Check if current buffer should be excluded from completions
+local function is_buffer_excluded(bufnr)
+  bufnr = bufnr or vim.api.nvim_get_current_buf()
+  
+  -- Validate buffer number
+  if not bufnr or bufnr < 0 or not vim.api.nvim_buf_is_valid(bufnr) then
+    return true
+  end
+  
+  -- Check cache first
+  local cached_result = exclusion_cache[bufnr]
+  if cached_result ~= nil then
+    return cached_result
+  end
+  
+  -- Check if mistral is globally disabled
+  if not config.enabled then
+    exclusion_cache[bufnr] = true
+    return true
+  end
+  
+  -- Get buffer information with error handling
+  local ok, filetype = pcall(function() return vim.bo[bufnr].filetype end)
+  if not ok then
+    exclusion_cache[bufnr] = true
+    return true
+  end
+  
+  local buftype = ""
+  local bufname = ""
+  
+  pcall(function()
+    buftype = vim.bo[bufnr].buftype
+    bufname = vim.api.nvim_buf_get_name(bufnr)
+  end)
+  
+  -- Check excluded filetypes
+  if config.exclusions and config.exclusions.filetypes then
+    for _, excluded_ft in ipairs(config.exclusions.filetypes) do
+      if filetype == excluded_ft then
+        debug_log("Buffer " .. bufnr .. " excluded by filetype: " .. filetype)
+        exclusion_cache[bufnr] = true
+        return true
+      end
+    end
+  end
+  
+  -- Check excluded buffer types
+  if config.exclusions and config.exclusions.buftypes then
+    for _, excluded_bt in ipairs(config.exclusions.buftypes) do
+      if buftype == excluded_bt then
+        debug_log("Buffer " .. bufnr .. " excluded by buftype: " .. buftype)
+        exclusion_cache[bufnr] = true
+        return true
+      end
+    end
+  end
+  
+  -- Check buffer name patterns with error handling
+  if config.exclusions and config.exclusions.buffer_patterns and bufname and bufname ~= "" then
+    local relative_name = vim.fn.fnamemodify(bufname, ":t") -- Get just filename
+    
+    for _, pattern in ipairs(config.exclusions.buffer_patterns) do
+      local match_found = false
+      
+      -- Safely attempt pattern matching
+      pcall(function()
+        if string.match(relative_name, pattern) or string.match(bufname, pattern) then
+          match_found = true
+        end
+      end)
+      
+      if match_found then
+        debug_log("Buffer " .. bufnr .. " excluded by pattern: " .. pattern .. " (matched: " .. (relative_name or bufname) .. ")")
+        exclusion_cache[bufnr] = true
+        return true
+      end
+    end
+  end
+  
+  -- Check for specific floating window types (more selective than excluding all)
+  local winid = vim.fn.bufwinid(bufnr)
+  if winid ~= -1 then
+    local ok, win_config = pcall(vim.api.nvim_win_get_config, winid)
+    if ok and win_config.relative ~= "" then
+      -- Only exclude certain types of floating windows
+      local exclude_floating = false
+      
+      -- Check if it's a popup/menu style floating window
+      if win_config.focusable == false or 
+         win_config.style == "minimal" or 
+         (win_config.width and win_config.width < 20) or
+         (win_config.height and win_config.height < 3) then
+        exclude_floating = true
+      end
+      
+      -- Check for common popup buffer names
+      if not exclude_floating and bufname then
+        local popup_patterns = { "completion", "hover", "signature", "diagnostic" }
+        for _, popup_pattern in ipairs(popup_patterns) do
+          if string.match(bufname:lower(), popup_pattern) then
+            exclude_floating = true
+            break
+          end
+        end
+      end
+      
+      if exclude_floating then
+        debug_log("Buffer " .. bufnr .. " excluded as floating window")
+        exclusion_cache[bufnr] = true
+        return true
+      end
+    end
+  end
+  
+  -- Cache the negative result
+  exclusion_cache[bufnr] = false
+  return false
 end
 
 -- Enhanced context extraction with LSP awareness
@@ -220,7 +440,28 @@ local function make_request(data, callback)
         local response_text = table.concat(data, "\n")
         local ok, response = pcall(vim.fn.json_decode, response_text)
         if ok and response then
-          callback(response, nil)
+          -- Check for API error responses
+          if response.error then
+            local error_msg = "API Error"
+            if response.error.type then
+              error_msg = error_msg .. " (" .. response.error.type .. ")"
+            end
+            if response.error.message then
+              error_msg = error_msg .. ": " .. response.error.message
+            end
+            callback(nil, error_msg)
+          elseif response.detail then
+            -- Handle validation errors (422)
+            local error_msg = "Validation Error"
+            if type(response.detail) == "string" then
+              error_msg = error_msg .. ": " .. response.detail
+            elseif type(response.detail) == "table" and response.detail[1] then
+              error_msg = error_msg .. ": " .. (response.detail[1].msg or "Invalid request")
+            end
+            callback(nil, error_msg)
+          else
+            callback(response, nil)
+          end
         else
           callback(nil, "Failed to parse JSON response")
         end
@@ -250,7 +491,8 @@ local function request_completion(callback, context_override)
     end
 
     if response and response.choices and response.choices[1] then
-      local completion = response.choices[1].message.content or response.choices[1].text
+      -- FIM API returns text directly in choices[i].text, not in message.content
+      local completion = response.choices[1].text
       callback(completion)
     else
       callback(nil)
@@ -333,6 +575,16 @@ end
 function M.setup(user_config)
   config = vim.tbl_deep_extend("force", default_config, user_config or {})
 
+  -- Initialize cache invalidation for performance
+  setup_cache_invalidation()
+
+  -- Validate exclusion patterns
+  if not validate_exclusion_patterns() then
+    vim.notify("Some exclusion patterns are invalid. Check configuration.", vim.log.levels.WARN)
+  end
+
+  debug_log("Mistral Codestral setup completed with debug logging enabled")
+
   -- Initialize auth module
   require("mistral-codestral.auth").setup(config.auth)
 
@@ -382,6 +634,7 @@ M.complete = complete
 M.request_completion = request_completion
 M.insert_completion = insert_completion
 M.get_fim_context_enhanced = get_fim_context_enhanced
+M.is_buffer_excluded = is_buffer_excluded
 M.config = function()
   return config
 end

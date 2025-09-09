@@ -51,18 +51,15 @@ function source:get_keyword_pattern()
 end
 
 function source:is_available()
-  local mistral_config = require("mistral-codestral").config()
+  local mistral = require("mistral-codestral")
+  local mistral_config = mistral.config()
   if not mistral_config or not mistral_config.enable_cmp_source then
     return false
   end
 
-  -- Check filetype restrictions
-  local ft = vim.bo.filetype
-  if mistral_config.virtual_text and mistral_config.virtual_text.filetypes then
-    local ft_setting = mistral_config.virtual_text.filetypes[ft]
-    if ft_setting == false then
-      return false
-    end
+  -- Check if buffer should be excluded (includes all filetype and buffer checks)
+  if mistral.is_buffer_excluded() then
+    return false
   end
 
   return true
