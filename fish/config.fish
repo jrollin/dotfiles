@@ -43,5 +43,5 @@ set --erase _asdf_shims
 
 # MISE configuration code
 if test -d "$XDG_CONFIG_HOME/mise"
-    $HOME /.local/bin/mise activate fish | source
+    $HOME/.local/bin/mise activate fish | source
 end
