@@ -1,5 +1,8 @@
 #/bin/sh
 
+# stow for dotconfig
+pacman -S stow
+
 # base
 pacman -S \
 	git \
@@ -76,7 +79,3 @@ sudo pacman -S \
 	libva-utils \
 	vdpauinfo \
 	glxinfo
-
-# lang
-pacman -S \
-	go

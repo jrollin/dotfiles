@@ -57,10 +57,12 @@ Os packages (tmux, rust, etc)
 ./install_arch.sh
 ```
 
-Configure tools with my config and make symlinks
+## Configure
+
+### using stow (recommanded)
 
 ```
-./configure.sh
+stow */ # Everything (the '/' ignores the README)
 ```
 
 Change shell (ex: fish)
@@ -73,7 +75,7 @@ chsh -s /usr/bin/fish
 
 ```Bash
 mkdir -p ~/.local/share/fonts
-cp fonts/JetBrainsMonoNerd/*.ttf ~/.local/share/fonts/
+cp fonts/nerdfonts/JetBrainsMonoNerd/*.ttf ~/.local/share/fonts/
 fc-cache -fv
 ```
 

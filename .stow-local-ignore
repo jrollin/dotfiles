@@ -1,0 +1,17 @@
+\.git
+\.gitignore
+
+.+~          # emacs backup files
+\#.*\#       # emacs autosave files
+
+^/README.*
+^/LICENSE.*
+^/COPYING
+
+# root  
+/configure.sh
+/install_arch.sh
+/install_ubruuntu.sh
+
+/pictures/
+/fonts/

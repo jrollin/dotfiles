@@ -28,7 +28,7 @@ install_scripts() {
 
 install_neovim() {
 	echo "Setting up neovim..." &&
-		rm -rf "$XDG_CONFIG_HOME/nvim" "$HOME/.fzf" &&
+		rm -rf "$XDG_CONFIG_HOME/nvim" &&
 		ln -s "$DOTFILES_PATH/nvim" "$XDG_CONFIG_HOME/nvim"
 }
 
@@ -65,12 +65,6 @@ install_menu() {
 	echo "installing_polybar.." &&
 		rm -rf $XDG_CONFIG_HOME/polybar &&
 		ln -s $DOTFILES_PATH/polybar $XDG_CONFIG_HOME/polybar
-}
-
-install_monitor() {
-	echo "installing_monitor.." &&
-		rm -rf $XDG_CONFIG_HOME/monitor_layout.sh &&
-		ln -s $DOTFILES_PATH/monitor_layout.sh $XDG_CONFIG_HOME/monitor_layout.sh
 }
 
 install_tmux() {
@@ -155,21 +149,14 @@ install_prompt() {
 		rm -rf $XDG_CONFIG_HOME/starship &&
 		ln -s $DOTFILES_PATH/starship $XDG_CONFIG_HOME/starship
 }
-install_shell_fish() {
+install_shell() {
 	echo "installing shell fish" &&
 		rm -rf $XDG_CONFIG_HOME/fish &&
 		ln -s $DOTFILES_PATH/fish $XDG_CONFIG_HOME/fish
 
 }
 
-install_nix() {
-	echo "installing nix" &&
-		rm -rf $XDG_CONFIG_HOME/nix &&
-		ln -s $DOTFILES_PATH/nix $XDG_CONFIG_HOME/nix
-
-}
 install_x() {
-
 	echo "installing xdefault" &&
 		rm -rf $XDG_CONFIG_HOME/.Xdefaults &&
 		ln -s $DOTFILES_PATH/.Xdefaults $XDG_CONFIG_HOME/.Xdefaults
@@ -184,21 +171,6 @@ install_gtk() {
 	echo "installing gtk3" &&
 		rm -rf $XDG_CONFIG_HOME/gtk-3.0 &&
 		ln -s $DOTFILES_PATH/gtk-3.0 $XDG_CONFIG_HOME/gtk-3.0
-}
-install_ts() {
-	echo "Installing ts..." &&
-		npm install -g typescript prettier neovim
-}
-
-# package manager :  asdf or mise
-# vim
-install_asdf() {
-	echo "Installing Asdf..." &&
-		git clone https://github.com/asdf-vm/asdf.git "$HOME/.asdf" --branch v0.14.0
-	# nodejs
-	asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
-	asdf install nodejs latest
-	asdf global nodejs latest
 }
 
 install_mise() {
@@ -220,12 +192,11 @@ if [[ -z "${1:-}" ]]; then
 			install_i3 &&
 			install_x &&
 			install_wallpaper && install_menu &&
-			install_monitor &&
 			install_term &&
 			install_tmux &&
 			install_prompt &&
 			install_bash &&
-			install_shell_fish &&
+			install_shell &&
 			install_gtk &&
 			echo "Finished installation."
 	fi
