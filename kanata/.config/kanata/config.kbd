@@ -1,0 +1,15 @@
+;; get key code : https://www.toptal.com/developers/keycode
+;; https://jtroo.github.io/config.html#non-us-keyboards
+
+;; Caps to escape/control configuration for Kanata
+(defsrc
+  caps
+)
+
+(defalias
+  escctrl (tap-hold 200 200 esc lctl)
+)
+
+(deflayer base
+  @escctrl
+)
