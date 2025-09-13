@@ -9,7 +9,6 @@ return {
       adapters = {
         "neotest-jest",
         "neotest-vitest",
-        "neotest-phpunit",
         "neotest-python",
       },
     },

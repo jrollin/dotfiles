@@ -3,7 +3,19 @@ return {
   "folke/trouble.nvim",
   keys = {
     -- diagnostics
-    { "<leader>dp", vim.diagnostic.goto_prev, desc = "[D]iagnostic [P]revious" },
-    { "<leader>dn", vim.diagnostic.goto_next, desc = "[D]iagnostic [N]ext" },
+    {
+      "<leader>dp",
+      function()
+        vim.diagnostic.jump({ count = -1, float = true })
+      end,
+      desc = "[D]iagnostic [P]revious",
+    },
+    {
+      "<leader>dn",
+      function()
+        vim.diagnostic.jump({ count = 1, float = true })
+      end,
+      desc = "[D]iagnostic [N]ext",
+    },
   },
 }

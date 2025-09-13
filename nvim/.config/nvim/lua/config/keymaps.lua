@@ -22,7 +22,7 @@ end, { desc = "Delete Buffer" })
 
 -- key combination (<C-\><C-n>) switches the terminal from terminal mode back to normal mode,
 -- so we need to disable it
-map("t", "jk", "<C-\\><C-n>", { desc = "Terminal normal mode" })
+-- map("t", "jk", "<C-\\><C-n>", { desc = "Terminal normal mode" })
 
 -- call custom script to scrap url
 vim.keymap.set(
