@@ -72,8 +72,17 @@ if tmux has-session -t "$SNAME" 2>/dev/null; then
 		echo "Killing existing session: $SNAME"
 		tmux kill-session -t "$SNAME"
 	else
-		echo "Session '$SNAME' already exists. Use -k to kill it first, or attach with: tmux attach -t $SNAME"
-		exit 1
+		echo "Session '$SNAME' already exists."
+		read -p "Do you want to attach to it? (y/N): " -n 1 -r
+		echo
+		if [[ $REPLY =~ ^[Yy]$ ]]; then
+			echo "Attaching to existing session: $SNAME"
+			tmux -u attach -t "$SNAME"
+			exit 0
+		else
+			echo "Use -k to kill the existing session first."
+			exit 1
+		fi
 	fi
 fi
 
