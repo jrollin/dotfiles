@@ -3,6 +3,6 @@ return {
   -- https://github.com/echasnovski/mini.ai
   --
   {
-    "echasnovski/mini.snippets",
+    "nvim-mini/mini.snippets",
   },
 }

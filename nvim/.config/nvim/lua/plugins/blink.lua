@@ -7,10 +7,10 @@ return {
   },
   version = "1.*",
   opts = {
-    keymap = { 
+    keymap = {
       preset = "default",
       -- Add Tab acceptance to the default preset
-      ['<Tab>'] = { 'select_and_accept', 'snippet_forward', 'fallback' },
+      ["<Tab>"] = { "select_and_accept", "snippet_forward", "fallback" },
     },
     sources = {
       default = { "lsp", "path", "snippets", "mistral_codestral", "buffer" },

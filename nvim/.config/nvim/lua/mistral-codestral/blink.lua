@@ -187,28 +187,17 @@ end
 -- Check if blink.cmp is available and compatible
 local function is_blink_available()
   local ok, blink = pcall(require, "blink.cmp")
-  if not ok then
-    return false
-  end
-
-  -- Check for required APIs
-  if not blink.register_source or not blink.get_config then
-    return false
-  end
-
-  return true
+  return ok
 end
 
 -- Register the blink.cmp source (v1.6 compatible)
 function M.register(mistral_config)
   if not is_blink_available() then
-    vim.notify("blink.cmp not available or incompatible version", vim.log.levels.DEBUG)
     return false
   end
 
   -- For blink.cmp v1.6+, sources are configured in the main plugin config
-  -- This function just provides the source class
-  vim.notify("Mistral Codestral source registered for blink.cmp v1.6", vim.log.levels.INFO)
+  -- This function just verifies availability
   return true
 end
 
@@ -235,8 +224,8 @@ function M.setup_completion_engine(mistral_config)
   then
     -- Only register if blink.cmp wasn't the preferred choice
     if engine_preference == "nvim-cmp" or engine_preference == "both" or not blink_cmp_ok then
-      local cmp_source = require("mistral-codestral.cmp_source_enhanced")
-      if cmp_source.register(mistral_config) then
+      local ok, cmp_source = pcall(require, "mistral-codestral.cmp_source_enhanced")
+      if ok and cmp_source.register(mistral_config) then
         table.insert(engines_configured, "nvim-cmp")
       end
     end

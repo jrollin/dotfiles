@@ -263,13 +263,78 @@ The plugin uses these highlight groups (customize in your colorscheme):
 2. Check internet connectivity
 3. Verify Mistral API service status
 
+## 🧪 Testing
+
+Comprehensive test suite available for verifying plugin functionality.
+
+### Quick Start Testing
+
+```bash
+# Interactive test menu (recommended)
+bash ~/.config/nvim/lua/mistral-codestral/scripts/run_tests.sh
+
+# Quick API verification
+nvim --headless -u ~/.config/nvim/init.lua \
+  -c "luafile ~/.config/nvim/lua/mistral-codestral/tests/api_test.lua" 2>&1
+
+# Full integration tests
+nvim --headless -u ~/.config/nvim/init.lua \
+  -c "luafile ~/.config/nvim/lua/mistral-codestral/tests/integration_test.lua" 2>&1
+```
+
+### Documentation
+
+Extensive documentation available in the `docs/` directory:
+
+- **[docs/quick-start.md](docs/quick-start.md)** - Get started testing in 30 seconds
+- **[docs/testing-guide.md](docs/testing-guide.md)** - Complete testing methodology
+- **[docs/test-report.md](docs/test-report.md)** - Detailed test results and analysis
+- **[docs/reference.md](docs/reference.md)** - Quick reference card
+
+### Directory Structure
+
+```
+mistral-codestral/
+├── docs/                   # Documentation
+│   ├── quick-start.md     # Quick testing guide
+│   ├── testing-guide.md   # Complete testing methods
+│   ├── test-report.md     # Test results
+│   └── reference.md       # Command reference
+├── tests/                  # Test suite
+│   ├── api_test.lua       # API functionality tests
+│   ├── integration_test.lua # Full integration tests
+│   ├── plugin_test.lua    # Component tests
+│   └── fixtures/          # Test data files
+├── scripts/                # Utility scripts
+│   └── run_tests.sh       # Interactive test runner
+├── *.lua                   # Plugin source files
+└── README.md              # This file
+```
+
+### Manual Testing
+
+For manual interactive testing:
+
+1. Open a test file:
+   ```bash
+   nvim ~/.config/nvim/lua/mistral-codestral/tests/fixtures/example.js
+   ```
+
+2. Position cursor in blank areas
+3. Enter insert mode and type or wait
+4. Look for completions with 󰭶 icon (Mistral AI)
+
+See [docs/testing-guide.md](docs/testing-guide.md) for detailed instructions.
+
 ## 🤝 Contributing
 
 1. Fork the repository
 2. Create a feature branch
 3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
+4. Add tests if applicable (see [tests/README.md](tests/README.md))
+5. Update documentation if needed
+6. Run tests to verify: `bash scripts/run_tests.sh`
+7. Submit a pull request
 
 ## 📄 License
 

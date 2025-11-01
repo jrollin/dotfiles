@@ -2,12 +2,67 @@
 -- LSP integration utilities for enhanced context
 
 local M = {}
+local errors = require("mistral-codestral.errors")
+
+-- Cache for LSP clients (reduces repeated get_active_clients calls)
+local client_cache = {
+  bufnr = nil,
+  clients = nil,
+  timestamp = 0,
+}
+
+-- Cache TTL in milliseconds (100ms is reasonable for LSP client changes)
+local CACHE_TTL = 100
+
+-- Get cached LSP clients for buffer
+-- @param bufnr number Buffer number
+-- @return table List of LSP clients
+local function get_cached_clients(bufnr)
+  local now = vim.loop.now()
+
+  -- Return cached clients if still valid
+  if client_cache.bufnr == bufnr and
+     client_cache.clients and
+     (now - client_cache.timestamp) < CACHE_TTL then
+    return client_cache.clients
+  end
+
+  -- Fetch fresh clients
+  local ok, clients = pcall(vim.lsp.get_active_clients, { bufnr = bufnr })
+  if not ok then
+    errors.warning(errors.CATEGORY.INTERNAL, "Failed to get LSP clients", { error = clients })
+    return {}
+  end
+
+  -- Update cache
+  client_cache.bufnr = bufnr
+  client_cache.clients = clients or {}
+  client_cache.timestamp = now
+
+  return client_cache.clients
+end
+
+-- Clear client cache (call when buffer changes significantly)
+function M.clear_cache()
+  client_cache.bufnr = nil
+  client_cache.clients = nil
+  client_cache.timestamp = 0
+end
 
 -- Get LSP diagnostics for context
 local function get_lsp_diagnostics()
-  local bufnr = vim.api.nvim_get_current_buf()
-  local diagnostics = vim.diagnostic.get(bufnr)
+  local ok, bufnr = pcall(vim.api.nvim_get_current_buf)
+  if not ok then
+    errors.warning(errors.CATEGORY.INTERNAL, "Failed to get current buffer")
+    return { errors = {}, warnings = {}, hints = {} }
+  end
 
+  local diag_ok, diagnostics = pcall(vim.diagnostic.get, bufnr)
+  if not diag_ok or not diagnostics then
+    return { errors = {}, warnings = {}, hints = {} }
+  end
+
+  -- Pre-allocate tables for better performance
   local diagnostic_info = {
     errors = {},
     warnings = {},
@@ -39,8 +94,13 @@ end
 
 -- Get LSP symbols for context
 local function get_lsp_symbols()
-  local bufnr = vim.api.nvim_get_current_buf()
-  local clients = vim.lsp.get_active_clients({ bufnr = bufnr })
+  local ok, bufnr = pcall(vim.api.nvim_get_current_buf)
+  if not ok then
+    errors.warning(errors.CATEGORY.INTERNAL, "Failed to get current buffer for symbols")
+    return {}
+  end
+
+  local clients = get_cached_clients(bufnr)
 
   if not clients or #clients == 0 then
     return {}
@@ -50,21 +110,30 @@ local function get_lsp_symbols()
 
   -- Get document symbols from LSP
   for _, client in ipairs(clients) do
-    if client.server_capabilities.documentSymbolProvider then
-      local params = { textDocument = vim.lsp.util.make_text_document_params() }
-
-      client.request("textDocument/documentSymbol", params, function(err, result)
-        if not err and result then
-          for _, symbol in ipairs(result) do
-            table.insert(symbols, {
-              name = symbol.name,
-              kind = symbol.kind,
-              range = symbol.range,
-              detail = symbol.detail,
-            })
-          end
-        end
+    if client.server_capabilities and client.server_capabilities.documentSymbolProvider then
+      local params_ok, params = pcall(function()
+        return { textDocument = vim.lsp.util.make_text_document_params() }
       end)
+
+      if params_ok then
+        client.request("textDocument/documentSymbol", params, function(err, result)
+          if err then
+            errors.debug(errors.CATEGORY.INTERNAL, "LSP symbol request failed", { error = err })
+            return
+          end
+
+          if result then
+            for _, symbol in ipairs(result) do
+              table.insert(symbols, {
+                name = symbol.name,
+                kind = symbol.kind,
+                range = symbol.range,
+                detail = symbol.detail,
+              })
+            end
+          end
+        end)
+      end
     end
   end
 
@@ -101,9 +170,18 @@ end
 
 -- Get related imports and dependencies
 local function get_imports_context()
-  local bufnr = vim.api.nvim_get_current_buf()
-  local lines = vim.api.nvim_buf_get_lines(bufnr, 0, 50, false) -- First 50 lines
+  local ok, bufnr = pcall(vim.api.nvim_get_current_buf)
+  if not ok then
+    errors.warning(errors.CATEGORY.INTERNAL, "Failed to get buffer for imports")
+    return {}
+  end
 
+  local lines_ok, lines = pcall(vim.api.nvim_buf_get_lines, bufnr, 0, 50, false)
+  if not lines_ok or not lines then
+    return {}
+  end
+
+  -- Pre-allocate imports table with estimated size
   local imports = {}
   local filetype = vim.bo.filetype
 
@@ -167,10 +245,26 @@ end
 
 -- LSP hover integration for better completions
 function M.get_hover_info(callback)
-  local params = vim.lsp.util.make_position_params()
+  if type(callback) ~= "function" then
+    errors.error(errors.CATEGORY.INTERNAL, "get_hover_info requires a callback function")
+    return
+  end
+
+  local ok, params = pcall(vim.lsp.util.make_position_params)
+  if not ok then
+    errors.warning(errors.CATEGORY.INTERNAL, "Failed to create hover params")
+    callback(nil)
+    return
+  end
 
   vim.lsp.buf_request(0, "textDocument/hover", params, function(err, result)
-    if not err and result and result.contents then
+    if err then
+      errors.debug(errors.CATEGORY.INTERNAL, "LSP hover request failed", { error = err })
+      callback(nil)
+      return
+    end
+
+    if result and result.contents then
       local hover_content = ""
       if type(result.contents) == "string" then
         hover_content = result.contents
@@ -186,10 +280,26 @@ end
 
 -- Get signature help for function context
 function M.get_signature_help(callback)
-  local params = vim.lsp.util.make_position_params()
+  if type(callback) ~= "function" then
+    errors.error(errors.CATEGORY.INTERNAL, "get_signature_help requires a callback function")
+    return
+  end
+
+  local ok, params = pcall(vim.lsp.util.make_position_params)
+  if not ok then
+    errors.warning(errors.CATEGORY.INTERNAL, "Failed to create signature params")
+    callback(nil)
+    return
+  end
 
   vim.lsp.buf_request(0, "textDocument/signatureHelp", params, function(err, result)
-    if not err and result and result.signatures then
+    if err then
+      errors.debug(errors.CATEGORY.INTERNAL, "LSP signature help request failed", { error = err })
+      callback(nil)
+      return
+    end
+
+    if result and result.signatures then
       local signatures = {}
       for _, sig in ipairs(result.signatures) do
         table.insert(signatures, {
@@ -241,10 +351,21 @@ end
 
 -- Get project-wide context from LSP workspace symbols
 function M.get_workspace_symbols(query, callback)
+  if type(callback) ~= "function" then
+    errors.error(errors.CATEGORY.INTERNAL, "get_workspace_symbols requires a callback function")
+    return
+  end
+
   local params = { query = query or "" }
 
   vim.lsp.buf_request(0, "workspace/symbol", params, function(err, result)
-    if not err and result then
+    if err then
+      errors.debug(errors.CATEGORY.INTERNAL, "LSP workspace symbols request failed", { error = err })
+      callback({})
+      return
+    end
+
+    if result then
       local symbols = {}
       for _, symbol in ipairs(result) do
         table.insert(symbols, {
@@ -263,13 +384,30 @@ end
 
 -- Integration with LSP completion for hybrid results
 function M.get_lsp_completions(callback)
-  local params = vim.lsp.util.make_position_params()
+  if type(callback) ~= "function" then
+    errors.error(errors.CATEGORY.INTERNAL, "get_lsp_completions requires a callback function")
+    return
+  end
+
+  local ok, params = pcall(vim.lsp.util.make_position_params)
+  if not ok then
+    errors.warning(errors.CATEGORY.INTERNAL, "Failed to create completion params")
+    callback({})
+    return
+  end
+
   params.context = {
     triggerKind = 1, -- Invoked
   }
 
   vim.lsp.buf_request(0, "textDocument/completion", params, function(err, result)
-    if not err and result then
+    if err then
+      errors.debug(errors.CATEGORY.INTERNAL, "LSP completion request failed", { error = err })
+      callback({})
+      return
+    end
+
+    if result then
       local items = {}
       local completion_list = result.items or result
 

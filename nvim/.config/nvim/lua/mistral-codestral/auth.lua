@@ -65,6 +65,48 @@ local function log_error(msg)
   vim.notify("[Mistral Auth] " .. msg, vim.log.levels.ERROR)
 end
 
+-- Sanitize API key for logging (never log full key)
+local function sanitize_api_key(key)
+  if not key or type(key) ~= "string" then
+    return "[INVALID]"
+  end
+  if #key < 8 then
+    return "[TOO_SHORT]"
+  end
+  return key:sub(1, 4) .. "..." .. key:sub(-4)
+end
+
+-- Safely execute shell command (prevents injection)
+local function safe_execute_command(command)
+  -- Expand ~ to home directory
+  local expanded_command = command:gsub("~", vim.env.HOME or os.getenv("HOME") or "")
+
+  -- Use vim.system if available (Neovim 0.10+), otherwise fall back to io.popen
+  if vim.system then
+    local result = vim.system({'sh', '-c', expanded_command}, {text = true}):wait()
+    if result.code == 0 and result.stdout then
+      return vim.trim(result.stdout), true
+    else
+      return nil, false
+    end
+  else
+    -- Fallback for older Neovim versions (still safer than direct io.popen)
+    -- Escape single quotes properly
+    local escaped_command = expanded_command:gsub("'", "'\\''")
+    local full_command = "sh -c '" .. escaped_command .. "'"
+
+    local handle = io.popen(full_command)
+    if handle then
+      local output = handle:read("*a")
+      local success = handle:close()
+      if success and output and output:match("%S") then
+        return output:gsub("^%s*(.-)%s*$", "%1"), true
+      end
+    end
+    return nil, false
+  end
+end
+
 -- Check if a command exists
 local function command_exists(cmd)
   local handle = io.popen("which " .. cmd .. " 2>/dev/null")
@@ -78,34 +120,24 @@ local function get_from_config()
   local mistral_config = require("mistral-codestral").config()
   if mistral_config and mistral_config.api_key then
     local api_key = mistral_config.api_key
-    
+
     -- Check if it's a command-based key (starts with "cmd:")
     if type(api_key) == "string" and api_key:match("^cmd:") then
       local command = api_key:sub(5) -- Remove "cmd:" prefix
-      log_debug("Executing command for API key: " .. command)
-      
-      -- Expand ~ to home directory and use bash -c for proper shell execution
-      local expanded_command = command:gsub("~", vim.env.HOME or os.getenv("HOME") or "")
-      local full_command = "bash -c '" .. expanded_command:gsub("'", "'\"'\"'") .. "'"
-      
-      local handle = io.popen(full_command)
-      if handle then
-        local result = handle:read("*a")
-        local success = handle:close()
-        
-        if success and result and result:match("%S") then
-          local key = result:gsub("^%s*(.-)%s*$", "%1") -- Trim whitespace
-          log_debug("Found API key from command execution")
-          return key
-        else
-          log_error("Command execution failed or returned empty result: " .. expanded_command)
-        end
+      log_debug("Executing command for API key retrieval [REDACTED]")
+
+      -- Use safe command execution
+      local key, success = safe_execute_command(command)
+
+      if success and key then
+        log_debug("Found API key from command: " .. sanitize_api_key(key))
+        return key
       else
-        log_error("Failed to execute command: " .. expanded_command)
+        log_error("Command execution failed or returned empty result")
       end
       return nil
     else
-      log_debug("Found API key in direct configuration")
+      log_debug("Found API key in direct configuration: " .. sanitize_api_key(api_key))
       return api_key
     end
   end
@@ -366,72 +398,19 @@ function M.validate_api_key(api_key, callback)
     end
   end
 
-  -- Validate with a minimal API call
-  local test_data = {
-    model = "codestral-latest",
-    prompt = "test",
-    max_tokens = 1,
-    temperature = 0.0,
-  }
+  -- Use centralized HTTP client for validation
+  local http_client = require("mistral-codestral.http_client")
 
-  local json_data = vim.fn.json_encode(test_data)
-  local temp_file = vim.fn.tempname()
-  vim.fn.writefile({ json_data }, temp_file)
+  http_client.validate_api_key(api_key, function(valid, error_msg)
+    -- Cache result
+    validation_cache[cache_key] = {
+      valid = valid,
+      error = error_msg,
+      timestamp = vim.loop.now(),
+    }
 
-  local curl_cmd = {
-    "curl",
-    "-s",
-    "-X",
-    "POST",
-    "-H",
-    "Content-Type: application/json",
-    "-H",
-    "Authorization: Bearer " .. api_key,
-    "-d",
-    "@" .. temp_file,
-    "--max-time",
-    tostring(auth_config.validation_timeout / 1000),
-    "https://codestral.mistral.ai/v1/fim/completions",
-  }
-
-  vim.fn.jobstart(curl_cmd, {
-    on_exit = function(_, exit_code)
-      vim.fn.delete(temp_file)
-    end,
-    stdout_buffered = true,
-    on_stdout = function(_, data)
-      if data and data[1] and data[1] ~= "" then
-        local response_text = table.concat(data, "\n")
-        local ok, response = pcall(vim.fn.json_decode, response_text)
-
-        local valid = false
-        local error_msg = nil
-
-        if ok and response then
-          if response.error then
-            if response.error.type == "invalid_request_error" then
-              valid = true -- API is reachable and key is valid (just bad request params)
-            else
-              error_msg = response.error.message
-            end
-          elseif response.choices then
-            valid = true
-          end
-        else
-          error_msg = "Invalid response format"
-        end
-
-        -- Cache result
-        validation_cache[cache_key] = {
-          valid = valid,
-          error = error_msg,
-          timestamp = vim.loop.now(),
-        }
-
-        callback(valid, error_msg)
-      end
-    end,
-  })
+    callback(valid, error_msg)
+  end)
 end
 
 -- Clear cached API key

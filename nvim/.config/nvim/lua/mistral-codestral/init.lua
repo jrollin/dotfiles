@@ -84,6 +84,15 @@ local default_config = {
 local config = {}
 local namespace_id = vim.api.nvim_create_namespace("mistral_codestral")
 
+-- Constants for context extraction
+local CONTEXT_MAX_LINES = 100 -- Maximum lines of context to include
+local CONTEXT_MIN_LINES = 20 -- Minimum lines of context to include
+local CONTEXT_SIZE_RATIO = 4 -- Ratio of file size to context (1/4 of file)
+
+-- Constants for floating window detection
+local MIN_POPUP_WIDTH = 20 -- Minimum width for popup windows
+local MIN_POPUP_HEIGHT = 3 -- Minimum height for popup windows
+
 -- Debug logging function
 local function debug_log(message, level)
   if config.debug then
@@ -216,6 +225,95 @@ local function setup_cache_invalidation()
   })
 end
 
+-- Helper: Check if filetype should be excluded
+local function is_filetype_excluded(filetype)
+  if not config.exclusions or not config.exclusions.filetypes then
+    return false
+  end
+
+  for _, excluded_ft in ipairs(config.exclusions.filetypes) do
+    if filetype == excluded_ft then
+      return true
+    end
+  end
+
+  return false
+end
+
+-- Helper: Check if buftype should be excluded
+local function is_buftype_excluded(buftype)
+  if not config.exclusions or not config.exclusions.buftypes then
+    return false
+  end
+
+  for _, excluded_bt in ipairs(config.exclusions.buftypes) do
+    if buftype == excluded_bt then
+      return true
+    end
+  end
+
+  return false
+end
+
+-- Helper: Check if buffer name matches exclusion patterns
+local function is_buffer_name_excluded(bufname)
+  if not config.exclusions or not config.exclusions.buffer_patterns or not bufname or bufname == "" then
+    return false
+  end
+
+  local relative_name = vim.fn.fnamemodify(bufname, ":t")
+
+  for _, pattern in ipairs(config.exclusions.buffer_patterns) do
+    local match_found = false
+
+    -- Safely attempt pattern matching
+    pcall(function()
+      if string.match(relative_name, pattern) or string.match(bufname, pattern) then
+        match_found = true
+      end
+    end)
+
+    if match_found then
+      return true, pattern, relative_name
+    end
+  end
+
+  return false
+end
+
+-- Helper: Check if buffer is a floating window that should be excluded
+local function is_floating_window_excluded(bufnr, bufname)
+  local winid = vim.fn.bufwinid(bufnr)
+  if winid == -1 then
+    return false
+  end
+
+  local ok, win_config = pcall(vim.api.nvim_win_get_config, winid)
+  if not ok or win_config.relative == "" then
+    return false
+  end
+
+  -- Check if it's a popup/menu style floating window
+  if win_config.focusable == false or
+     win_config.style == "minimal" or
+     (win_config.width and win_config.width < MIN_POPUP_WIDTH) or
+     (win_config.height and win_config.height < MIN_POPUP_HEIGHT) then
+    return true
+  end
+
+  -- Check for common popup buffer names
+  if bufname and bufname ~= "" then
+    local popup_patterns = { "completion", "hover", "signature", "diagnostic" }
+    for _, popup_pattern in ipairs(popup_patterns) do
+      if string.match(bufname:lower(), popup_pattern) then
+        return true
+      end
+    end
+  end
+
+  return false
+end
+
 -- Check if current buffer should be excluded from completions
 local function is_buffer_excluded(bufnr)
   bufnr = bufnr or vim.api.nvim_get_current_buf()
@@ -253,82 +351,32 @@ local function is_buffer_excluded(bufnr)
   end)
   
   -- Check excluded filetypes
-  if config.exclusions and config.exclusions.filetypes then
-    for _, excluded_ft in ipairs(config.exclusions.filetypes) do
-      if filetype == excluded_ft then
-        debug_log("Buffer " .. bufnr .. " excluded by filetype: " .. filetype)
-        exclusion_cache[bufnr] = true
-        return true
-      end
-    end
+  if is_filetype_excluded(filetype) then
+    debug_log("Buffer " .. bufnr .. " excluded by filetype: " .. filetype)
+    exclusion_cache[bufnr] = true
+    return true
   end
-  
+
   -- Check excluded buffer types
-  if config.exclusions and config.exclusions.buftypes then
-    for _, excluded_bt in ipairs(config.exclusions.buftypes) do
-      if buftype == excluded_bt then
-        debug_log("Buffer " .. bufnr .. " excluded by buftype: " .. buftype)
-        exclusion_cache[bufnr] = true
-        return true
-      end
-    end
+  if is_buftype_excluded(buftype) then
+    debug_log("Buffer " .. bufnr .. " excluded by buftype: " .. buftype)
+    exclusion_cache[bufnr] = true
+    return true
   end
-  
-  -- Check buffer name patterns with error handling
-  if config.exclusions and config.exclusions.buffer_patterns and bufname and bufname ~= "" then
-    local relative_name = vim.fn.fnamemodify(bufname, ":t") -- Get just filename
-    
-    for _, pattern in ipairs(config.exclusions.buffer_patterns) do
-      local match_found = false
-      
-      -- Safely attempt pattern matching
-      pcall(function()
-        if string.match(relative_name, pattern) or string.match(bufname, pattern) then
-          match_found = true
-        end
-      end)
-      
-      if match_found then
-        debug_log("Buffer " .. bufnr .. " excluded by pattern: " .. pattern .. " (matched: " .. (relative_name or bufname) .. ")")
-        exclusion_cache[bufnr] = true
-        return true
-      end
-    end
+
+  -- Check buffer name patterns
+  local name_excluded, pattern, matched_name = is_buffer_name_excluded(bufname)
+  if name_excluded then
+    debug_log("Buffer " .. bufnr .. " excluded by pattern: " .. pattern .. " (matched: " .. matched_name .. ")")
+    exclusion_cache[bufnr] = true
+    return true
   end
-  
-  -- Check for specific floating window types (more selective than excluding all)
-  local winid = vim.fn.bufwinid(bufnr)
-  if winid ~= -1 then
-    local ok, win_config = pcall(vim.api.nvim_win_get_config, winid)
-    if ok and win_config.relative ~= "" then
-      -- Only exclude certain types of floating windows
-      local exclude_floating = false
-      
-      -- Check if it's a popup/menu style floating window
-      if win_config.focusable == false or 
-         win_config.style == "minimal" or 
-         (win_config.width and win_config.width < 20) or
-         (win_config.height and win_config.height < 3) then
-        exclude_floating = true
-      end
-      
-      -- Check for common popup buffer names
-      if not exclude_floating and bufname then
-        local popup_patterns = { "completion", "hover", "signature", "diagnostic" }
-        for _, popup_pattern in ipairs(popup_patterns) do
-          if string.match(bufname:lower(), popup_pattern) then
-            exclude_floating = true
-            break
-          end
-        end
-      end
-      
-      if exclude_floating then
-        debug_log("Buffer " .. bufnr .. " excluded as floating window")
-        exclusion_cache[bufnr] = true
-        return true
-      end
-    end
+
+  -- Check for excluded floating windows
+  if is_floating_window_excluded(bufnr, bufname) then
+    debug_log("Buffer " .. bufnr .. " excluded as floating window")
+    exclusion_cache[bufnr] = true
+    return true
   end
   
   -- Cache the negative result
@@ -351,7 +399,7 @@ local function get_fim_context_enhanced()
 
   -- Calculate smart context window based on file size
   local total_lines = #lines
-  local context_size = math.min(100, math.max(20, total_lines / 4))
+  local context_size = math.min(CONTEXT_MAX_LINES, math.max(CONTEXT_MIN_LINES, total_lines / CONTEXT_SIZE_RATIO))
   local start_line = math.max(0, row - context_size)
   local end_line = math.min(total_lines - 1, row + context_size)
 
@@ -397,9 +445,10 @@ local function get_fim_context_enhanced()
   }
 end
 
--- HTTP request function
+-- HTTP request function (now uses centralized HTTP client)
 local function make_request(data, callback)
   local auth = require("mistral-codestral.auth")
+  local http_client = require("mistral-codestral.http_client")
   local api_key = auth.get_api_key()
 
   if not api_key then
@@ -407,67 +456,14 @@ local function make_request(data, callback)
     return
   end
 
-  local json_data = vim.fn.json_encode(data)
-  local temp_file = vim.fn.tempname()
-  vim.fn.writefile({ json_data }, temp_file)
-
-  local curl_cmd = {
-    "curl",
-    "-s",
-    "-X",
-    "POST",
-    "-H",
-    "Content-Type: application/json",
-    "-H",
-    "Authorization: Bearer " .. api_key,
-    "-d",
-    "@" .. temp_file,
-    "--max-time",
-    tostring(config.timeout / 1000),
-    "https://codestral.mistral.ai/v1/fim/completions",
-  }
-
-  vim.fn.jobstart(curl_cmd, {
-    on_exit = function(_, exit_code)
-      vim.fn.delete(temp_file)
-      if exit_code ~= 0 then
-        callback(nil, "Request failed with exit code: " .. exit_code)
-      end
-    end,
-    stdout_buffered = true,
-    on_stdout = function(_, data)
-      if data and data[1] and data[1] ~= "" then
-        local response_text = table.concat(data, "\n")
-        local ok, response = pcall(vim.fn.json_decode, response_text)
-        if ok and response then
-          -- Check for API error responses
-          if response.error then
-            local error_msg = "API Error"
-            if response.error.type then
-              error_msg = error_msg .. " (" .. response.error.type .. ")"
-            end
-            if response.error.message then
-              error_msg = error_msg .. ": " .. response.error.message
-            end
-            callback(nil, error_msg)
-          elseif response.detail then
-            -- Handle validation errors (422)
-            local error_msg = "Validation Error"
-            if type(response.detail) == "string" then
-              error_msg = error_msg .. ": " .. response.detail
-            elseif type(response.detail) == "table" and response.detail[1] then
-              error_msg = error_msg .. ": " .. (response.detail[1].msg or "Invalid request")
-            end
-            callback(nil, error_msg)
-          else
-            callback(response, nil)
-          end
-        else
-          callback(nil, "Failed to parse JSON response")
-        end
-      end
-    end,
-  })
+  http_client.post("https://codestral.mistral.ai/v1/fim/completions", {
+    headers = {
+      ["Content-Type"] = "application/json",
+      ["Authorization"] = "Bearer " .. api_key,
+    },
+    data = data,
+    timeout = config.timeout,
+  }, callback)
 end
 
 -- Request completion
@@ -491,8 +487,9 @@ local function request_completion(callback, context_override)
     end
 
     if response and response.choices and response.choices[1] then
-      -- FIM API returns text directly in choices[i].text, not in message.content
-      local completion = response.choices[1].text
+      -- FIM API can return text in either choices[i].text or choices[i].message.content
+      local choice = response.choices[1]
+      local completion = choice.text or (choice.message and choice.message.content)
       callback(completion)
     else
       callback(nil)
@@ -588,23 +585,13 @@ function M.setup(user_config)
   -- Initialize auth module
   require("mistral-codestral.auth").setup(config.auth)
 
-  -- Register nvim-cmp source
+  -- Setup completion engine integration (blink.cmp v1.6+ or nvim-cmp)
   if config.enable_cmp_source then
-    local ok, cmp_source = pcall(require, "mistral-codestral.cmp_source")
-    if ok then
-      cmp_source.register(config)
+    local blink_ok, blink = pcall(require, "mistral-codestral.blink")
+    if blink_ok then
+      blink.setup_completion_engine(config)
     else
-      -- Try enhanced version
-      local ok2, cmp_enhanced = pcall(require, "mistral-codestral.cmp_source_enchanced")
-      if ok2 then
-        cmp_enhanced.register(config)
-      else
-        -- Try blink integration
-        local ok3, blink = pcall(require, "mistral-codestral.blink")
-        if ok3 then
-          blink.setup_completion_engine(config)
-        end
-      end
+      vim.notify("Failed to load completion engine integration", vim.log.levels.ERROR)
     end
   end
 

@@ -109,10 +109,20 @@ function M.check()
 
   -- Check Neovim version
   local nvim_version = vim.version()
-  if nvim_version.major > 0 or nvim_version.minor >= 7 then
-    vim.health.ok("Neovim version: " .. tostring(nvim_version))
+  local version_string = string.format("%d.%d.%d", nvim_version.major, nvim_version.minor, nvim_version.patch or 0)
+
+  if vim.fn.has("nvim-0.9.0") == 1 then
+    vim.health.ok("Neovim version: " .. version_string)
+    if vim.fn.has("nvim-0.10.0") == 1 then
+      vim.health.info("  Using vim.system for safe command execution ✓")
+    else
+      vim.health.info("  Using fallback command execution (upgrade to 0.10+ for vim.system)")
+    end
   else
-    vim.health.error("Neovim 0.7+ required, current: " .. tostring(nvim_version))
+    vim.health.error("Neovim >= 0.9.0 required, current: " .. version_string, {
+      "Upgrade to Neovim 0.9.0 or later",
+      "Visit: https://github.com/neovim/neovim/releases"
+    })
   end
 
   -- Check required dependencies
@@ -125,12 +135,56 @@ function M.check()
   vim.health.start("System Dependencies")
   check_binary("curl", "curl")
 
-  -- Check API configuration
-  vim.health.start("API Configuration")
-  local api_key_ok = check_api_key()
+  -- Check HTTP client module
+  vim.health.start("HTTP Client")
+  local http_ok, http_client = pcall(require, "mistral-codestral.http_client")
+  if http_ok then
+    vim.health.ok("HTTP client module loaded")
+    if type(http_client.post) == "function" and type(http_client.validate_api_key) == "function" then
+      vim.health.ok("HTTP client functions available")
+    else
+      vim.health.error("HTTP client module is missing required functions")
+    end
+  else
+    vim.health.error("HTTP client module failed to load", {
+      "Check that http_client.lua exists in lua/mistral-codestral/",
+      "Error: " .. tostring(http_client)
+    })
+  end
 
-  if api_key_ok then
-    check_mistral_api()
+  -- Check authentication module
+  vim.health.start("Authentication")
+  local auth_ok, auth = pcall(require, "mistral-codestral.auth")
+  if auth_ok then
+    vim.health.ok("Auth module loaded")
+
+    -- Check API key
+    local api_key = auth.get_api_key()
+    if api_key and api_key ~= "" then
+      vim.health.ok("API key found (length: " .. #api_key .. " characters)")
+
+      -- Show which method was used
+      local method = auth.get_current_method()
+      if method and method ~= "none" then
+        vim.health.info("  Retrieved via: " .. method)
+      end
+
+      -- Test API connection if HTTP client is available
+      if http_ok then
+        check_mistral_api()
+      end
+    else
+      vim.health.error("No API key configured", {
+        "Set MISTRAL_API_KEY environment variable",
+        "Or configure api_key in plugin setup",
+        "Or run :MistralCodestralAuth set"
+      })
+    end
+  else
+    vim.health.error("Auth module failed to load", {
+      "Check that auth.lua exists in lua/mistral-codestral/",
+      "Error: " .. tostring(auth)
+    })
   end
 
   -- Check plugin configuration
