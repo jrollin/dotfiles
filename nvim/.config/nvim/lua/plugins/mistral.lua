@@ -32,7 +32,7 @@ return {
         idle_delay = 800, -- Increased from 200ms to 800ms for less intrusive suggestions
         min_chars = 3, -- Require at least 3 characters before showing suggestions
         key_bindings = {
-          accept = "<Tab>",
+          accept = "<M-l>", -- Changed from <Tab> to Alt+l (like GitHub Copilot)
           accept_word = "<C-Right>",
           accept_line = "<C-Down>",
           clear = "<C-c>",

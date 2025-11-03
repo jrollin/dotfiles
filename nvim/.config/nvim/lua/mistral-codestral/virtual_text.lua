@@ -197,16 +197,23 @@ local function request_virtual_completions()
       current_completions = { completion }
       current_index = 1
 
-      status = {
-        state = "completions",
-        current = 1,
-        total = #current_completions,
-      }
+      -- Update status while preserving buffer tracking fields
+      status.state = "completions"
+      status.current = 1
+      status.total = #current_completions
 
       local cursor = vim.api.nvim_win_get_cursor(0)
       show_virtual_text(completion, cursor[1] - 1, cursor[2])
     else
-      status = { state = "idle", current = 0, total = 0 }
+      -- Reset status completely when no completion
+      status = {
+        state = "idle",
+        current = 0,
+        total = 0,
+        completion_row = nil,
+        completion_col = nil,
+        completion_bufnr = nil
+      }
       current_completions = {}
       current_index = 0
     end
@@ -218,7 +225,7 @@ end
 -- Debounced completion request
 function M.debounced_complete()
   if timer then
-    vim.fn.timer_stop(timer)
+    pcall(vim.fn.timer_stop, timer)
   end
 
   timer = vim.fn.timer_start(config.virtual_text.idle_delay, function()
@@ -229,7 +236,7 @@ end
 -- Immediate completion request
 function M.complete()
   if timer then
-    vim.fn.timer_stop(timer)
+    pcall(vim.fn.timer_stop, timer)
     timer = nil
   end
   request_virtual_completions()
@@ -268,12 +275,19 @@ end
 function M.accept()
   if #current_completions > 0 and current_index > 0 then
     local completion = current_completions[current_index]
-    
+
+    -- Validate we're still in the same buffer where completion was generated
+    local bufnr = vim.api.nvim_get_current_buf()
+    if status.completion_bufnr and bufnr ~= status.completion_bufnr then
+      -- Buffer changed, clear stale completion
+      clear_virtual_text()
+      return
+    end
+
     -- Apply the same prefix matching logic that was used for display
     local cursor = vim.api.nvim_win_get_cursor(0)
     local cursor_row = cursor[1] - 1
     local cursor_col = cursor[2]
-    local bufnr = vim.api.nvim_get_current_buf()
     local current_line = vim.api.nvim_buf_get_lines(bufnr, cursor_row, cursor_row + 1, false)[1] or ""
     
     -- Process completion with prefix matching
@@ -315,12 +329,19 @@ end
 function M.accept_word()
   if #current_completions > 0 and current_index > 0 then
     local completion = current_completions[current_index]
-    
+
+    -- Validate we're still in the same buffer where completion was generated
+    local bufnr = vim.api.nvim_get_current_buf()
+    if status.completion_bufnr and bufnr ~= status.completion_bufnr then
+      -- Buffer changed, clear stale completion
+      clear_virtual_text()
+      return
+    end
+
     -- Apply prefix matching first
     local cursor = vim.api.nvim_win_get_cursor(0)
     local cursor_row = cursor[1] - 1
     local cursor_col = cursor[2]
-    local bufnr = vim.api.nvim_get_current_buf()
     local current_line = vim.api.nvim_buf_get_lines(bufnr, cursor_row, cursor_row + 1, false)[1] or ""
     
     local first_line = vim.split(completion, "\n", { plain = true })[1]
@@ -343,12 +364,19 @@ end
 function M.accept_line()
   if #current_completions > 0 and current_index > 0 then
     local completion = current_completions[current_index]
-    
+
+    -- Validate we're still in the same buffer where completion was generated
+    local bufnr = vim.api.nvim_get_current_buf()
+    if status.completion_bufnr and bufnr ~= status.completion_bufnr then
+      -- Buffer changed, clear stale completion
+      clear_virtual_text()
+      return
+    end
+
     -- Apply prefix matching first
     local cursor = vim.api.nvim_win_get_cursor(0)
     local cursor_row = cursor[1] - 1
     local cursor_col = cursor[2]
-    local bufnr = vim.api.nvim_get_current_buf()
     local current_line = vim.api.nvim_buf_get_lines(bufnr, cursor_row, cursor_row + 1, false)[1] or ""
     
     local first_line = vim.split(completion, "\n", { plain = true })[1]
@@ -446,8 +474,8 @@ function M.setup(mistral_config)
       end,
     })
 
-    -- Clear on mode changes
-    vim.api.nvim_create_autocmd({ "ModeChanged", "CursorMovedI" }, {
+    -- Clear on mode changes (except when staying in insert mode)
+    vim.api.nvim_create_autocmd("ModeChanged", {
       group = group,
       callback = function()
         if vim.fn.mode() ~= "i" then
@@ -456,8 +484,35 @@ function M.setup(mistral_config)
       end,
     })
 
+    -- Clear on cursor movement if moved significantly from completion position
+    vim.api.nvim_create_autocmd("CursorMovedI", {
+      group = group,
+      callback = function()
+        -- Only check if we have an active completion
+        if #current_completions == 0 or not status.completion_row then
+          return
+        end
+
+        local cursor = vim.api.nvim_win_get_cursor(0)
+        local cursor_row = cursor[1] - 1
+        local cursor_col = cursor[2]
+
+        -- Clear if moved to different line or moved more than 5 characters away
+        if cursor_row ~= status.completion_row or
+           math.abs(cursor_col - (status.completion_col or 0)) > 5 then
+          clear_virtual_text()
+        end
+      end,
+    })
+
     -- Clear on leaving insert mode
     vim.api.nvim_create_autocmd("InsertLeave", {
+      group = group,
+      callback = clear_virtual_text,
+    })
+
+    -- Clear on leaving buffer
+    vim.api.nvim_create_autocmd("BufLeave", {
       group = group,
       callback = clear_virtual_text,
     })
@@ -469,16 +524,13 @@ function M.setup(mistral_config)
 
     if bindings.accept then
       vim.keymap.set("i", bindings.accept, function()
-        -- Only handle mistral completions, let blink.cmp handle its own Tab via keymap config
+        -- Accept mistral completion if available
         if #current_completions > 0 and current_index > 0 then
           M.accept()
-        else
-          -- Fallback to original Tab behavior for blink.cmp and normal indentation
-          local tab_key = vim.api.nvim_replace_termcodes("<Tab>", true, false, true)
-          vim.api.nvim_feedkeys(tab_key, "n", false)
         end
+        -- No fallback needed since we're not using Tab anymore
       end, {
-        desc = "Accept Codestral completion or fallback to Tab",
+        desc = "Accept Codestral completion",
         silent = true,
       })
     end
@@ -528,26 +580,6 @@ function M.setup(mistral_config)
         silent = true,
       })
     end
-    
-    -- Simple autocmd pattern like Windsurf - clear on insert leave and buffer leave
-    vim.api.nvim_create_autocmd("InsertLeave", {
-      callback = function()
-        if #current_completions > 0 then
-          clear_virtual_text()
-        end
-      end,
-      desc = "Clear Codestral completion when leaving insert mode",
-    })
-    
-    vim.api.nvim_create_autocmd("BufLeave", {
-      callback = function()
-        if #current_completions > 0 then
-          clear_virtual_text()
-        end
-      end,
-      desc = "Clear Codestral completion when leaving buffer",
-    })
-    
   end
 
   -- Create commands for manual mode
