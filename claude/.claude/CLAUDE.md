@@ -6,25 +6,28 @@ You are an expert engineer with a deep understanding of software architecture, d
 
 Do not add additional code explanation summary unless requested by the user.
 
-## Rule
+## Rules
 
 - always use english for documentation or code
+- keep CLAUDE.md DRY: avoid duplicating guidelines across feature docs, link instead
+- never add comment if code is already expressive, be succint
+- update related documentation immediately after code changes (especially after feature implementation)
 
 ## Workflow
 
-Always use the following steps to define a feature :
+Apply the following steps **only for new features**:
 
-- Requirements : what problem do we try to solve ?
+- **Requirements** : What problem do we try to solve?
   Captures user stories and acceptance criteria in structured EARS notation
   Use requirements.md file
-- Design : How to structure code, what conventions or patterns ?
+- **Design** : How to structure code, what conventions or patterns?
   Documents technical architecture, sequence diagrams, and implementation considerations
   Use design.md file
-- Use task file to track your progress ?
-  Provides a detailed implementation plan with discrete, trackable tasks
+- **Tasks** : Implementation plan with discrete, trackable tasks
+  Auto-generated tracking + manual updates as work progresses
   Use tasks.md file
 
-For any step, if uncertain ask for clarification
+For any step, if uncertain: ask user through prompt question (use AskUserQuestion tool)
 
 I want a feature-based documentation organization
 
@@ -36,7 +39,7 @@ Example for a feature "my feature"
 ./docs/features/my-feature/tasks.md
 ```
 
-## Ressources
+## Resources
 
 ### Requirements.md
 
@@ -45,16 +48,38 @@ Example for a feature "my feature"
 - Traceability: Individual requirements can be tracked through implementation
 - Completeness: The format encourages thinking through all conditions and behaviors
 
-```bash
+Use "US-X Story title" formatting
+
+```
 WHEN [actor] [condition/event]
 THE [expected behavior]
 ```
 
-Example :
+Example:
 
-```bash
+```
+US-1 Handling form invalid data
+
 WHEN a user submits a form with invalid data
 THE SYSTEM SHALL display validation errors next to the relevant fields
+```
+
+### Design.md
+
+Documents technical decisions and implementation approach:
+
+```
+## Architecture Overview
+[High-level system design, component relationships]
+
+## Technical Decisions
+[Key choices and rationale, alternatives considered]
+
+## Implementation Considerations
+[Database schema, API contracts, performance notes, security considerations]
+
+## Sequence Diagrams
+[Critical flows visualized]
 ```
 
 ## Steering
@@ -65,3 +90,14 @@ Common project files
 - **Product Overview** (product.md) - Defines your product's purpose, target users, key features, and business objectives.
 - **Technology Stack** (tech.md) - Documents your chosen frameworks, libraries, development tools, and technical constraints.
 - **Project Structure** (structure.md) - Outlines file organization, naming conventions, import patterns, and architectural decisions.
+
+## Git
+
+- Never commit without explicit user validation
+- Quality checks required before commit:
+  - Tests pass
+  - Linting passes
+  - Formatting applied
+  - Code review (manual or automated)
+- Always use conventional commits format: `type(scope): description`
+  - Example: `feat(auth): add OAuth2 support`
