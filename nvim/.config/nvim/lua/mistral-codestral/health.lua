@@ -156,7 +156,8 @@ function M.check()
       vim.health.info("  - " .. client.name)
     end
   else
-    vim.health.warn("No active LSP clients (LSP integration will be limited)")
+    vim.health.info("No active LSP clients in current buffer (this is normal for checkhealth)")
+    vim.health.info("LSP features will work when you open LSP-configured files")
   end
 
   -- Check nvim-cmp integration
@@ -191,6 +192,8 @@ function M.check()
   -- Check blink.cmp
   local blink_ok, blink = pcall(require, "blink.cmp")
   if blink_ok then
+    vim.health.ok("blink.cmp is available")
+
     local config = blink.get_config and blink.get_config()
     if config and config.sources and config.sources.providers then
       local has_mistral = config.sources.providers.mistral_codestral ~= nil
@@ -198,7 +201,7 @@ function M.check()
       if has_mistral then
         vim.health.ok("mistral_codestral provider is configured in blink.cmp")
       else
-        vim.health.warn("mistral_codestral provider not found in blink.cmp")
+        vim.health.info("mistral_codestral provider not found in blink.cmp (configure if needed)")
       end
 
       -- Check if it's in default sources
@@ -217,7 +220,7 @@ function M.check()
         vim.health.info("mistral_codestral not in default sources (this is okay if configured per-filetype)")
       end
     else
-      vim.health.warn("Could not access blink.cmp configuration")
+      vim.health.info("Could not fully verify blink.cmp configuration (may not be initialized yet)")
     end
   else
     vim.health.info("blink.cmp is not available")
