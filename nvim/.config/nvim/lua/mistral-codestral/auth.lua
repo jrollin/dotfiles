@@ -107,8 +107,12 @@ local function safe_execute_command(command)
   end
 end
 
--- Check if a command exists
+-- Check if a command exists (safely escape command name)
 local function command_exists(cmd)
+  -- Only allow alphanumeric, hyphen, and underscore in command names
+  if not cmd:match("^[a-zA-Z0-9_-]+$") then
+    return false
+  end
   local handle = io.popen("which " .. cmd .. " 2>/dev/null")
   local result = handle:read("*a")
   handle:close()
@@ -217,8 +221,12 @@ local function get_from_encrypted_file()
     return nil
   end
 
-  -- For now, implement simple base64 "encryption" (you should use proper encryption)
-  -- In production, consider using age, gpg, or proper encryption libraries
+  -- This uses obfuscation, NOT true encryption. For true encryption, use GPG or age:
+  -- gpg: gpg --symmetric ~/.config/nvim/mistral-codestral/auth.gpg
+  -- age: age -r $(age-keygen -o) ~/.config/nvim/mistral-codestral/auth.age
+  -- Then retrieve with: gpg -d ~/.config/nvim/mistral-codestral/auth.gpg
+  -- Or: age -d -i ~/.config/age/keys.txt ~/.config/nvim/mistral-codestral/auth.age
+
   local file = io.open(file_path, "r")
   if not file then
     log_debug("Cannot read encrypted file")
@@ -228,17 +236,17 @@ local function get_from_encrypted_file()
   local content = file:read("*a")
   file:close()
 
-  -- Simple base64 decode (replace with proper encryption)
+  -- Try to decode as base64 (handles legacy format)
   local ok, decoded = pcall(function()
     return vim.base64.decode(content:gsub("%s", ""))
   end)
 
-  if ok and decoded then
-    log_debug("Found API key in encrypted file")
+  if ok and decoded and decoded ~= "" then
+    log_debug("Found API key in encrypted file (base64 decoded)")
     return decoded
   end
 
-  log_debug("Failed to decrypt API key file")
+  log_debug("Failed to read API key from encrypted file")
   return nil
 end
 
@@ -267,44 +275,99 @@ local function get_from_prompt()
   return nil
 end
 
--- Save to keyring
+-- Save to keyring (using safe execution methods)
 function M.save_to_keyring(api_key)
   local service = auth_config.keyring.service
   local username = auth_config.keyring.username
 
-  local commands = {}
-
   -- macOS keychain
   if command_exists("security") then
-    table.insert(
-      commands,
-      string.format("echo '%s' | security add-generic-password -s '%s' -a '%s' -w -U", api_key, service, username)
-    )
+    if vim.system then
+      -- Use vim.system for safe execution (Neovim 0.10+)
+      local result = vim.system(
+        { "security", "add-generic-password", "-s", service, "-a", username, "-w", api_key, "-U" },
+        { text = true }
+      ):wait()
+      if result.code == 0 then
+        log_info("API key saved to system keyring")
+        return true
+      end
+    else
+      -- Fallback for older Neovim: use temp file instead of pipe
+      local temp_file = vim.fn.tempname()
+      local file = io.open(temp_file, "w")
+      if file then
+        file:write(api_key)
+        file:close()
+        local cmd = string.format("security add-generic-password -s '%s' -a '%s' -w \"$(cat '%s')\" -U 2>/dev/null",
+          service:gsub("'", "'\\''"), username:gsub("'", "'\\''"), temp_file:gsub("'", "'\\''"))
+        local success = os.execute(cmd)
+        vim.fn.delete(temp_file)
+        if success == 0 or success == true then
+          log_info("API key saved to system keyring")
+          return true
+        end
+      end
+    end
   end
 
   -- Linux Secret Service
   if command_exists("secret-tool") then
-    table.insert(
-      commands,
-      string.format(
-        "echo '%s' | secret-tool store --label='Mistral Codestral API Key' service '%s' username '%s'",
-        api_key,
-        service,
-        username
-      )
-    )
+    if vim.system then
+      local result = vim.system(
+        { "secret-tool", "store", "--label=Mistral Codestral API Key", "service", service, "username", username },
+        { text = true, stdin = api_key }
+      ):wait()
+      if result.code == 0 then
+        log_info("API key saved to system keyring")
+        return true
+      end
+    else
+      -- Fallback: use temp file
+      local temp_file = vim.fn.tempname()
+      local file = io.open(temp_file, "w")
+      if file then
+        file:write(api_key)
+        file:close()
+        local cmd = string.format("secret-tool store --label='Mistral Codestral API Key' service '%s' username '%s' < '%s' 2>/dev/null",
+          service:gsub("'", "'\\''"), username:gsub("'", "'\\''"), temp_file:gsub("'", "'\\''"))
+        local success = os.execute(cmd)
+        vim.fn.delete(temp_file)
+        if success == 0 or success == true then
+          log_info("API key saved to system keyring")
+          return true
+        end
+      end
+    end
   end
 
   -- Python keyring
   if command_exists("keyring") then
-    table.insert(commands, string.format("echo '%s' | keyring set '%s' '%s'", api_key, service, username))
-  end
-
-  for _, cmd in ipairs(commands) do
-    local success = os.execute(cmd .. " >/dev/null 2>&1")
-    if success == 0 or success == true then
-      log_info("API key saved to system keyring")
-      return true
+    if vim.system then
+      local result = vim.system(
+        { "keyring", "set", service, username },
+        { text = true, stdin = api_key }
+      ):wait()
+      if result.code == 0 then
+        log_info("API key saved to system keyring")
+        return true
+      end
+    else
+      -- Fallback: use temp file
+      local temp_file = vim.fn.tempname()
+      local file = io.open(temp_file, "w")
+      if file then
+        file:write(api_key)
+        file:close()
+        local cmd = string.format("keyring set '%s' '%s' < '%s' 2>/dev/null",
+          service:gsub("'", "'\\''"), username:gsub("'", "'\\''"), temp_file:gsub("'", "'\\''"))
+        local success = os.execute(cmd)
+        vim.fn.delete(temp_file)
+        if success == 0 or success == true then
+          log_info("API key saved to system keyring")
+          return true
+        end
+      end
     end
   end
 
@@ -322,7 +385,15 @@ function M.save_to_encrypted_file(api_key)
     vim.fn.mkdir(dir_path, "p")
   end
 
-  -- Simple base64 "encryption" (replace with proper encryption)
+  -- WARNING: Base64 encoding is NOT encryption. This provides obfuscation only.
+  -- For production use, encrypt with GPG or age:
+  --   gpg --symmetric -o ~/.config/nvim/mistral-codestral/auth.gpg
+  --   OR use: age -r $(age-keygen -o) ~/.config/nvim/mistral-codestral/auth.age
+  -- Then retrieve with: gpg -d ~/.config/nvim/mistral-codestral/auth.gpg
+  --   OR: age -d -i ~/.config/age/keys.txt ~/.config/nvim/mistral-codestral/auth.age
+
+  log_info("WARNING: Using obfuscated storage. For better security, use GPG or age encryption.")
+
   local encoded = vim.base64.encode(api_key)
 
   local file = io.open(file_path, "w")
@@ -334,10 +405,21 @@ function M.save_to_encrypted_file(api_key)
   file:write(encoded)
   file:close()
 
-  -- Set secure permissions
-  os.execute("chmod 600 " .. file_path)
+  -- Set secure permissions (owner read-write only)
+  local ok, err = pcall(function()
+    if vim.system then
+      vim.system({ "chmod", "600", file_path }):wait()
+    else
+      os.execute("chmod 600 " .. vim.fn.shellescape(file_path))
+    end
+  end)
 
-  log_info("API key saved to encrypted file")
+  if not ok then
+    log_error("Failed to set secure permissions on " .. file_path)
+    return false
+  end
+
+  log_info("API key saved to obfuscated file (use GPG/age for true encryption)")
   return true
 end
 

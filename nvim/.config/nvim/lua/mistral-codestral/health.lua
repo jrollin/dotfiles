@@ -21,6 +21,12 @@ local function check_dependency(name, module_name, required)
 end
 
 local function check_binary(name, command)
+  -- Safely validate command name (alphanumeric, hyphen, underscore only)
+  if not command:match("^[a-zA-Z0-9_-]+$") then
+    vim.health.error(name .. " has invalid command name")
+    return false
+  end
+
   local handle = io.popen("which " .. command .. " 2>/dev/null")
   local result = handle:read("*a")
   handle:close()
@@ -41,68 +47,6 @@ local function check_api_key()
   return auth.get_api_key() ~= nil
 end
 
-local function check_mistral_api()
-  local api_key = os.getenv("MISTRAL_API_KEY")
-  if not api_key then
-    local ok, mistral = pcall(require, "mistral-codestral")
-    if ok then
-      local config = mistral.config()
-      api_key = config and config.api_key
-    end
-  end
-
-  if not api_key then
-    vim.health.error("Cannot test API connection without API key")
-    return
-  end
-
-  -- Simple API test
-  local test_cmd = {
-    "curl",
-    "-s",
-    "-X",
-    "POST",
-    "-H",
-    "Content-Type: application/json",
-    "-H",
-    "Authorization: Bearer " .. api_key,
-    "-d",
-    '{"model":"codestral-latest","prompt":"test","max_tokens":1}',
-    "--max-time",
-    "5",
-    "https://codestral.mistral.ai/v1/fim/completions",
-  }
-
-  vim.fn.jobstart(test_cmd, {
-    stdout_buffered = true,
-    on_stdout = function(_, data)
-      if data and data[1] and data[1] ~= "" then
-        local response = table.concat(data, "\n")
-        local ok, parsed = pcall(vim.fn.json_decode, response)
-
-        if ok and parsed then
-          if parsed.error then
-            vim.health.error("API connection failed: " .. (parsed.error.message or "Unknown error"))
-          else
-            vim.health.ok("API connection successful")
-          end
-        else
-          vim.health.warn("API responded but response format unexpected")
-        end
-      end
-    end,
-    on_stderr = function(_, data)
-      if data and data[1] and data[1] ~= "" then
-        vim.health.error("API connection error: " .. table.concat(data, "\n"))
-      end
-    end,
-    on_exit = function(_, exit_code)
-      if exit_code ~= 0 then
-        vim.health.error("Failed to connect to Mistral API (exit code: " .. exit_code .. ")")
-      end
-    end,
-  })
-end
 
 function M.check()
   vim.health.start("Mistral Codestral Plugin Health Check")
@@ -169,10 +113,8 @@ function M.check()
         vim.health.info("  Retrieved via: " .. method)
       end
 
-      -- Test API connection if HTTP client is available
-      if http_ok then
-        check_mistral_api()
-      end
+      -- Note: API test is async and can't reliably report in health check
+      -- Use :MistralCodestralAuth validate instead for API testing
     else
       vim.health.error("No API key configured", {
         "Set MISTRAL_API_KEY environment variable",
