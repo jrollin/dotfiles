@@ -33,6 +33,7 @@
   "mini.pairs": { "branch": "main", "commit": "d5a29b6254dad07757832db505ea5aeab9aad43a" },
   "mini.snippets": { "branch": "main", "commit": "b4065ca6b33e4df2897672d3bb760cfc93f4390a" },
   "mini.surround": { "branch": "main", "commit": "cc7b9d0a056b5fa6915ffac1cb91f29bf7c96f69" },
+  "mistral-codestral": { "branch": "main", "commit": "b08ff7b46533f8272b2a3177b293276632084eef" },
   "neo-tree.nvim": { "branch": "main", "commit": "4925f31285940af2805f5bfe52dcffa2037ecab2" },
   "neogen": { "branch": "main", "commit": "d7f9461727751fb07f82011051338a9aba07581d" },
   "neotest": { "branch": "master", "commit": "deadfb1af5ce458742671ad3a013acb9a6b41178" },
