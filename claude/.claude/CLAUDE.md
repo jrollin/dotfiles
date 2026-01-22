@@ -10,6 +10,7 @@ Do not add additional code explanation summary unless requested by the user.
 
 - always use english for documentation or code
 - keep CLAUDE.md DRY: avoid duplicating guidelines across feature docs, link instead
+- always update Claude.md with new guidelines or rules when a plan is improved or refused
 - never add comment if code is already expressive, be succint
 - update related documentation immediately after code changes (especially after feature implementation)
 
