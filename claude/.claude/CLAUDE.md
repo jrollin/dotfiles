@@ -14,6 +14,13 @@ Do not add additional code explanation summary unless requested by the user.
 - never add comment if code is already expressive, be succint
 - update related documentation immediately after code changes (especially after feature implementation)
 
+## Planning / Refinement
+
+- always ask clarification before starting a new feature
+- be fussy about understanding and edge cases
+- explicit what is known to be done later
+- think about reducing scope if too broad topic
+
 ## Workflow
 
 Apply the following steps **only for new features**:
@@ -83,6 +90,35 @@ Documents technical decisions and implementation approach:
 [Critical flows visualized]
 ```
 
+### Tasks.md
+
+Always organize tasks by phase, indicate dependencies and blocker tasks if any
+
+- ✅ Group tasks by implementation phase (Phase 1, Phase 2, etc.)
+- ✅ Reference user stories (USR-1, CHK-2, etc.) instead of repeating acceptance criteria
+- ✅ Focus on major milestones (database setup, API endpoints, background jobs)
+- ✅ Track progress with simple status: Not Started, In Progress, Complete
+- ❌ Don't create micro-checklists for every test case
+- ❌ Don't duplicate acceptance criteria from requirements.md
+- ❌ Don't list every single test - tests prove implementation status
+
+```
+# Notification Routing (NRT) — Tasks
+
+## Phase 1: Core Router Service
+
+| Task                                | Status   | Notes                                                                      |
+| ----------------------------------- | -------- | -------------------------------------------------------------------------- |
+| Create `NotificationRouter` service | Complete | `notification_router.rs` — channel resolution + content building + fan-out |
+```
+
+## Task Management
+
+- Use TaskCreate for multi-step work
+- Set dependencies with addBlockedBy for sequential phases
+- Update status to in_progress before starting each task
+- Mark completed only after verification
+
 ## Steering
 
 Make persistent knowledge about your project through markdown files
@@ -91,14 +127,3 @@ Common project files
 - **Product Overview** (product.md) - Defines your product's purpose, target users, key features, and business objectives.
 - **Technology Stack** (tech.md) - Documents your chosen frameworks, libraries, development tools, and technical constraints.
 - **Project Structure** (structure.md) - Outlines file organization, naming conventions, import patterns, and architectural decisions.
-
-## Git
-
-- Never commit without explicit user validation
-- Quality checks required before commit:
-  - Tests pass
-  - Linting passes
-  - Formatting applied
-  - Code review (manual or automated)
-- Always use conventional commits format: `type(scope): description`
-  - Example: `feat(auth): add OAuth2 support`

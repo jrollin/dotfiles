@@ -1,3 +1,6 @@
 [tools]
-java = "25"
+java = "17"
 node = "24"
+
+[settings]
+idiomatic_version_file_enable_tools = ["node"]

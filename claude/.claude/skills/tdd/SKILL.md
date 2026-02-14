@@ -1,6 +1,6 @@
 ---
-name: test-driven-development
-description: Use when implementing any feature or bugfix, before writing implementation code
+name: tdd
+description: Use when implementing any feature or bugfix, before writing implementation code. Invoke for test-driven development, red-green-refactor cycle, writing failing tests first, TDD workflow, and test-first programming.
 ---
 
 # Test-Driven Development (TDD)

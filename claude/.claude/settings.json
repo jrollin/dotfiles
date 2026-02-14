@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "Bash(wc:*)",
+      "Bash(grep:*)",
+      "Bash(rg:*)",
+      "Bash(test:*)",
+      "Bash(git commit:*)",
+      "Bash(git add:*)",
+      "Bash(ls:*)",
+      "mcp__context7__resolve-library-id",
+      "mcp__context7__query-docs",
+      "Bash(find:*)",
+      "Bash(docker-compose:*)",
+      "Bash(docker exec:*)",
+      "Bash(chmod:*)",
+      "Bash(curl:*)",
+      "Bash(make:*)",
+      "Bash(java:*)",
+      "Bash(jq:*)"
+    ],
+    "defaultMode": "default"
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'EDITED=$CLAUDE_FILE; if [[ \"$EDITED\" == *.rs ]]; then cargo check --message-format=short 2>&1 | head -20; fi'"
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/statusline.sh",
+    "padding": 0
+  },
+  "enabledPlugins": {
+    "rust-analyzer-lsp@claude-plugins-official": true,
+    "context7@claude-plugins-official": true,
+    "frontend-design@claude-plugins-official": true,
+    "typescript-lsp@claude-plugins-official": true,
+    "playwright@claude-plugins-official": true,
+    "lua-lsp@claude-plugins-official": true
+  },
+  "alwaysThinkingEnabled": false,
+  "autoUpdatesChannel": "latest",
+  "feedbackSurveyState": {
+    "lastShownTime": 1754123955721
+  },
+  "effortLevel": "medium",
+  "skipDangerousModePermissionPrompt": true
+}
