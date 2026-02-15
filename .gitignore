@@ -1,9 +1,13 @@
 # tmx auto installs plugin if no directory present (see tmux.conf)
+.DS_Store
 /tmux/plugins/*
 
 /nvim/plugin/packer_compiled.lua
 /nvim/lazy-lock.json
 
-/fish/fish_variables
+/fish/.config/fish/fish_variables
 
 /gtk-3.0/bookmarks
+
+
+/karabiner/.config/karabiner/automatic_backups

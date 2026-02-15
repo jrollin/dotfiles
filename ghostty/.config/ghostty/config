@@ -1,0 +1,71 @@
+#font-family = "Fira Code Retina"
+font-family = "JetBrainsMono Nerd Font"
+
+theme = Dracula+
+# theme = TokyoNight Moon
+
+# macos-icon = xray
+#macos-titlebar-style = tabs
+
+font-thicken = true
+font-size = 14
+
+
+mouse-hide-while-typing = true
+
+# split-divider-color ="pink"
+window-decoration = false
+window-save-state = always
+
+# Window settings
+window-padding-x = 4,0
+window-padding-y = 4,0
+# background = 000000
+background-opacity = 0.9
+background-blur-radius = 10
+
+# keybinds
+#keybind = global:cmd+s=toggle_quick_terminal
+#keybind = ctrl+h=goto_split:left
+#keybind = ctrl+j=goto_split:bottom
+#keybind = ctrl+k=goto_split:top
+#keybind = ctrl+l=goto_split:right
+#
+#
+#keybind = super+ctrl+h=resize_split:left,10
+#keybind = super+ctrl+j=resize_split:down,10
+#keybind = super+ctrl+k=resize_split:up,10
+#keybind = super+ctrl+l=resize_split:right,10
+#
+#
+# add linux like ctrl+a ctrl+e 
+# https://prokopov.me/posts/ghostty-remap-keys/
+keybind = ctrl+a=text:\x01
+keybind = ctrl+b=text:\x02
+keybind = ctrl+c=text:\x03
+keybind = ctrl+d=text:\x04
+keybind = ctrl+e=text:\x05
+keybind = ctrl+f=text:\x06
+keybind = ctrl+g=text:\x07
+keybind = ctrl+h=text:\x08
+keybind = ctrl+i=text:\x09
+keybind = ctrl+j=text:\x0A
+keybind = ctrl+k=text:\x0B
+keybind = ctrl+l=text:\x0C
+keybind = ctrl+m=text:\x0D
+keybind = ctrl+n=text:\x0E
+keybind = ctrl+o=text:\x0F
+keybind = ctrl+p=text:\x10
+keybind = ctrl+q=text:\x11
+keybind = ctrl+r=text:\x12
+keybind = ctrl+s=text:\x13
+keybind = ctrl+u=text:\x15
+keybind = ctrl+w=text:\x17
+keybind = ctrl+x=text:\x18
+keybind = ctrl+y=text:\x19
+keybind = ctrl+z=text:\x1A
+
+# font size 
+keybind = ctrl+equal=increase_font_size:1
+keybind = ctrl+shift+equal=decrease_font_size:1
+

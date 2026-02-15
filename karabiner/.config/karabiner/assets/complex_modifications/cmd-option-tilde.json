@@ -1,0 +1,23 @@
+{
+  "title": "~",
+  "rules": [
+    {
+      "description": "cmd + shift + n to tilde ~",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "n",
+            "modifiers": { "mandatory": ["left_option", "left_command"] }
+          },
+          "to": [
+            {
+              "key_code": "n",
+              "modifiers": ["right_option"]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

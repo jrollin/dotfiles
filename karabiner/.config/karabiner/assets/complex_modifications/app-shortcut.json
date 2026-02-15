@@ -1,0 +1,22 @@
+{
+  "title": "App shortcut",
+  "rules": [
+    {
+      "description": "Launch new Terminal",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "return_or_enter",
+            "modifiers": { "mandatory": ["command"] }
+          },
+          "to": [
+            {
+              "shell_command": "open -na Ghostty"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

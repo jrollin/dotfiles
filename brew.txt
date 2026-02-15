@@ -1,0 +1,17 @@
+stow
+bat
+fd
+fzf
+rigpreg
+jq
+tree
+gh
+ghostty
+raycast
+rectangle
+lazydocker
+lazygit
+luarocks
+font-fira-code
+font-hack-nerd-font
+awslocal
