@@ -57,5 +57,9 @@ set -gx PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD 1
 # Warnings 
 [ ! -d $HOME/.cargo ] && echo "cargo is missing; install by running: curl https://sh.rustup.rs -sSf | sh"
 
+if test -f ~/.local.fish
+    source ~/.local.fish
+end
+
 # prompt
 starship init fish | source
