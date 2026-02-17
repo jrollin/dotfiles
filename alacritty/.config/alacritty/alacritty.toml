@@ -2,8 +2,8 @@ general.import = [".~/.config/alacritty/dracula.toml"]
 
 [terminal.shell]
 # program = "/bin/bash"
-# program= "/usr/bin/fish"
-program = "/opt/homebrew/bin/zsh"
+program = "/usr/bin/fish"
+# program = "/opt/homebrew/bin/zsh"
 # args = ["-l"]
 
 [env]
@@ -55,4 +55,5 @@ bindings = [
   { key = "NumpadAdd", mods = "Control", action = "IncreaseFontSize" },
   { key = "Minus", mods = "Control", action = "DecreaseFontSize" },
   { key = "NumpadSubtract", mods = "Control", action = "DecreaseFontSize" },
+  { key = "Return", mods = "Shift", chars = "\u001B\r" },
 ]
