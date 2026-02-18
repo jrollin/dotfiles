@@ -15,3 +15,5 @@ luarocks
 font-fira-code
 font-hack-nerd-font
 awslocal
+ffmpeg
+gnupg

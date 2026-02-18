@@ -5,3 +5,6 @@ while IFS='' read -r line || [[ -n "$line" ]]; do
 done <"./brew.txt"
 
 stow nvim -t "$HOME"
+
+# speech
+# https://macparakeet.com

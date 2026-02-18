@@ -1,6 +1,3 @@
-[user]
-	email = 1086565+jrollin@users.noreply.github.com
-	name = jrollin
 [core]
 	editor = nvim
 [init]
@@ -39,10 +36,10 @@
     strategy = incremental
 
 [includeIf "gitdir:~/workspace/"] # job needs, like workspace/* so all included projects
-    path = .gitconfig-job
+    path = .gitconfig-work
 
+[includeIf "gitdir:~/personal/"] # perso needs, like personal/* so all included projects
+    path = .gitconfig-perso
 
 [push]
 	default = current
-[commit]
-	gpgsign = true

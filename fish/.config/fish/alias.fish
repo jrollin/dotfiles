@@ -15,7 +15,7 @@ alias wd="cd $WORK_DIR/"
 alias dot="cd $DOTFILES_DIR/"
 
 # fuzzy search 
-alias ff="cd \$(find $PROJECTS_DIR $DOTFILES_DIR $WORK_DIR -mindepth 1 -maxdepth 1 -type d | fzf)"
+alias ff="cd \$(find $PROJECTS_DIR $DOTFILES_DIR $WORK_DIR $PERSO_DIR -mindepth 1 -maxdepth 1 -type d | fzf)"
 
 
 # check if remote has changed before push force, ok if no changes"

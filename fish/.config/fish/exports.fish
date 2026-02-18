@@ -14,6 +14,7 @@ set -x XDG_CACHE_HOME "$HOME/.cache"
 set -x DOTFILES_DIR $HOME/dotfiles/
 set -x PROJECTS_DIR $HOME/projects/
 set -x WORK_DIR $HOME/workspace/
+set -x PERSO_DIR $HOME/personal/
 
 # rust
 [ -d $HOME/.cargo ] && set --export CARGO_ROOT "$HOME/.cargo"
@@ -57,8 +58,8 @@ set -gx PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD 1
 # Warnings 
 [ ! -d $HOME/.cargo ] && echo "cargo is missing; install by running: curl https://sh.rustup.rs -sSf | sh"
 
-if test -f ~/.local.fish
-    source ~/.local.fish
+if test -f ~/.alias.local.fish
+    source ~/.alias.local.fish
 end
 
 # prompt

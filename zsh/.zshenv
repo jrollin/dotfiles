@@ -22,7 +22,9 @@ export XDG_CACHE_HOME="$HOME/.cache"
 export DOTFILES_DIR=$HOME/dotfiles/
 export PROJECTS_DIR=$HOME/projects/
 export WORK_DIR=$HOME/workspace/
+export PERSO_DIR=$HOME/personal/
 # export DATA_DIR=/data/
+
 
 # lua bin (ex: busted for tests)
 export PATH="$PATH:$HOME/.luarocks/bin/"
@@ -30,7 +32,6 @@ export PATH="$PATH:$HOME/.luarocks/bin/"
 export ZSH="$HOME/.oh-my-zsh"
 
 
-# pip
-export PATH=$PATH:$HOME/Library/Python/3.9/bin/
-
+# local env 
+[ -f ~/.zshenv.local ] && source ~/.zshenv.local
 

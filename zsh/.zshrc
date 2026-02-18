@@ -56,6 +56,7 @@ source "$HOME/aliasrc"
 
 source "$HOME/.oh-my-zsh/oh-my-zsh.sh"
 
+
 # starship
 eval "$(starship init zsh)"
 

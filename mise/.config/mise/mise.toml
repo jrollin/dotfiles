@@ -1,8 +1,7 @@
 [tools]
-java = "17"
+java = "25"
 node = "24"
 python = "3.14"
-ruby = "2.7.3"
 
 [settings]
 idiomatic_version_file_enable_tools = ["node"]

@@ -7,20 +7,18 @@ alias python="python3"
 
 alias k="kubectl"
 
-alias jr="cd $PROJECTS_DIR/julienrollin/"
+alias jr="cd $PERSO_DIR/julienrollin/"
 
 alias pr="cd $PROJECTS_DIR/"
 alias wd="cd $WORK_DIR/"
 alias dot="cd $DOTFILES_DIR/"
-
-# fuzzy search 
-alias my="cd \$(find $PROJECTS_DIR $DOTFILES_DIR $WORK_DIR -mindepth 1 -maxdepth 1 -type d | fzf)"
+alias my="cd $PERSO_DIR/"
 
 # dive docker image
 alias dive="docker run -ti --rm  -v /var/run/docker.sock:/var/run/docker.sock wagoodman/dive"
 
 
-alias ff="cd \$(find $PROJECTS_DIR $DOTFILES_DIR $WORK_DIR -mindepth 1 -maxdepth 1 -type d | fzf)"
+alias ff="cd \$(find $PROJECTS_DIR $DOTFILES_DIR $WORK_DIR $PERSO_DIR -mindepth 1 -maxdepth 1 -type d | fzf)"
 
 # ls, the common ones I use a lot shortened for rapid fire usage
 alias l='ls -lFh'     #size,show type,human readable
