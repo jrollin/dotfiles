@@ -1,8 +1,6 @@
 return {
-  -- override keys
   {
     "nvim-neo-tree/neo-tree.nvim",
-    cmd = "Neotree",
     keys = {
       { "<C-f>", "<cmd>Neotree reveal left<CR>", desc = "Reveal file in tree" },
     },
@@ -13,11 +11,8 @@ return {
           show_hidden_count = true,
           hide_dotfiles = false,
           hide_gitignored = false,
-          hide_by_name = {
-            -- '.git',
-            -- '.DS_Store',
-            -- 'thumbs.db',
-          },
+          hide_hidden = false,
+          hide_by_name = {},
           never_show = {},
         },
       },
