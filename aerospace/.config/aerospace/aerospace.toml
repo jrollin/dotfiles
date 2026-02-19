@@ -50,23 +50,31 @@ alt-enter = '''exec-and-forget osascript -e '
     end tell'
     '''
 
+# See: https://nikitabobko.github.io/AeroSpace/commands#focus
+alt-h = 'focus left'
+alt-j = 'focus down'
+alt-k = 'focus up'
+alt-l = 'focus right'
+
 # i3 wraps focus by default
 # alt-j = 'focus --boundaries-action wrap-around-the-workspace left'
 # alt-k = 'focus --boundaries-action wrap-around-the-workspace down'
 # alt-l = 'focus --boundaries-action wrap-around-the-workspace up'
 # alt-semicolon = 'focus --boundaries-action wrap-around-the-workspace right'
-#
-# alt-shift-j = 'move left'
-# alt-shift-k = 'move down'
-# alt-shift-l = 'move up'
-# alt-shift-semicolon = 'move right'
+
+# See: https://nikitabobko.github.io/AeroSpace/commands#move
+alt-shift-h = 'move left'
+alt-shift-j = 'move down'
+alt-shift-k = 'move up'
+alt-shift-l = 'move right'
+
 
 # Consider using 'join-with' command as a 'split' replacement if you want to enable
 # normalizations
 #alt-h = 'split horizontal'
 #alt-v = 'split vertical'
 
-# ctrl-alt-f = 'fullscreen'
+alt-f = 'fullscreen'
 #
 # alt-s = 'layout v_accordion'               # 'layout stacking' in i3
 # alt-w = 'layout h_accordion'               # 'layout tabbed' in i3
@@ -80,40 +88,58 @@ alt-enter = '''exec-and-forget osascript -e '
 
 # `focus parent`/`focus child` are not yet supported, and it's not clear whether they
 # should be supported at all https://github.com/nikitabobko/AeroSpace/issu
-ctrl-shift-1 = 'workspace 1'
-ctrl-shift-2 = 'workspace 2'
-ctrl-shift-3 = 'workspace 3'
-ctrl-shift-4 = 'workspace 4'
-ctrl-shift-5 = 'workspace 5'
-ctrl-shift-6 = 'workspace 6'
-ctrl-shift-7 = 'workspace 7'
-ctrl-shift-8 = 'workspace 8'
-ctrl-shift-9 = 'workspace 9'
-ctrl-shift-0 = 'workspace 0'
+# ctrl-shift-1 = 'workspace 1'
+# ctrl-shift-2 = 'workspace 2'
+# ctrl-shift-3 = 'workspace 3'
+# ctrl-shift-4 = 'workspace 4'
+# ctrl-shift-5 = 'workspace 5'
+# ctrl-shift-6 = 'workspace 6'
+# ctrl-shift-7 = 'workspace 7'
+# ctrl-shift-8 = 'workspace 8'
+# ctrl-shift-9 = 'workspace 9'
+# ctrl-shift-0 = 'workspace 0'
 
-ctrl-alt-shift-1 = 'move-node-to-workspace 1'
-ctrl-alt-shift-2 = 'move-node-to-workspace 2'
-ctrl-alt-shift-3 = 'move-node-to-workspace 3'
-ctrl-alt-shift-4 = 'move-node-to-workspace 4'
-ctrl-alt-shift-5 = 'move-node-to-workspace 5'
-ctrl-alt-shift-6 = 'move-node-to-workspace 6'
-ctrl-alt-shift-7 = 'move-node-to-workspace 7'
-ctrl-alt-shift-8 = 'move-node-to-workspace 8'
-ctrl-alt-shift-9 = 'move-node-to-workspace 9'
-ctrl-alt-shift-0 = 'move-node-to-workspace 0'
+# ctrl-alt-shift-1 = 'move-node-to-workspace 1'
+# ctrl-alt-shift-2 = 'move-node-to-workspace 2'
+# ctrl-alt-shift-3 = 'move-node-to-workspace 3'
+# ctrl-alt-shift-4 = 'move-node-to-workspace 4'
+# ctrl-alt-shift-5 = 'move-node-to-workspace 5'
+# ctrl-alt-shift-6 = 'move-node-to-workspace 6'
+# ctrl-alt-shift-7 = 'move-node-to-workspace 7'
+# ctrl-alt-shift-8 = 'move-node-to-workspace 8'
+# ctrl-alt-shift-9 = 'move-node-to-workspace 9'
+# ctrl-alt-shift-0 = 'move-node-to-workspace 0'
+
+shift-alt-1 = 'workspace 1'
+shift-alt-2 = 'workspace 2'
+shift-alt-3 = 'workspace 3'
+shift-alt-4 = 'workspace 4'
+shift-alt-5 = 'workspace 5'
+shift-alt-6 = 'workspace 6'
+shift-alt-7 = 'workspace 7'
+shift-alt-8 = 'workspace 8'
+shift-alt-9 = 'workspace 9'
+
+ctrl-shift-alt-1 = 'move-node-to-workspace 1'
+ctrl-shift-alt-2 = 'move-node-to-workspace 2'
+ctrl-shift-alt-3 = 'move-node-to-workspace 3'
+ctrl-shift-alt-4 = 'move-node-to-workspace 4'
+ctrl-shift-alt-5 = 'move-node-to-workspace 5'
+ctrl-shift-alt-6 = 'move-node-to-workspace 6'
+ctrl-shift-alt-7 = 'move-node-to-workspace 7'
+ctrl-shift-alt-8 = 'move-node-to-workspace 8'
+ctrl-shift-alt-9 = 'move-node-to-workspace 9'
+
 
 alt-shift-c = 'reload-config'
 
 alt-r = 'mode resize'
 # See: https://nikitabobko.github.io/AeroSpace/commands#move-workspace-to-monitor
-alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
-cmd-shift-o = 'move-workspace-to-monitor --wrap-around next'
+alt-o = 'move-workspace-to-monitor --wrap-around next'
 
 
-alt-shift-h = ['join-with left', 'mode main']
-alt-shift-j = ['join-with down', 'mode main']
-alt-shift-k = ['join-with up', 'mode main']
-alt-shift-l = ['join-with right', 'mode main']
+# screenshots
+alt-shift-s = 'exec-and-forget screencapture -i -c'
 
 
 [mode.resize.binding]
@@ -139,15 +165,6 @@ f = [
   'mode main',
 ] # Toggle between floating and tiling layout
 backspace = ['close-all-windows-but-current', 'mode main']
-
-# sticky is not yet supported https://github.com/nikitabobko/AeroSpace/issues/2
-#s = ['layout sticky tiling', 'mode main']
-# alt-shift-h = ['join-with left', 'mode main']
-# alt-shift-j = ['join-with down', 'mode main']
-# alt-shift-k = ['join-with up', 'mode main']
-# alt-shift-l = ['join-with right', 'mode main']
-#
-#
 
 
 [[on-window-detected]]
