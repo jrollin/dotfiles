@@ -17,3 +17,6 @@ font-hack-nerd-font
 awslocal
 ffmpeg
 gnupg
+coreutils
+imagemagick
+
