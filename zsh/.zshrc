@@ -56,7 +56,24 @@ source "$HOME/aliasrc"
 
 source "$HOME/.oh-my-zsh/oh-my-zsh.sh"
 
+eval "$(rbenv init -)"
 
+eval "$(/opt/homebrew/bin/brew shellenv zsh)"
 # starship
 eval "$(starship init zsh)"
 
+
+echo 'eval "$(~/.local/bin/mise activate zsh)"' >> ~/.zshrc
+
+source /Users/julienrollin/workspace/devops/skello.plugin.zsh
+eval "$(~/.local/bin/mise activate zsh)"
+eval "$(~/.local/bin/mise activate zsh)"
+eval "$(~/.local/bin/mise activate zsh)"
+eval "$(~/.local/bin/mise activate zsh)"
+eval "$(~/.local/bin/mise activate zsh)"
+eval "$(~/.local/bin/mise activate zsh)"
+eval "$(~/.local/bin/mise activate zsh)"
+eval "$(~/.local/bin/mise activate zsh)"
+eval "$(~/.local/bin/mise activate zsh)"
+eval "$(~/.local/bin/mise activate zsh)"
+eval "$(~/.local/bin/mise activate zsh)"
