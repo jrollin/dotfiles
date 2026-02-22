@@ -1,137 +1,182 @@
 # Dotfiles
 
-My config
+Personal configuration files managed with [GNU Stow](https://www.gnu.org/software/stow/).
 
-- nvim
-- i3 / demnu / polybar / rofi
-- tmux
-- fish / alacritty / starship
-- fonts Nerd with icons
-- arch / lightdm
+## What's included
 
-## Requirements
+### Cross-platform
 
-I3wm
+- **Shell** - zsh (primary), fish, bash with [starship](https://starship.rs/) prompt
+- **Editor** - [Neovim](https://neovim.io/) with LazyVim framework
+- **Terminal** - alacritty, ghostty
+- **Multiplexer** - tmux, zellij
+- **Git** - aliases, conditional includes for work/personal
+- **Fonts** - JetBrains Mono Nerd Font
+- **Version manager** - [mise](https://mise.jbang.dev/) (node, python, java)
+- **Keyboard** - [kanata](https://github.com/jtroo/kanata) (cross-platform remapper)
 
-```
-sudo pacman -S i3-wm
-```
+### macOS
 
-Configure touchpad and brightness touch for lib xorg
+- [AeroSpace](https://github.com/nikitabobko/AeroSpace) - tiling window manager
+- [Karabiner-Elements](https://karabiner-elements.pqrs.org/) - keyboard customization
+- [SketchyBar](https://github.com/FelixKratz/SketchyBar) - status bar
+- Ghostty terminal
 
-[My Dell xorg gist](https://gist.github.com/jrollin/1208610469474c4315a1f9d6c3e1da8c)
+### Linux
 
-## Get infos
-
-get infos about machine setup with [neofetch](https://github.com/dylanaraps/neofetch)
-
-```Bash
-neofetch
-```
-
-or with inxi
-
-```Bash
-inxi -Fxxxrz
-
-System:
-  Kernel: 6.1.12-1-MANJARO arch: x86_64 bits: 64
-    compiler: gcc v: 12.2.1 Desktop: i3 v: 4.22 info: polybar
-    vt: 7 dm: LightDM v: 1.32.0 Distro: Manjaro Linux
-    base: Arch Linux
-Machine:
-  Type: Laptop System: Dell product: XPS 13 9305 v: N/A
-```
-
-X config
-
-```Bash
-xset q
-```
+- [i3](https://i3wm.org/) - tiling window manager (X11)
+- [Sway](https://swaywm.org/) - tiling window manager (Wayland)
+- [Polybar](https://polybar.github.io/) - status bar (i3)
+- [Waybar](https://github.com/Alexays/Waybar) - status bar (Sway)
+- [Rofi](https://github.com/davatorium/rofi) - application launcher
+- GTK3 theme, X11 resources, wallpapers
 
 ## Install
 
-Os packages (tmux, rust, etc)
+### macOS
 
+Install Homebrew packages and casks:
+
+```bash
+./install_mac.sh
 ```
+
+This will:
+- Install [Homebrew](https://brew.sh/) if not present
+- Install CLI packages from `brew.txt`
+- Install GUI apps from `brew-cask.txt`
+
+### Arch Linux
+
+```bash
 ./install_arch.sh
 ```
 
+Installs core tools, i3 desktop, terminal, shell, neovim, networking, audio (pipewire), and graphics drivers.
+
+### Ubuntu / Debian
+
+```bash
+./install_ubuntu.sh
+```
+
+Modular install with optional functions: `install_basics`, `install_shell`, `install_search`, `install_rust`, `install_i3status`, `install_sway`, `install_sound`, `install_nvidia`, `install_power`.
+
 ## Configure
 
-### using stow (recommanded)
+### Using stow (recommended)
 
-```
-stow */ # Everything (the '/' ignores the README)
-```
+Since the repo is not directly in `$HOME`, always pass `-t $HOME`:
 
-Change shell (ex: fish)
-
-```Bash
-chsh -s /usr/bin/fish
+```bash
+stow -t $HOME <package>
 ```
 
-## fonts
+Packages are platform-specific. Pick what matches your OS:
 
-```Bash
+**Common (macOS + Linux):**
+
+```bash
+stow -t $HOME zsh git nvim tmux starship alacritty mise scripts kanata ghostty fish bash zellij fonts claude
+```
+
+**macOS only:**
+
+```bash
+stow -t $HOME aerospace karabiner sketchybar
+```
+
+**Linux only:**
+
+```bash
+stow -t $HOME i3 polybar rofi sway waybar gtk-3.0 x x11 pictures
+```
+
+### Using configure.sh
+
+Alternative script that creates symlinks manually and installs zsh plugins:
+
+```bash
+./configure.sh          # everything (Linux-oriented)
+./configure.sh neovim   # single component
+```
+
+### Change default shell
+
+```bash
+chsh -s $(which zsh)
+```
+
+## Fonts
+
+```bash
 mkdir -p ~/.local/share/fonts
 cp fonts/nerdfonts/JetBrainsMonoNerd/*.ttf ~/.local/share/fonts/
 fc-cache -fv
 ```
 
-> requires a noto font with emoji (on arch : `noto-fonts-emoji`)
+On Arch, also install emoji support: `sudo pacman -S noto-fonts-emoji`
 
-Check if font is ok
+Verify icons display correctly:
 
 ```bash
-echo -e "\xf0\x9f\x90\x8d"
-echo -e "\xee\x82\xa0"
+echo -e "\xf0\x9f\x90\x8d"   # snake
+echo -e "\xee\x82\xa0"       # git branch
 ```
 
-you should see snake icon and branch icon
+## Tmux
 
-## tmux
+Install [TPM](https://github.com/tmux-plugins/tpm) (plugin manager):
 
-Install tpm
-
-```Bash
+```bash
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 ```
 
-Dans tmux, `ctrl-A +  I` pour installer les plugins
+Then inside tmux, press `ctrl-A + I` to install plugins.
 
-check colors with this script
+Check 24-bit color support:
 
-```Bash
+```bash
 curl -s https://raw.githubusercontent.com/JohnMorales/dotfiles/master/colors/24-bit-color.sh | bash
 ```
 
 ## Neovim
 
-[Specific doc](./nvim/README.md)
+See [nvim/README.md](./nvim/README.md) for detailed setup (LSP, DAP, AI integrations).
 
-## Xserver
+## macOS extras
 
-DPi adjust with `.Xresources`
+### Sign native nvim libraries
 
-https://wiki.archlinux.org/title/HiDPI#X_Server
+After installing neovim plugins with native libraries, sign them:
 
-```Bash
-xdpyinfo | grep -B 2 resolution
-
-screen #0:
-  dimensions:    1920x1080 pixels (293x165 millimeters)
-  resolution:    166x166 dots per inch
+```bash
+find ~/.local/share/nvim -name "*.so" | while read lib; do
+  sudo codesign --force --sign - "$lib"
+done
 ```
 
-[more info about dpi](https://linuxreviews.org/HOWTO_set_DPI_in_Xorg)
+### Key tools
 
-Chrome
+- **AeroSpace** - tiling WM with vi-key bindings (`alt-hjkl`)
+- **Karabiner** - caps-lock remapping and custom shortcuts
+- **SketchyBar** - customizable status bar
+- **Raycast** - launcher (replaces Spotlight)
 
-    Go to chrome://flags
+## Linux extras
 
-    Search "Preferred Ozone platform"
+### i3 window manager
 
-    Set it to "Wayland"
+Configs include polybar, rofi menus, and wallpaper setup. Multi-monitor layout script available at `.local/bin/monitor_layout`.
 
-    Restart
+### Sway (Wayland)
+
+Alternative to i3 for Wayland sessions, with waybar status bar.
+
+### HiDPI / X11
+
+Adjust DPI in `.Xresources`. See [Arch wiki on HiDPI](https://wiki.archlinux.org/title/HiDPI#X_Server).
+
+```bash
+xdpyinfo | grep -B 2 resolution
+```
