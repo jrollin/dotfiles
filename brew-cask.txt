@@ -1,10 +1,16 @@
 # terminal
 ghostty
+iterm2
 
 # productivity
 raycast
-rectangle
+aerospace
+
+# dev tools
+visual-studio-code
+claude-code
 
 # fonts
 font-fira-code
 font-hack-nerd-font
+font-jetbrains-mono-nerd-font
