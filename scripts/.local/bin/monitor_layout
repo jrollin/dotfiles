@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [[ "$(uname)" != "Linux" ]]; then
+    echo "Error: This script requires Linux (xrandr + rofi)" >&2
+    exit 1
+fi
+
 XRANDR=$(which xrandr)
 
 MONITORS=( $( ${XRANDR} | awk '( $2 == "connected" ){ print $1 }' ) )

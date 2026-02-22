@@ -1,12 +1,19 @@
 #!/usr/bin/env zsh
 
-## source: https://dev.to/tomoviktor/best-way-to-open-urls-in-your-terminal-via-tmux-595b 
+## source: https://dev.to/tomoviktor/best-way-to-open-urls-in-your-terminal-via-tmux-595b
 # https://github.com/11Firefox11/.dotfiles/blob/84f80130b9f5c5b21ebfceb4cc9b3b7b232b6e51/bin/.local/scripts/tmux-select-url
 
 name="select-url"
 message_time_period=1500
 buffer_file_name="tmuxsave"
 menu_max_items=5
+
+# OS-aware URL opener
+if [[ "$(uname)" == "Darwin" ]]; then
+	url_open="open"
+else
+	url_open="xdg-open"
+fi
 
 # --- actual script starts here ---
 
@@ -24,7 +31,7 @@ fi
 tmux save-buffer "${TMPDIR:-/tmp}/${buffer_file_name}"
 tmux delete-buffer
 
-urls=$(grep -Eoi "(http|https)://[a-zA-Z0-9+./?=_%:-]+" /tmp/$buffer_file_name | uniq)
+urls=$(grep -Eoi "(http|https)://[a-zA-Z0-9+./?=_%:-]+" "${TMPDIR:-/tmp}/${buffer_file_name}" | uniq)
 if [[ -z $urls ]]; then
 	tmux display-message -d "$message_time_period" "#[fg=red bold]$name: No URL found#[bg=red bold]"
 	exit 0
@@ -32,16 +39,16 @@ fi
 
 url_count=$(echo "$urls" | wc -l)
 if [ $url_count -eq 1 ]; then
-	xdg-open $urls > /dev/null 2>&1 && tmux display-message -d $message_time_period "#[bold]$name: Opened $urls#[bold]"
+	$url_open $urls > /dev/null 2>&1 && tmux display-message -d $message_time_period "#[bold]$name: Opened $urls#[bold]"
 elif [ $url_count -gt $menu_max_items ]; then
-	tmux neww -n "url-select" "printf '%s\n' '$urls' | fzf --exit-0 --print-query | xargs -I {} sh -c 'xdg-open {} > /dev/null 2>&1 && tmux display-message \"#[bold]$name: Opened {}#[bold]\"'"
+	tmux neww -n "url-select" "printf '%s\n' '$urls' | fzf --exit-0 --print-query | xargs -I {} sh -c '$url_open {} > /dev/null 2>&1 && tmux display-message \"#[bold]$name: Opened {}#[bold]\"'"
 else
 	tmux_menu="tmux display-menu -t 1 -T 'url-select'"
 	index=1
 	for url in ${(f)urls}; do
 		clean_url=${url#*//}
 
-		tmux_menu="$tmux_menu '$clean_url' $index 'run-shell \"xdg-open $url > /dev/null 2>&1; tmux display-message '\''#[bold]$name: Opened $url#[bold]'\''\"'"
+		tmux_menu="$tmux_menu '$clean_url' $index 'run-shell \"$url_open $url > /dev/null 2>&1; tmux display-message '\''#[bold]$name: Opened $url#[bold]'\''\"'"
 
 		((index++))
 		if [ $index -gt 9 ]; then
