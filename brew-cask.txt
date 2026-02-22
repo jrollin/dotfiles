@@ -1,0 +1,10 @@
+# terminal
+ghostty
+
+# productivity
+raycast
+rectangle
+
+# fonts
+font-fira-code
+font-hack-nerd-font

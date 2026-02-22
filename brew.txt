@@ -1,22 +1,42 @@
+# dotfiles
 stow
+
+# cli essentials
 bat
 fd
 fzf
-rigpreg
+ripgrep
 jq
 tree
-gh
-ghostty
-raycast
-rectangle
-lazydocker
-lazygit
-luarocks
-font-fira-code
-font-hack-nerd-font
-awslocal
-ffmpeg
-gnupg
 coreutils
+btop
+htop
+tmux
+
+# dev tools
+gh
+neovim
+lazygit
+lazydocker
+luarocks
+rbenv
+starship
+docker
+emacs
+
+# databases / services
+postgresql@13
+redis
+memcached
+
+# cloud / infra
+awscli-local
+localstack
+
+# media
+ffmpeg
 imagemagick
-mimemagic
+shared-mime-info
+
+# security
+gnupg
