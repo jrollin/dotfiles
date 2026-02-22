@@ -47,21 +47,17 @@ if [ -d "$HOME/android-sdk" ]; then
     fi
 fi
 
-
-[[ -f "$HOME/aliasrc" ]] && source "$HOME/aliasrc"
-
-[[ -f "$HOME/.oh-my-zsh/oh-my-zsh.sh" ]] && source "$HOME/.oh-my-zsh/oh-my-zsh.sh"
-
-command -v rbenv &>/dev/null && eval "$(rbenv init -)"
-
-[[ -x /opt/homebrew/bin/brew ]] && eval "$(/opt/homebrew/bin/brew shellenv zsh)"
-
-command -v starship &>/dev/null && eval "$(starship init zsh)"
-
-[[ -f "$WORK_DIR/devops/skello.plugin.zsh" ]] && source "$WORK_DIR/devops/skello.plugin.zsh"
-
+# package 
 [[ -x "$HOME/.local/bin/mise" ]] && eval "$(~/.local/bin/mise activate zsh)"
 
 export GPG_TTY=$(tty)
 
+# load alias
+[[ -f "$HOME/aliasrc" ]] && source "$HOME/aliasrc"
+
+
+# custom local 
 [[ -f "$HOME/.zshrc.local" ]] && source "$HOME/.zshrc.local"
+
+# prompt
+command -v starship &>/dev/null && eval "$(starship init zsh)"

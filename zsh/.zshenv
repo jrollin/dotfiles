@@ -18,7 +18,7 @@ export XDG_CACHE_HOME="$HOME/.cache"
 
 
 # personal
-export DOTFILES_DIR="$HOME/dotfiles/"
+export DOTFILES_DIR="$HOME/personal/dotfiles/"
 export PROJECTS_DIR="$HOME/projects/"
 export WORK_DIR="$HOME/workspace/"
 export PERSO_DIR="$HOME/personal/"
