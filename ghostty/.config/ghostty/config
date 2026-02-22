@@ -18,11 +18,11 @@ window-decoration = false
 window-save-state = always
 
 # Window settings
-window-padding-x = 4,0
-window-padding-y = 4,0
+window-padding-x = 8
+window-padding-y = 8
 # background = 000000
-background-opacity = 0.9
-background-blur-radius = 10
+background-opacity = 0.85
+background-blur-radius = 30
 
 # keybinds
 #keybind = global:cmd+s=toggle_quick_terminal
