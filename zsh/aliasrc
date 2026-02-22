@@ -18,7 +18,7 @@ alias my="cd $PERSO_DIR/"
 alias dive="docker run -ti --rm  -v /var/run/docker.sock:/var/run/docker.sock wagoodman/dive"
 
 
-alias ff="cd \$(find $PROJECTS_DIR $DOTFILES_DIR $WORK_DIR $PERSO_DIR -mindepth 1 -maxdepth 1 -type d | fzf)"
+alias ff='cd "$(find "$PROJECTS_DIR" "$DOTFILES_DIR" "$WORK_DIR" "$PERSO_DIR" -mindepth 1 -maxdepth 1 -type d | fzf)"'
 
 # ls, the common ones I use a lot shortened for rapid fire usage
 alias l='ls -lFh'     #size,show type,human readable

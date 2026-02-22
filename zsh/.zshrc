@@ -13,16 +13,12 @@ HISTSIZE=10000
 SAVEHIST=10000
 HISTFILE=~/.cache/.zsh_history
 
-setopt APPEND_HISTORY
-setopt SHARE_HISTORY
+setopt EXTENDED_HISTORY
 setopt INC_APPEND_HISTORY
+setopt SHARE_HISTORY
 setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_SAVE_NO_DUPS
 setopt HIST_FIND_NO_DUPS
-
-setopt EXTENDED_HISTORY          # Écrire l'horodatage dans l'historique
-setopt INC_APPEND_HISTORY        # Ajouter immédiatement à l'historique
-setopt SHARE_HISTORY             # Partager l'historique entre les sessions
 
 # Meilleure navigation dans les répertoires
 setopt AUTO_CD                   # Taper le nom du répertoire pour cd
@@ -52,28 +48,20 @@ if [ -d "$HOME/android-sdk" ]; then
 fi
 
 
-source "$HOME/aliasrc"
+[[ -f "$HOME/aliasrc" ]] && source "$HOME/aliasrc"
 
-source "$HOME/.oh-my-zsh/oh-my-zsh.sh"
+[[ -f "$HOME/.oh-my-zsh/oh-my-zsh.sh" ]] && source "$HOME/.oh-my-zsh/oh-my-zsh.sh"
 
-eval "$(rbenv init -)"
+command -v rbenv &>/dev/null && eval "$(rbenv init -)"
 
-eval "$(/opt/homebrew/bin/brew shellenv zsh)"
-# starship
-eval "$(starship init zsh)"
+[[ -x /opt/homebrew/bin/brew ]] && eval "$(/opt/homebrew/bin/brew shellenv zsh)"
 
+command -v starship &>/dev/null && eval "$(starship init zsh)"
 
-echo 'eval "$(~/.local/bin/mise activate zsh)"' >> ~/.zshrc
+[[ -f "$WORK_DIR/devops/skello.plugin.zsh" ]] && source "$WORK_DIR/devops/skello.plugin.zsh"
 
-source /Users/julienrollin/workspace/devops/skello.plugin.zsh
-eval "$(~/.local/bin/mise activate zsh)"
-eval "$(~/.local/bin/mise activate zsh)"
-eval "$(~/.local/bin/mise activate zsh)"
-eval "$(~/.local/bin/mise activate zsh)"
-eval "$(~/.local/bin/mise activate zsh)"
-eval "$(~/.local/bin/mise activate zsh)"
-eval "$(~/.local/bin/mise activate zsh)"
-eval "$(~/.local/bin/mise activate zsh)"
-eval "$(~/.local/bin/mise activate zsh)"
-eval "$(~/.local/bin/mise activate zsh)"
-eval "$(~/.local/bin/mise activate zsh)"
+[[ -x "$HOME/.local/bin/mise" ]] && eval "$(~/.local/bin/mise activate zsh)"
+
+export GPG_TTY=$(tty)
+
+[[ -f "$HOME/.zshrc.local" ]] && source "$HOME/.zshrc.local"
