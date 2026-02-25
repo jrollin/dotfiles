@@ -1,0 +1,3 @@
+return {
+  ["jrollin/mistral-codestral.nvim"] = false,
+}

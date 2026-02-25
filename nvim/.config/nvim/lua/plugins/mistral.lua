@@ -1,5 +1,8 @@
+local machine = require("config.machine")
+
 return {
   "jrollin/mistral-codestral.nvim",
+  enabled = machine["jrollin/mistral-codestral.nvim"] == true,
   lazy = false,
   priority = 1000,
   dependencies = {
