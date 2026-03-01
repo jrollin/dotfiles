@@ -11,14 +11,14 @@ Do not add additional code explanation summary unless requested by the user.
 - always use english for documentation or code
 - keep CLAUDE.md DRY: avoid duplicating guidelines across feature docs, link instead
 - always update Claude.md with new guidelines or rules when a plan is improved or refused
-- never add comment if code is already expressive, be succint
+- never add comment if code is already expressive, be succinct
 - update related documentation immediately after code changes (especially after feature implementation)
 
 ## Planning / Refinement
 
 - always ask clarification before starting a new feature
 - be fussy about understanding and edge cases
-- explicit what is known to be done later
+- make explicit what is deferred
 - think about reducing scope if too broad topic
 - for new features, use `/spec-create` skill if available (Requirements → Design → Tasks workflow)
 

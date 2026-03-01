@@ -57,5 +57,5 @@
     "lastShownTime": 1754123955721
   },
   "effortLevel": "medium",
-  "model": "sonnet"
+  "alwaysThinkingEnabled": false
 }
