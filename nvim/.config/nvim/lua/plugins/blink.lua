@@ -1,3 +1,16 @@
+local providers = {
+  -- mistral_codestral = {
+  --   name = "mistral_codestral",
+  --   module = "mistral-codestral.blink",
+  --   enabled = true,
+  --   async = true,
+  --   timeout_ms = 2000,
+  --   max_items = 1,
+  --   min_keyword_length = 3,
+  --   score_offset = -50,
+  -- },
+}
+
 return {
   {
     "saghen/blink.cmp",
@@ -15,18 +28,7 @@ return {
       },
       sources = {
         default = { "lsp", "path", "snippets", "buffer" },
-        providers = {
-          mistral_codestral = {
-            name = "mistral_codestral",
-            module = "mistral-codestral.blink",
-            enabled = true,
-            async = true,
-            timeout_ms = 2000,
-            max_items = 1,
-            min_keyword_length = 3,
-            score_offset = -50,
-          },
-        },
+        providers = providers,
       },
       completion = {
         accept = {

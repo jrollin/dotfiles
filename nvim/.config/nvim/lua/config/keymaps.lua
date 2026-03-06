@@ -16,6 +16,9 @@ lazymap("n", "<Tab>", "<cmd>bnext<cr>", { desc = "Next buffer" })
 
 local map = vim.keymap.set
 
+-- cmd+s to save, mirrors <C-s> behavior from LazyVim (requires terminal to forward the keycode)
+map({ "i", "x", "n", "s" }, "<D-s>", "<cmd>w<cr><esc>", { desc = "Save file" })
+
 map("n", "<C-x>", function()
   Snacks.bufdelete()
 end, { desc = "Delete Buffer" })
