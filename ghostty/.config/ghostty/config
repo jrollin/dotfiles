@@ -65,7 +65,10 @@ keybind = ctrl+x=text:\x18
 keybind = ctrl+y=text:\x19
 keybind = ctrl+z=text:\x1A
 
-# font size 
+# forward cmd+s to neovim as <D-s>
+keybind = cmd+s=text:\x1b[115;9u
+
+# font size
 keybind = ctrl+equal=increase_font_size:1
 keybind = ctrl+shift+equal=decrease_font_size:1
 

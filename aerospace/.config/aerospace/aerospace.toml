@@ -2,7 +2,7 @@
 config-version = 2
 
 # Start AeroSpace at login
-start-at-login = false
+start-at-login = true
 
 # Normalizations. See: https://nikitabobko.github.io/AeroSpace/guide#normalization
 enable-normalization-flatten-containers = true
@@ -54,7 +54,7 @@ alt-enter = '''exec-and-forget osascript -e '
 alt-h = 'focus left'
 alt-j = 'focus down'
 alt-k = 'focus up'
-alt-l = 'focus right'
+# alt-l = 'focus right' # conflicts with native macOS option+shift+L for pipe (|)
 
 # i3 wraps focus by default
 # alt-j = 'focus --boundaries-action wrap-around-the-workspace left'
@@ -110,25 +110,25 @@ alt-f = 'fullscreen'
 # ctrl-alt-shift-9 = 'move-node-to-workspace 9'
 # ctrl-alt-shift-0 = 'move-node-to-workspace 0'
 
-shift-alt-1 = 'workspace 1'
-shift-alt-2 = 'workspace 2'
-shift-alt-3 = 'workspace 3'
-shift-alt-4 = 'workspace 4'
-shift-alt-5 = 'workspace 5'
-shift-alt-6 = 'workspace 6'
-shift-alt-7 = 'workspace 7'
-shift-alt-8 = 'workspace 8'
-shift-alt-9 = 'workspace 9'
+ctrl-alt-1 = 'workspace 1'
+ctrl-alt-2 = 'workspace 2'
+ctrl-alt-3 = 'workspace 3'
+ctrl-alt-4 = 'workspace 4'
+ctrl-alt-5 = 'workspace 5'
+ctrl-alt-6 = 'workspace 6'
+ctrl-alt-7 = 'workspace 7'
+ctrl-alt-8 = 'workspace 8'
+ctrl-alt-9 = 'workspace 9'
 
-ctrl-shift-alt-1 = 'move-node-to-workspace 1'
-ctrl-shift-alt-2 = 'move-node-to-workspace 2'
-ctrl-shift-alt-3 = 'move-node-to-workspace 3'
-ctrl-shift-alt-4 = 'move-node-to-workspace 4'
-ctrl-shift-alt-5 = 'move-node-to-workspace 5'
-ctrl-shift-alt-6 = 'move-node-to-workspace 6'
-ctrl-shift-alt-7 = 'move-node-to-workspace 7'
-ctrl-shift-alt-8 = 'move-node-to-workspace 8'
-ctrl-shift-alt-9 = 'move-node-to-workspace 9'
+ctrl-alt-shift-1 = 'move-node-to-workspace 1'
+ctrl-alt-shift-2 = 'move-node-to-workspace 2'
+ctrl-alt-shift-3 = 'move-node-to-workspace 3'
+ctrl-alt-shift-4 = 'move-node-to-workspace 4'
+ctrl-alt-shift-5 = 'move-node-to-workspace 5'
+ctrl-alt-shift-6 = 'move-node-to-workspace 6'
+ctrl-alt-shift-7 = 'move-node-to-workspace 7'
+ctrl-alt-shift-8 = 'move-node-to-workspace 8'
+ctrl-alt-shift-9 = 'move-node-to-workspace 9'
 
 
 alt-shift-c = 'reload-config'

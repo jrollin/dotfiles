@@ -76,6 +76,16 @@ if tmux has-session -t "$SNAME" 2>/dev/null; then
 		read -p "Do you want to attach to it? (y/N): " -n 1 -r
 		echo
 		if [[ $REPLY =~ ^[Yy]$ ]]; then
+			RESURRECT_FILE="${XDG_DATA_HOME:-$HOME/.local/share}/tmux/resurrect/last"
+			if [[ -f "$RESURRECT_FILE" ]] && grep -q "^pane	$SNAME	" "$RESURRECT_FILE"; then
+				read -p "Resurrect saved session '$SNAME'? (y/N): " -n 1 -r
+				echo
+				if [[ $REPLY =~ ^[Yy]$ ]]; then
+					tmux run-shell -b "sleep 0.5 && $HOME/.tmux/plugins/tmux-resurrect/scripts/restore.sh"
+					tmux -u attach -t "$SNAME"
+					exit 0
+				fi
+			fi
 			echo "Attaching to existing session: $SNAME"
 			tmux -u attach -t "$SNAME"
 			exit 0
