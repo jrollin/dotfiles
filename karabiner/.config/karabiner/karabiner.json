@@ -176,6 +176,24 @@
             "complex_modifications": {
                 "rules": [
                     {
+                        "description": "Cmd + Shift + L to pipe |",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "l",
+                                    "modifiers": { "mandatory": ["command", "shift"] }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "l",
+                                        "modifiers": ["right_option", "shift"]
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
                         "description": "Pipe (|) with right_option + l",
                         "enabled": false,
                         "manipulators": [
