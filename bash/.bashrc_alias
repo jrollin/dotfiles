@@ -4,7 +4,7 @@ alias vi="nvim"
 alias oldvim="vim"
 alias python="python3"
 
-alias ll="ls -la"
+alias ll="ls -lA"
 
 alias kubectl="minikube kubectl --"
 alias k="kubectl"
