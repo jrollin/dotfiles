@@ -33,12 +33,7 @@
                                     "key_code": "escape",
                                     "modifiers": { "mandatory": ["shift"] }
                                 },
-                                "to": [
-                                    {
-                                        "key_code": "grave_accent_and_tilde",
-                                        "modifiers": ["shift"]
-                                    }
-                                ],
+                                "to": [{ "shell_command": "osascript -e 'tell application \"System Events\" to keystroke \"#\"'" }],
                                 "type": "basic"
                             }
                         ]
@@ -51,7 +46,7 @@
                                     "key_code": "escape",
                                     "modifiers": { "mandatory": ["command", "shift"] }
                                 },
-                                "to": [{ "key_code": "grave_accent_and_tilde" }],
+                                "to": [{ "shell_command": "osascript -e 'tell application \"System Events\" to keystroke \"@\"'" }],
                                 "type": "basic"
                             }
                         ]
@@ -164,6 +159,7 @@
                 }
             ],
             "name": "home q2",
+            "selected": true,
             "simple_modifications": [
                 {
                     "from": { "key_code": "caps_lock" },
@@ -705,7 +701,6 @@
                 }
             ],
             "name": "apple",
-            "selected": true,
             "simple_modifications": [
                 {
                     "from": { "key_code": "caps_lock" },
