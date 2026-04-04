@@ -1,6 +1,6 @@
 ZSH_THEME="robbyrussell" # set by `omz`
 
-plugins=(git  colorize zsh-autosuggestions zsh-syntax-highlighting docker npm ansible terraform aws tmux rust encode64 kubectl gh) 
+plugins=(git  colorize zsh-autosuggestions zsh-syntax-highlighting docker npm ansible terraform aws rust encode64 kubectl gh)
 
 # Enable colors:
 autoload -U colors && colors
@@ -61,3 +61,12 @@ export GPG_TTY=$(tty)
 
 # prompt
 command -v starship &>/dev/null && eval "$(starship init zsh)"
+
+# bun completions
+[ -s "/Users/julienrollin/.bun/_bun" ] && source "/Users/julienrollin/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+alias claude-mem='/Users/julienrollin/.bun/bin/bun "/Users/julienrollin/.claude/plugins/cache/thedotmack/claude-mem/10.6.2/scripts/worker-service.cjs"'

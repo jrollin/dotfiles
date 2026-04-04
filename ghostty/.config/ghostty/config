@@ -38,32 +38,10 @@ background-blur-radius = 30
 #keybind = super+ctrl+l=resize_split:right,10
 #
 #
-# add linux like ctrl+a ctrl+e 
-# https://prokopov.me/posts/ghostty-remap-keys/
-keybind = ctrl+a=text:\x01
-keybind = ctrl+b=text:\x02
-keybind = ctrl+c=text:\x03
-keybind = ctrl+d=text:\x04
-keybind = ctrl+e=text:\x05
-keybind = ctrl+f=text:\x06
-keybind = ctrl+g=text:\x07
-keybind = ctrl+h=text:\x08
-keybind = ctrl+i=text:\x09
-keybind = ctrl+j=text:\x0A
-keybind = ctrl+k=text:\x0B
-keybind = ctrl+l=text:\x0C
-keybind = ctrl+m=text:\x0D
-keybind = ctrl+n=text:\x0E
-keybind = ctrl+o=text:\x0F
-keybind = ctrl+p=text:\x10
-keybind = ctrl+q=text:\x11
-keybind = ctrl+r=text:\x12
-keybind = ctrl+s=text:\x13
-keybind = ctrl+u=text:\x15
-keybind = ctrl+w=text:\x17
-keybind = ctrl+x=text:\x18
-keybind = ctrl+y=text:\x19
-keybind = ctrl+z=text:\x1A
+# Ghostty sends correct control codes for ctrl+letter natively.
+# WARNING: do NOT add explicit ctrl+key=text:\xNN keybinds here — they
+# conflict with tmux extended-keys, causing double/exponential input.
+# See: https://prokopov.me/posts/ghostty-remap-keys/ (not needed for tmux)
 
 # forward cmd+s to neovim as <D-s>
 keybind = cmd+s=text:\x1b[115;9u
