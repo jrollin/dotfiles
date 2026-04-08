@@ -6,27 +6,28 @@ You are an expert engineer with a deep understanding of software architecture, d
 
 Do not add additional code explanation summary unless requested by the user.
 
-## Rules
+## Meta-rules
 
-- always use english for documentation or code
-- keep CLAUDE.md DRY: avoid duplicating guidelines across feature docs, link instead
-- always update Claude.md with new guidelines or rules when a plan is improved or refused
-- never add comment if code is already expressive, be succinct
-- update related documentation immediately after code changes (especially after feature implementation)
+- Always use english for documentation and code
+- Keep CLAUDE.md DRY: avoid duplicating guidelines across feature docs, link instead
+- Update CLAUDE.md with new guidelines when a plan is improved or refused
+- Coding, security, documentation, and git rules are in `rules/` — do not duplicate here
 
 ## Planning / Refinement
 
-- always ask clarification before starting a new feature
-- be fussy about understanding and edge cases
-- make explicit what is deferred
-- think about reducing scope if too broad topic
-- for new features, use `/spec-create` skill if available (Requirements → Design → Tasks workflow)
+- Always ask clarification before starting a new feature
+- Be fussy about understanding and edge cases
+- Make explicit what is deferred
+- Think about reducing scope if too broad topic
+- For new features, use `/spec-create` skill if available (Requirements → Design → Tasks workflow)
 
 ## Steering
 
-Make persistent knowledge about your project through markdown files
-Common project files
+For non-trivial projects, consider maintaining project knowledge in markdown:
+- `product.md` — purpose, users, features
+- `tech.md` — stack, frameworks, constraints
+- `structure.md` — file organization, conventions
 
-- **Product Overview** (product.md) - Defines your product's purpose, target users, key features, and business objectives.
-- **Technology Stack** (tech.md) - Documents your chosen frameworks, libraries, development tools, and technical constraints.
-- **Project Structure** (structure.md) - Outlines file organization, naming conventions, import patterns, and architectural decisions.
+## Tools
+
+@RTK.md

@@ -12,6 +12,8 @@
       "Bash(ls:*)",
       "mcp__context7__resolve-library-id",
       "mcp__context7__query-docs",
+      "mcp__plugin_context7_context7__resolve-library-id",
+      "mcp__plugin_context7_context7__query-docs",
       "Bash(find:*)",
       "Bash(docker-compose:*)",
       "Bash(docker exec:*)",
@@ -19,18 +21,54 @@
       "Bash(curl:*)",
       "Bash(make:*)",
       "Bash(java:*)",
-      "Bash(jq:*)"
+      "Bash(jq:*)",
+      "Bash(cartog:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git status:*)",
+      "Bash(git branch:*)",
+      "Bash(git stash:*)",
+      "Bash(git checkout:*)",
+      "Bash(git rebase:*)",
+      "Bash(head:*)",
+      "Bash(tail:*)",
+      "Bash(diff:*)",
+      "Bash(sort:*)",
+      "Bash(uniq:*)"
+    ],
+    "ask": [
+      "Bash(git push:*)"
     ],
     "defaultMode": "default"
   },
   "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'F=$(echo \"$CLAUDE_TOOL_INPUT\" | jq -r .file_path 2>/dev/null); case \"${F##*/}\" in .env*|*.pem|*.key|*credentials*|*secret*) echo \"BLOCKED: refusing to edit sensitive file: $F\" >&2; exit 1;; esac'"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/julienrollin/.claude/hooks/rtk-rewrite.sh"
+          }
+        ]
+      }
+    ],
     "PostToolUse": [
       {
         "matcher": "Write|Edit",
         "hooks": [
           {
             "type": "command",
-            "command": "bash -c 'EDITED=$CLAUDE_FILE; if [[ \"$EDITED\" == *.rs ]]; then cargo check --message-format=short 2>&1 | head -20; fi'"
+            "command": "bash -c 'F=$CLAUDE_FILE; case \"$F\" in *.rs) cargo check --message-format=short 2>&1 | head -20;; *.ts|*.tsx|*.js|*.jsx) if [ -f \"$(git rev-parse --show-toplevel 2>/dev/null)/biome.json\" ] || [ -f \"$(git rev-parse --show-toplevel 2>/dev/null)/biome.jsonc\" ]; then biome check --write \"$F\" 2>&1 | tail -5; elif [ -f \"$(git rev-parse --show-toplevel 2>/dev/null)/.eslintrc*\" ] || [ -f \"$(git rev-parse --show-toplevel 2>/dev/null)/eslint.config*\" ]; then npx --no-install eslint --fix \"$F\" 2>&1 | tail -5; fi;; *.py) if command -v ruff &>/dev/null; then ruff check --fix \"$F\" 2>&1 | tail -5; fi;; *.rb) if [ -f \"$(git rev-parse --show-toplevel 2>/dev/null)/.rubocop.yml\" ]; then bundle exec rubocop -a \"$F\" 2>&1 | tail -5; fi;; *.sh|*.bash) if command -v shellcheck &>/dev/null; then shellcheck \"$F\" 2>&1 | tail -10; fi;; esac'"
           }
         ]
       }
@@ -49,13 +87,39 @@
     "playwright@claude-plugins-official": true,
     "lua-lsp@claude-plugins-official": true,
     "claudio@claudio-power": true,
-    "superpowers@claude-plugins-official": true
+    "superpowers@claude-plugins-official": false,
+    "skill-creator@claude-plugins-official": true,
+    "cartog@cartog-plugins": true,
+    "ruby-lsp@claude-plugins-official": true,
+    "code-review@claude-plugins-official": true
   },
+  "extraKnownMarketplaces": {
+    "claudio-power": {
+      "source": {
+        "source": "git",
+        "url": "git@github.com:jrollin/claudio.git"
+      },
+      "autoUpdate": true
+    },
+    "cartog-plugins": {
+      "source": {
+        "source": "github",
+        "repo": "jrollin/cartog"
+      },
+      "autoUpdate": true
+    },
+    "hashicorp": {
+      "source": {
+        "source": "github",
+        "repo": "hashicorp/agent-skills"
+      }
+    }
+  },
+  "alwaysThinkingEnabled": false,
   "autoUpdatesChannel": "latest",
   "skipDangerousModePermissionPrompt": true,
   "feedbackSurveyState": {
     "lastShownTime": 1754123955721
   },
-  "effortLevel": "medium",
-  "alwaysThinkingEnabled": false
+  "model": "opus[1m]"
 }
