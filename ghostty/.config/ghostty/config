@@ -46,6 +46,10 @@ background-blur-radius = 30
 # forward cmd+s to neovim as <D-s>
 keybind = cmd+s=text:\x1b[115;9u
 
+# Shift+Enter: send unique sequence so apps (Claude Code) can distinguish it from Enter
+# tmux extended-keys is off, so we encode Shift+Enter as CSI u manually
+keybind = shift+enter=text:\x1b[13;2u
+
 # font size
 keybind = ctrl+equal=increase_font_size:1
 keybind = ctrl+shift+equal=decrease_font_size:1
