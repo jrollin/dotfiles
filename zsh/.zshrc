@@ -26,11 +26,7 @@ setopt AUTO_PUSHD                # Faire que cd pousse l'ancien répertoire sur 
 setopt PUSHD_IGNORE_DUPS         # Ne pas pousser les doublons
 setopt PUSHD_SILENT              # Ne pas afficher la pile de répertoires
 
-# Activer l'autocomplétion
-autoload -Uz compinit
-compinit
-
-# Complétion insensible à la casse
+# Complétion insensible à la casse (compinit is run by oh-my-zsh; do not call it here)
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 
 # Sortie ls colorée
@@ -70,3 +66,6 @@ export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
 alias claude-mem='/Users/julienrollin/.bun/bin/bun "/Users/julienrollin/.claude/plugins/cache/thedotmack/claude-mem/10.6.2/scripts/worker-service.cjs"'
+
+# Added by sonarqube-cli installer
+export PATH="$HOME/.local/share/sonarqube-cli/bin:$PATH"
