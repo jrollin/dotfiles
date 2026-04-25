@@ -8,11 +8,11 @@
           "type": "basic",
           "from": {
             "key_code": "return_or_enter",
-            "modifiers": { "mandatory": ["command"] }
+            "modifiers": { "mandatory": ["option"] }
           },
           "to": [
             {
-              "shell_command": "open -na Ghostty"
+              "shell_command": "osascript -e 'tell application \"Ghostty\" to activate' -e 'delay 0.05' -e 'tell application \"System Events\" to keystroke \"n\" using command down'"
             }
           ]
         }

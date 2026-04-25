@@ -20,7 +20,7 @@
                                     "key_code": "return_or_enter",
                                     "modifiers": { "mandatory": ["option"] }
                                 },
-                                "to": [{ "shell_command": "open -na Ghostty" }],
+                                "to": [{ "shell_command": "osascript -e 'tell application \"Ghostty\" to activate' -e 'delay 0.05' -e 'tell application \"System Events\" to keystroke \"n\" using command down'" }],
                                 "type": "basic"
                             }
                         ]
@@ -497,7 +497,7 @@
                                     "key_code": "return_or_enter",
                                     "modifiers": { "mandatory": ["option"] }
                                 },
-                                "to": [{ "shell_command": "open -na Ghostty" }],
+                                "to": [{ "shell_command": "osascript -e 'tell application \"Ghostty\" to activate' -e 'delay 0.05' -e 'tell application \"System Events\" to keystroke \"n\" using command down'" }],
                                 "type": "basic"
                             }
                         ]
