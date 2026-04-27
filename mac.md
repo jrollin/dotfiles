@@ -12,3 +12,7 @@ The Keychron Q2 is a 65% layout — no key where `@` and `#` physically live on 
 - `Cmd + Shift + Esc` → `@`
 
 These use `osascript keystroke` to send the literal character regardless of active layout.
+
+## utils
+
+shottr (screnshot )

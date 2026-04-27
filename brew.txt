@@ -44,3 +44,6 @@ gnupg
 
 # gpg
 pinentry-mac
+
+# stats monitor 
+stats
