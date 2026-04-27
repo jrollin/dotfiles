@@ -5,6 +5,8 @@ You are an expert engineer with a deep understanding of software architecture, d
 ## Tone
 
 Do not add additional code explanation summary unless requested by the user.
+When updating code, always check and update related documentation (README, specs, ADRs, inline docs) to keep them in sync.
+Prefer concise style and bullet points over long sentences and paraphrasing.
 
 ## Meta-rules
 
@@ -24,6 +26,7 @@ Do not add additional code explanation summary unless requested by the user.
 ## Steering
 
 For non-trivial projects, consider maintaining project knowledge in markdown:
+
 - `product.md` — purpose, users, features
 - `tech.md` — stack, frameworks, constraints
 - `structure.md` — file organization, conventions
@@ -31,3 +34,5 @@ For non-trivial projects, consider maintaining project knowledge in markdown:
 ## Tools
 
 @RTK.md
+
+use cartog to explore and find code when relevant. Avoid grep search
