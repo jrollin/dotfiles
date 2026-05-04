@@ -1,0 +1,15 @@
+# Plugins managed by antidote — see https://getantidote.github.io
+# Format: <repo> [path:...] [kind:defer|fpath|clone]
+# kind:defer → loaded after first prompt (does not slow startup)
+
+# OMZ snippets (kept for git aliases + sudo Esc-Esc trick)
+ohmyzsh/ohmyzsh path:lib/git.zsh
+ohmyzsh/ohmyzsh path:plugins/git
+ohmyzsh/ohmyzsh path:plugins/colorize
+ohmyzsh/ohmyzsh path:plugins/encode64
+ohmyzsh/ohmyzsh path:plugins/sudo
+
+# Deferred — loaded after the first prompt is drawn
+zsh-users/zsh-autosuggestions             kind:defer
+zdharma-continuum/fast-syntax-highlighting kind:defer
+zsh-users/zsh-completions                  kind:fpath

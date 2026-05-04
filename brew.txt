@@ -2,6 +2,9 @@
 # dotfiles
 stow
 
+# antidote (replace omz)
+antidote
+
 # cli essentials
 bat
 fd
