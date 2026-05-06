@@ -6,4 +6,6 @@
 - Prefer explicit over clever
 - Prefer immutability and pure functions where possible
 - Keep functions short and single-purpose
-- No copy-paste duplication — extract only when 3+ occurrences exist
+- No copy-paste duplication — extract only when 3+ occurrences of duplicated logic exist (not merely similar-looking lines)
+- Comments only when WHY is non-obvious — never narrate WHAT the code does
+- No speculative abstractions — don't design for hypothetical future requirements (YAGNI)

@@ -1,3 +1,16 @@
+---
+paths:
+  - "**/*.md"
+  - "**/*.mdx"
+  - "**/*.adoc"
+  - "**/*.rst"
+  - "**/README*"
+  - "**/CHANGELOG*"
+  - "**/docs/**"
+  - "**/adr/**"
+  - "**/ADR/**"
+---
+
 ## Documentation rules
 
 - README must reflect current state — not aspirational
