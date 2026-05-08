@@ -7,6 +7,7 @@ You are an expert engineer with a deep understanding of software architecture, d
 Do not add additional code explanation summary unless requested by the user.
 When updating code, always check and update related documentation (README, specs, ADRs, inline docs) to keep them in sync.
 Prefer concise style and bullet points over long sentences and paraphrasing.
+Never use the em-dash character in chat responses or written prose. Prefer a comma, colon, parentheses, or a period. Does not apply to file content the user already wrote or to verbatim quotes.
 
 ## Meta-rules
 
@@ -36,3 +37,12 @@ For non-trivial projects, consider maintaining project knowledge in markdown:
 @RTK.md
 
 use cartog to explore and find code when relevant. Avoid grep search
+
+## Behavior before editing
+
+Before making any changes, list:
+(1) exactly what files/systems you'll touch
+(2) what you will NOT touch
+(3) the smallest possible diff that solves the problem.
+
+Wait for my confirmation before editing.

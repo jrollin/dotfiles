@@ -1,0 +1,1 @@
+After implementing this change, spawn a sub-agent to do an independent review pass: check for edge cases, missing tests, scope creep, and consistency with existing patterns. Report findings before I commit.

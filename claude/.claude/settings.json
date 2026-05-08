@@ -34,13 +34,19 @@
       "Bash(tail:*)",
       "Bash(diff:*)",
       "Bash(sort:*)",
-      "Bash(uniq:*)"
+      "Bash(uniq:*)",
+      "Bash(cartog rag:*)",
+      "Bash(cartog outline:*)",
+      "Bash(pnpm add:*)",
+      "Bash(pnpm depcruise:*)",
+      "Bash(pnpm:*)"
     ],
     "ask": [
       "Bash(git push:*)"
     ],
-    "defaultMode": "default"
+    "defaultMode": "auto"
   },
+  "model": "opus[1m]",
   "hooks": {
     "PreToolUse": [
       {
@@ -89,9 +95,12 @@
     "claudio@claudio-power": true,
     "superpowers@claude-plugins-official": false,
     "skill-creator@claude-plugins-official": true,
-    "cartog@cartog-plugins": true,
     "ruby-lsp@claude-plugins-official": true,
-    "code-review@claude-plugins-official": true
+    "code-review@claude-plugins-official": true,
+    "sonarqube@sonar": false,
+    "qa@skello-plugins": true,
+    "dev@skello-plugins": true,
+    "cartog@cartog-plugins": true
   },
   "extraKnownMarketplaces": {
     "claudio-power": {
@@ -113,13 +122,29 @@
         "source": "github",
         "repo": "hashicorp/agent-skills"
       }
+    },
+    "sonar": {
+      "source": {
+        "source": "github",
+        "repo": "SonarSource/sonarqube-agent-plugins"
+      }
+    },
+    "skello-plugins": {
+      "source": {
+        "source": "github",
+        "repo": "skelloapp/skills"
+      },
+      "autoUpdate": true
     }
   },
   "alwaysThinkingEnabled": false,
+  "effortLevel": "high",
   "autoUpdatesChannel": "latest",
   "skipDangerousModePermissionPrompt": true,
+  "remoteControlAtStartup": false,
+  "agentPushNotifEnabled": true,
+  "skipAutoPermissionPrompt": true,
   "feedbackSurveyState": {
     "lastShownTime": 1754123955721
-  },
-  "model": "opus[1m]"
+  }
 }

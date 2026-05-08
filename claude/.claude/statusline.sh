@@ -12,12 +12,18 @@ if command -v jq >/dev/null 2>&1; then
     @sh "project_dir=\(.workspace.project_dir // "" | e)",
     @sh "version=\(.version // "" | e)",
     @sh "model_name=\(.model.display_name // "Claude" | e)",
-    @sh "context_remaining=\(.context_window.remaining_percentage // "" | e)",
+    @sh "context_used=\(.context_window.used_percentage // "" | e)",
     @sh "total_input=\(.context_window.total_input_tokens // "" | e)",
     @sh "total_output=\(.context_window.total_output_tokens // "" | e)",
     @sh "context_window_size=\(.context_window.context_window_size // "" | e)",
-    @sh "total_duration_ms=\(.cost.total_duration_ms // "" | e)",
+    @sh "effort_level=\(.effort.level // "" | e)",
+    @sh "thinking_enabled=\(.thinking.enabled // "" | e)",
+    @sh "rate_5h=\(.rate_limits.five_hour.used_percentage // "" | e)",
+    @sh "rate_5h_resets=\(.rate_limits.five_hour.resets_at // "" | e)",
+    @sh "rate_7d=\(.rate_limits.seven_day.used_percentage // "" | e)",
+    @sh "rate_7d_resets=\(.rate_limits.seven_day.resets_at // "" | e)",
     @sh "agent_name=\(.agent.name // "" | e)",
+    @sh "git_worktree=\(.workspace.git_worktree // "" | e)",
     @sh "worktree_name=\(.worktree.name // "" | e)",
     @sh "worktree_branch=\(.worktree.branch // "" | e)",
     @sh "worktree_path=\(.worktree.path // "" | e)"
@@ -29,8 +35,11 @@ else
   [ -z "$current_dir" ] && current_dir="unknown"
   model_name=$(echo "$input" | grep -o '"model"[[:space:]]*:[[:space:]]*{[^}]*"display_name"[[:space:]]*:[[:space:]]*"[^"]*"' | sed 's/.*"display_name"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/')
   [ -z "$model_name" ] && model_name="Claude"
-  context_remaining="" total_input="" total_output="" context_window_size=""
-  total_duration_ms="" project_dir="" version="" agent_name="" worktree_name="" worktree_branch="" worktree_path=""
+  context_used="" total_input="" total_output="" context_window_size=""
+  effort_level="" thinking_enabled=""
+  rate_5h="" rate_5h_resets="" rate_7d="" rate_7d_resets=""
+  project_dir="" version="" agent_name="" git_worktree=""
+  worktree_name="" worktree_branch="" worktree_path=""
 fi
 
 format_tokens() {
@@ -49,11 +58,6 @@ format_tokens() {
 input_tokens_fmt=$(format_tokens "$total_input")
 output_tokens_fmt=$(format_tokens "$total_output")
 ctx_size_fmt=$(format_tokens "$context_window_size")
-
-duration_fmt=""
-if [ -n "$total_duration_ms" ] && [ "$total_duration_ms" != "null" ]; then
-  duration_fmt=$(awk "BEGIN {printf \"%.1fs\", $total_duration_ms/1000}")
-fi
 
 dir_basename=$(basename "$current_dir")
 
@@ -108,6 +112,10 @@ if [ -n "$git_branch" ]; then
   printf '\033[38;5;150m)\033[0m '
 fi
 
+if [ -n "$git_worktree" ] && [ -z "$worktree_name" ]; then
+  printf '\033[38;5;43m🌿%s\033[0m ' "$git_worktree"
+fi
+
 if [ -n "$version" ]; then
   printf '\033[38;5;240mv%s\033[0m ' "$version"
 fi
@@ -119,8 +127,12 @@ fi
 
 printf '\033[38;5;147m%s\033[0m' "$model_name"
 
-if [ -n "$duration_fmt" ]; then
-  printf ' \033[38;5;245m⏱%s\033[0m' "$duration_fmt"
+if [ -n "$effort_level" ]; then
+  printf ' \033[38;5;221m⚡%s\033[0m' "$effort_level"
+fi
+
+if [ "$thinking_enabled" = "true" ]; then
+  printf ' \033[38;5;177m🧠\033[0m'
 fi
 
 if [ -n "$input_tokens_fmt" ]; then
@@ -134,31 +146,53 @@ if [ -n "$ctx_size_fmt" ]; then
   printf ' \033[38;5;87m📊%s\033[0m' "$ctx_size_fmt"
 fi
 
-if [ -n "$context_remaining" ]; then
-  if [ "$context_remaining" -le 20 ]; then
-    printf ' \033[38;5;203m%d%%\033[0m' "$context_remaining"
-  elif [ "$context_remaining" -le 40 ]; then
-    printf ' \033[38;5;215m%d%%\033[0m' "$context_remaining"
+if [ -n "$context_used" ]; then
+  ctx_used_int=$(printf '%.0f' "$context_used" 2>/dev/null || echo "$context_used")
+  if [ "$ctx_used_int" -ge 80 ] 2>/dev/null; then
+    printf ' \033[38;5;203m%d%%\033[0m' "$ctx_used_int"
+  elif [ "$ctx_used_int" -ge 60 ] 2>/dev/null; then
+    printf ' \033[38;5;215m%d%%\033[0m' "$ctx_used_int"
   else
-    printf ' \033[38;5;158m%d%%\033[0m' "$context_remaining"
+    printf ' \033[38;5;158m%d%%\033[0m' "$ctx_used_int"
   fi
 fi
 
-# Process memory usage
-claude_mem=""
-if [ -n "$PPID" ]; then
-  rss_kb=$(ps -o rss= -p "$PPID" 2>/dev/null | tr -d ' ')
-  if [ -n "$rss_kb" ] && [ "$rss_kb" -gt 0 ] 2>/dev/null; then
-    rss_mb=$((rss_kb / 1024))
-    if [ "$rss_mb" -ge 1024 ]; then
-      claude_mem=$(awk "BEGIN {printf \"%.1fG\", $rss_mb/1024}")
-    else
-      claude_mem="${rss_mb}M"
-    fi
+# Rate limits (Claude.ai Pro/Max only) — show only when >=50%
+# Format remaining time: <60min => Nmin, <24h => Nh, else Nd
+fmt_remaining() {
+  local resets_at=$1 now diff
+  [ -z "$resets_at" ] && return
+  now=$(date +%s)
+  diff=$((resets_at - now))
+  [ "$diff" -le 0 ] && return
+  if [ "$diff" -lt 3600 ]; then
+    printf '%dmin' $((diff / 60))
+  elif [ "$diff" -lt 86400 ]; then
+    printf '%dh' $((diff / 3600))
+  else
+    printf '%dd' $((diff / 86400))
   fi
-fi
-if [ -n "$claude_mem" ]; then
-  printf ' \033[38;5;216m🐏%s\033[0m' "$claude_mem"
+}
+
+show_5h=0
+show_7d=0
+[ -n "$rate_5h" ] && awk "BEGIN {exit !($rate_5h >= 50)}" && show_5h=1
+[ -n "$rate_7d" ] && awk "BEGIN {exit !($rate_7d >= 50)}" && show_7d=1
+
+if [ "$show_5h" = 1 ] || [ "$show_7d" = 1 ]; then
+  printf ' \033[38;5;245m['
+  if [ "$show_5h" = 1 ]; then
+    awk "BEGIN {printf \"5h:%.0f%%\", $rate_5h}"
+    rem=$(fmt_remaining "$rate_5h_resets")
+    [ -n "$rem" ] && printf ' (%s)' "$rem"
+  fi
+  [ "$show_5h" = 1 ] && [ "$show_7d" = 1 ] && printf ' '
+  if [ "$show_7d" = 1 ]; then
+    awk "BEGIN {printf \"7d:%.0f%%\", $rate_7d}"
+    rem=$(fmt_remaining "$rate_7d_resets")
+    [ -n "$rem" ] && printf ' (%s)' "$rem"
+  fi
+  printf ']\033[0m'
 fi
 
 printf '\n'

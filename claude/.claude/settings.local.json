@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:docs.claude.com)",
+      "Bash(/Users/julienrollin/personal/dotfiles/claude/.claude/statusline.sh)"
+    ]
+  }
+}
