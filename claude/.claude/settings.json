@@ -7,7 +7,6 @@
       "Bash(grep:*)",
       "Bash(rg:*)",
       "Bash(test:*)",
-      "Bash(git commit:*)",
       "Bash(git add:*)",
       "Bash(ls:*)",
       "mcp__context7__resolve-library-id",
@@ -18,7 +17,6 @@
       "Bash(docker-compose:*)",
       "Bash(docker exec:*)",
       "Bash(chmod:*)",
-      "Bash(curl:*)",
       "Bash(make:*)",
       "Bash(java:*)",
       "Bash(jq:*)",
@@ -29,7 +27,6 @@
       "Bash(git branch:*)",
       "Bash(git stash:*)",
       "Bash(git checkout:*)",
-      "Bash(git rebase:*)",
       "Bash(head:*)",
       "Bash(tail:*)",
       "Bash(diff:*)",
@@ -42,7 +39,10 @@
       "Bash(pnpm:*)"
     ],
     "ask": [
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(git commit:*)",
+      "Bash(git rebase:*)",
+      "Bash(curl:*)"
     ],
     "defaultMode": "auto"
   },
@@ -74,7 +74,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash -c 'F=$CLAUDE_FILE; case \"$F\" in *.rs) cargo check --message-format=short 2>&1 | head -20;; *.ts|*.tsx|*.js|*.jsx) if [ -f \"$(git rev-parse --show-toplevel 2>/dev/null)/biome.json\" ] || [ -f \"$(git rev-parse --show-toplevel 2>/dev/null)/biome.jsonc\" ]; then biome check --write \"$F\" 2>&1 | tail -5; elif [ -f \"$(git rev-parse --show-toplevel 2>/dev/null)/.eslintrc*\" ] || [ -f \"$(git rev-parse --show-toplevel 2>/dev/null)/eslint.config*\" ]; then npx --no-install eslint --fix \"$F\" 2>&1 | tail -5; fi;; *.py) if command -v ruff &>/dev/null; then ruff check --fix \"$F\" 2>&1 | tail -5; fi;; *.rb) if [ -f \"$(git rev-parse --show-toplevel 2>/dev/null)/.rubocop.yml\" ]; then bundle exec rubocop -a \"$F\" 2>&1 | tail -5; fi;; *.sh|*.bash) if command -v shellcheck &>/dev/null; then shellcheck \"$F\" 2>&1 | tail -10; fi;; esac'"
+            "command": "bash -c 'F=$(jq -r \".tool_input.file_path // empty\"); [ -z \"$F\" ] && exit 0; case \"$F\" in *.rs) cargo check --message-format=short 2>&1 | head -20;; *.ts|*.tsx|*.js|*.jsx) if [ -f \"$(git rev-parse --show-toplevel 2>/dev/null)/biome.json\" ] || [ -f \"$(git rev-parse --show-toplevel 2>/dev/null)/biome.jsonc\" ]; then biome check --write \"$F\" 2>&1 | tail -5; elif [ -f \"$(git rev-parse --show-toplevel 2>/dev/null)/.eslintrc*\" ] || [ -f \"$(git rev-parse --show-toplevel 2>/dev/null)/eslint.config*\" ]; then npx --no-install eslint --fix \"$F\" 2>&1 | tail -5; fi;; *.py) if command -v ruff &>/dev/null; then ruff check --fix \"$F\" 2>&1 | tail -5; fi;; *.rb) if [ -f \"$(git rev-parse --show-toplevel 2>/dev/null)/.rubocop.yml\" ]; then bundle exec rubocop -a \"$F\" 2>&1 | tail -5; fi;; *.sh|*.bash) if command -v shellcheck &>/dev/null; then shellcheck \"$F\" 2>&1 | tail -10; fi;; esac'"
           }
         ]
       }
@@ -92,7 +92,6 @@
     "typescript-lsp@claude-plugins-official": true,
     "playwright@claude-plugins-official": true,
     "lua-lsp@claude-plugins-official": true,
-    "claudio@claudio-power": true,
     "superpowers@claude-plugins-official": false,
     "skill-creator@claude-plugins-official": true,
     "ruby-lsp@claude-plugins-official": true,
@@ -100,7 +99,10 @@
     "sonarqube@sonar": false,
     "qa@skello-plugins": true,
     "dev@skello-plugins": true,
-    "cartog@cartog-plugins": true
+    "cartog@cartog-plugins": true,
+    "claudio-tools@claudio-power": true,
+    "claudio-craft@claudio-power": true,
+    "claudio-spec@claudio-power": true
   },
   "extraKnownMarketplaces": {
     "claudio-power": {

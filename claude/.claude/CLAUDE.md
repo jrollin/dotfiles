@@ -34,9 +34,8 @@ For non-trivial projects, consider maintaining project knowledge in markdown:
 
 ## Tools
 
-@RTK.md
-
-use cartog to explore and find code when relevant. Avoid grep search
+- If `rtk` is installed, use `rtk gain` / `rtk discover` for token analytics. Other commands are auto-rewritten by the hook.
+- Use cartog to explore and find code when relevant. Avoid grep search.
 
 ## Behavior before editing
 
