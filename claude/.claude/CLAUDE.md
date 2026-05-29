@@ -14,7 +14,7 @@ Never use the em-dash character in chat responses or written prose. Prefer a com
 - Always use english for documentation and code
 - Keep CLAUDE.md DRY: avoid duplicating guidelines across feature docs, link instead
 - Update CLAUDE.md with new guidelines when a plan is improved or refused
-- Coding, security, documentation, and git rules are in `rules/` — do not duplicate here
+- Coding, testing, security, documentation, git, and i18n rules are in `rules/` — do not duplicate here
 
 ## Planning / Refinement
 
