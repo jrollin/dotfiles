@@ -1,3 +1,6 @@
+# Startup profiling (opt-in): ZSH_PROFILE=1 zsh -i -c exit
+[[ -n $ZSH_PROFILE ]] && zmodload zsh/zprof
+
 # Enable colors
 autoload -U colors && colors
 
@@ -37,14 +40,12 @@ if [ -d "$HOME/android-sdk" ]; then
     fi
 fi
 
-# Lazy-load mise: activate on first use to keep startup fast
+# mise: shims-mode activation, inlined. `mise activate --shims zsh` only emits
+# these two static PATH exports, so we skip the ~29ms binary spin-up at startup.
+# Auto-switching on `cd` is disabled in this mode (versions resolve when the
+# shim is invoked). Keep ordering in sync with `mise activate --shims zsh`.
 if [[ -x "$HOME/.local/bin/mise" ]]; then
-    export PATH="$HOME/.local/bin:$PATH"
-    mise() {
-        unfunction mise
-        eval "$(~/.local/bin/mise activate zsh)"
-        mise "$@"
-    }
+    export PATH="$HOME/.local/share/mise/shims:$HOME/.local/bin:$PATH"
 fi
 
 export GPG_TTY=$(tty)
@@ -90,3 +91,6 @@ alias claude-mem='/Users/julienrollin/.bun/bin/bun "/Users/julienrollin/.claude/
 
 # sonarqube-cli
 export PATH="$HOME/.local/share/sonarqube-cli/bin:$PATH"
+
+# Startup profiling report (opt-in): prints when ZSH_PROFILE is set
+[[ -n $ZSH_PROFILE ]] && zprof
