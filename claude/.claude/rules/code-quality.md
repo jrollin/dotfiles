@@ -8,5 +8,8 @@
 - Keep functions short and single-purpose
 - No copy-paste duplication — extract only when 3+ occurrences of duplicated logic exist (not merely similar-looking lines)
 - Comments only when WHY is non-obvious — never narrate WHAT the code does
+  - Bad (restates code): `# increment counter` above `counter += 1`
+  - Good (explains why): `# API rate-limits at 10 req/s, so we batch`
 - Keep comments terse — one short line; no multi-line/multi-paragraph blocks or verbose docstrings
+- Default to writing concise comments without being asked — this is a standing preference, not a per-request instruction
 - No speculative abstractions — don't design for hypothetical future requirements (YAGNI)
