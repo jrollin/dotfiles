@@ -36,7 +36,11 @@
       "Bash(cartog outline:*)",
       "Bash(pnpm add:*)",
       "Bash(pnpm depcruise:*)",
-      "Bash(pnpm:*)"
+      "Bash(pnpm:*)",
+      "Bash(curl http://localhost*)",
+      "Bash(curl https://localhost*)",
+      "Bash(curl http://127.0.0.1*)",
+      "Bash(curl https://127.0.0.1*)"
     ],
     "ask": [
       "Bash(git push:*)",
@@ -46,7 +50,7 @@
     ],
     "defaultMode": "auto"
   },
-  "model": "opus[1m]",
+  "model": "opus",
   "hooks": {
     "PreToolUse": [
       {
@@ -102,7 +106,8 @@
     "cartog@cartog-plugins": true,
     "claudio-tools@claudio-power": true,
     "claudio-craft@claudio-power": true,
-    "claudio-spec@claudio-power": true
+    "claudio-spec@claudio-power": true,
+    "claudio-rust@claudio-power": true
   },
   "extraKnownMarketplaces": {
     "claudio-power": {
@@ -140,12 +145,18 @@
     }
   },
   "alwaysThinkingEnabled": false,
-  "effortLevel": "high",
+  "effortLevel": "xhigh",
   "autoUpdatesChannel": "latest",
+  "voice": {
+    "enabled": true,
+    "mode": "hold"
+  },
   "skipDangerousModePermissionPrompt": true,
+  "skipWorkflowUsageWarning": true,
   "remoteControlAtStartup": false,
   "agentPushNotifEnabled": true,
   "skipAutoPermissionPrompt": true,
+  "voiceEnabled": true,
   "feedbackSurveyState": {
     "lastShownTime": 1754123955721
   }
