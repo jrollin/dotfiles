@@ -13,3 +13,4 @@
 - Keep comments terse — one short line; no multi-line/multi-paragraph blocks or verbose docstrings
 - Default to writing concise comments without being asked — this is a standing preference, not a per-request instruction
 - No speculative abstractions — don't design for hypothetical future requirements (YAGNI)
+- Never reference local project names, local paths, or local config in code, documentation, or pull requests — keep artifacts portable and free of machine- or user-specific details
