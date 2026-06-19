@@ -4,6 +4,12 @@ font-family = "JetBrainsMono Nerd Font"
 theme = Dracula+
 # theme = TokyoNight Moon
 
+# Emulate previous Terminfo to maintain Neovim/Tmux compatibility
+# macOS 26 zsh 5.9 defaults to viins keymap where Ctrl+R = redisplay, &
+# xterm-256color terminfo sends kbs=^H which breaks backspace in some apps.
+# Using Ghostty native terminfo fixes both.
+#term = xterm-256color
+
 # macos-icon = xray
 #macos-titlebar-style = tabs
 
