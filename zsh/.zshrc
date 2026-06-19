@@ -18,6 +18,8 @@ setopt SHARE_HISTORY
 setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_SAVE_NO_DUPS
 setopt HIST_FIND_NO_DUPS
+setopt INTERACTIVE_COMMENTS
+HIST_STAMPS="yyyy-mm-dd"
 
 # Better directory navigation
 setopt AUTO_CD                   # type a directory name to cd into it
@@ -48,7 +50,7 @@ if [[ -x "$HOME/.local/bin/mise" ]]; then
     export PATH="$HOME/.local/share/mise/shims:$HOME/.local/bin:$PATH"
 fi
 
-export GPG_TTY=$(tty)
+if tty &>/dev/null; then export GPG_TTY=$(tty); fi
 
 # compinit must run BEFORE antidote loads plugins (plugins call `compdef`).
 # Run once per day; use cached dump otherwise.
@@ -73,6 +75,10 @@ if [[ -f "$ANTIDOTE_HOME/antidote.zsh" ]]; then
     source "$ANTIDOTE_PLUGINS_ZSH"
 fi
 
+# macOS 26 zsh defaults main keymap to viins — emacs mode gives us ^R history-search,
+# ^A/^E line-start/end, and other standard readline bindings.
+bindkey -e
+
 # Aliases
 [[ -f "$HOME/aliasrc" ]] && source "$HOME/aliasrc"
 
@@ -86,8 +92,6 @@ command -v starship &>/dev/null && eval "$(starship init zsh)"
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 [ -s "$BUN_INSTALL/_bun" ] && source "$BUN_INSTALL/_bun"
-
-alias claude-mem='/Users/julienrollin/.bun/bin/bun "/Users/julienrollin/.claude/plugins/cache/thedotmack/claude-mem/10.6.2/scripts/worker-service.cjs"'
 
 # sonarqube-cli
 export PATH="$HOME/.local/share/sonarqube-cli/bin:$PATH"
