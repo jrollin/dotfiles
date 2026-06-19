@@ -1,6 +1,4 @@
 [tools]
-go = "latest"
-java = "25"
 node = "22"
 python = "3.14"
 
