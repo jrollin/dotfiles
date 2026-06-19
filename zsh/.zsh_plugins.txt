@@ -2,9 +2,9 @@
 # Format: <repo> [path:...] [kind:defer|fpath|clone]
 # kind:defer → loaded after first prompt (does not slow startup)
 
-# OMZ snippets (kept for git aliases + sudo Esc-Esc trick)
-ohmyzsh/ohmyzsh path:lib/git.zsh
-ohmyzsh/ohmyzsh path:plugins/git
+# OMZ snippets — kept minimal. The full `plugins/git` was removed because it
+# loaded ~150 aliases and 832 compdefs, making `git <Tab>` slow.
+# Use plain git + zsh's built-in `_git` completion instead.
 ohmyzsh/ohmyzsh path:plugins/colorize
 ohmyzsh/ohmyzsh path:plugins/encode64
 ohmyzsh/ohmyzsh path:plugins/sudo

@@ -25,9 +25,6 @@ export PERSO_DIR="$HOME/personal/"
 # export DATA_DIR=/data/
 
 
-# Path to your oh-my-zsh installation.
-export ZSH="$HOME/.oh-my-zsh"
-
 
 # local env
 [[ -f ~/.zshenv.local ]] && source ~/.zshenv.local
