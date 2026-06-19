@@ -462,10 +462,6 @@
                     "ignore_vendor_events": true,
                     "simple_modifications": [
                         {
-                            "from": { "key_code": "caps_lock" },
-                            "to": [{ "key_code": "left_control" }]
-                        },
-                        {
                             "from": { "key_code": "left_command" },
                             "to": [{ "key_code": "left_option" }]
                         },
@@ -477,7 +473,6 @@
                 }
             ],
             "name": "home q2 - win mode",
-            "selected": true,
             "simple_modifications": [
                 {
                     "from": { "key_code": "caps_lock" },
@@ -1019,6 +1014,7 @@
                 }
             ],
             "name": "apple",
+            "selected": true,
             "simple_modifications": [
                 {
                     "from": { "key_code": "caps_lock" },
