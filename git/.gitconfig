@@ -6,6 +6,7 @@
 
 [color]
 	ui = auto
+
 [alias]
     co = checkout
     br = branch
@@ -44,3 +45,8 @@
 
 [push]
 	default = current
+
+
+# delta git config 
+[include] 
+  path = delta.gitconfig
