@@ -23,19 +23,19 @@ neovim
 lazygit
 lazydocker
 luarocks
-rbenv
 starship
 docker
 emacs
+git-delta
 
 # databases / services
-postgresql@13
-redis
-memcached
+rbenv
+#postgresql@13
+#redis
+#memcached
 
 # cloud / infra
 awscli-local
-localstack
 
 # media
 ffmpeg
