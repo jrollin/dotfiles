@@ -1,5 +1,5 @@
 #!/bin/bash
-# Format: [user@hostname directory] with green brackets and white directory
+# Format: [directory] with green brackets and white directory
 # Fish shell compatible (no \] escape sequences)
 
 input=$(cat)
@@ -23,6 +23,10 @@ if command -v jq >/dev/null 2>&1; then
     @sh "rate_7d=\(.rate_limits.seven_day.used_percentage // "" | e)",
     @sh "rate_7d_resets=\(.rate_limits.seven_day.resets_at // "" | e)",
     @sh "agent_name=\(.agent.name // "" | e)",
+    @sh "pr_number=\(.pr.number // "" | e)",
+    @sh "pr_review_state=\(.pr.review_state // "" | e)",
+    @sh "lines_added=\(.cost.total_lines_added // "" | e)",
+    @sh "lines_removed=\(.cost.total_lines_removed // "" | e)",
     @sh "git_worktree=\(.workspace.git_worktree // "" | e)",
     @sh "worktree_name=\(.worktree.name // "" | e)",
     @sh "worktree_branch=\(.worktree.branch // "" | e)",
@@ -39,6 +43,7 @@ else
   effort_level="" thinking_enabled=""
   rate_5h="" rate_5h_resets="" rate_7d="" rate_7d_resets=""
   project_dir="" version="" agent_name="" git_worktree=""
+  pr_number="" pr_review_state="" lines_added="" lines_removed=""
   worktree_name="" worktree_branch="" worktree_path=""
 fi
 
@@ -90,7 +95,7 @@ fi
 
 # --- Output ---
 
-printf '\033[01;32m[%s@%s\033[01;37m 📁 %s\033[01;32m]\033[00m ' "$(whoami)" "$(hostname -s)" "$dir_basename"
+printf '\033[01;32m[\033[01;37m📁 %s\033[01;32m]\033[00m ' "$dir_basename"
 
 if [ -n "$project_basename" ]; then
   printf '\033[38;5;208m📂 %s\033[0m ' "$project_basename"
@@ -114,6 +119,24 @@ fi
 
 if [ -n "$git_worktree" ] && [ -z "$worktree_name" ]; then
   printf '\033[38;5;43m🌿%s\033[0m ' "$git_worktree"
+fi
+
+# Open PR for the branch, colored by review state
+if [ -n "$pr_number" ]; then
+  case "$pr_review_state" in
+    approved)          pr_color=78;  pr_icon='✅' ;;
+    changes_requested) pr_color=203; pr_icon='🔴' ;;
+    draft)             pr_color=240; pr_icon='📝' ;;
+    *)                 pr_color=214; pr_icon='⏳' ;;
+  esac
+  printf '\033[38;5;%sm%sPR#%s\033[0m ' "$pr_color" "$pr_icon" "$pr_number"
+fi
+
+# Session line churn
+if [ -n "$lines_added" ] || [ -n "$lines_removed" ]; then
+  if [ "${lines_added:-0}" -ne 0 ] 2>/dev/null || [ "${lines_removed:-0}" -ne 0 ] 2>/dev/null; then
+    printf '\033[38;5;78m+%s\033[0m\033[38;5;203m-%s\033[0m ' "${lines_added:-0}" "${lines_removed:-0}"
+  fi
 fi
 
 if [ -n "$version" ]; then
