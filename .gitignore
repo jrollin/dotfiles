@@ -1,13 +1,14 @@
 # tmx auto installs plugin if no directory present (see tmux.conf)
 .DS_Store
-/tmux/plugins/*
 
-/nvim/plugin/packer_compiled.lua
-/nvim/lazy-lock.json
+# cartog code-graph db (kept out of the repo, protection travels with it)
+.cartog*
+
+# tmux plugins are TPM-managed / submodules
+/tmux/.config/tmux/plugins/*
 
 /fish/.config/fish/fish_variables
 
-/gtk-3.0/bookmarks
-
+/gtk-3.0/.config/gtk-3.0/bookmarks
 
 /karabiner/.config/karabiner/automatic_backups
