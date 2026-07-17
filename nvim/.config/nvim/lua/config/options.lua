@@ -3,6 +3,10 @@
 -- Add any additional options here
 --
 --
+-- In case you don't want to use `:LazyExtras`,
+-- then you need to set the option below.
+vim.g.lazyvim_picker = "fzf"
+
 vim.g.snacks_animate = false
 
 vim.g.lazyvim_cmp = "blink.cmp"

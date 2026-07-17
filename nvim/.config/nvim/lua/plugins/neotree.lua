@@ -2,7 +2,13 @@ return {
   {
     "nvim-neo-tree/neo-tree.nvim",
     keys = {
-      { "<C-f>", "<cmd>Neotree reveal left<CR>", desc = "Reveal file in tree" },
+      {
+        "<leader>o",
+        function()
+          require("neo-tree.command").execute({ action = "focus", reveal = true, dir = LazyVim.root() })
+        end,
+        desc = "Reveal current file in NeoTree + focus",
+      },
     },
     opts = {
       filesystem = {

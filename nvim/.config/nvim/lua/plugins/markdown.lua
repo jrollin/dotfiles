@@ -33,6 +33,18 @@ vim.api.nvim_create_autocmd("FileType", {
 return {
 
   {
+    "iamcco/markdown-preview.nvim",
+    keys = {
+      {
+        "<leader>mp",
+        ft = "markdown",
+        "<cmd>MarkdownPreviewToggle<cr>",
+        desc = "Markdown Preview",
+      },
+    },
+  },
+
+  {
     "OXY2DEV/markview.nvim",
     lazy = false,
     -- For `nvim-treesitter` users.
