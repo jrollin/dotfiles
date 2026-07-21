@@ -8,6 +8,25 @@ in Neovim on new machine
 :Lazy restore
 ```
 
+## Ruby LSP
+
+`ruby_lsp` runs a global `ruby-lsp` (resolved from `PATH`) against a stub gemfile, so
+it never touches a project's own bundle. This is required for EOL-Ruby projects (e.g.
+Ruby 2.7) where modern `ruby-lsp` cannot install into the project's Ruby.
+
+Per-machine setup (macOS and Linux):
+
+```bash
+# 1. install ruby-lsp on a modern Ruby (>= 3.0)
+gem install ruby-lsp
+
+# 2. create the stub gemfile the LSP is pinned to
+mkdir -p ~/.config/ruby-lsp
+echo 'source "https://rubygems.org"' > ~/.config/ruby-lsp/Gemfile
+```
+
+If `ruby-lsp` is not on `PATH`, the server is skipped silently.
+
 ## Digraph
 
 display all non ASCII symbols (digraph)
