@@ -1,8 +1,5 @@
 {
-    "global": {
-        "show_additional_menu_items": true,
-        "show_profile_name_in_menu_bar": true
-    },
+    "global": { "show_profile_name_in_menu_bar": true },
     "profiles": [
         {
             "complex_modifications": {
@@ -473,6 +470,7 @@
                 }
             ],
             "name": "home q2 - win mode",
+            "selected": true,
             "simple_modifications": [
                 {
                     "from": { "key_code": "caps_lock" },
@@ -1014,7 +1012,6 @@
                 }
             ],
             "name": "apple",
-            "selected": true,
             "simple_modifications": [
                 {
                     "from": { "key_code": "caps_lock" },
