@@ -54,7 +54,7 @@ alt-enter = '''exec-and-forget osascript -e '
 alt-h = 'focus left'
 alt-j = 'focus down'
 alt-k = 'focus up'
-# alt-l = 'focus right' # conflicts with native macOS option+shift+L for pipe (|)
+alt-l = 'focus right' # conflicts with native macOS option+shift+L for pipe (|)
 
 # i3 wraps focus by default
 # alt-j = 'focus --boundaries-action wrap-around-the-workspace left'
