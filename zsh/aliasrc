@@ -34,5 +34,18 @@ alias lsr='ls -lARFh' #Recursive list of files and directories
 alias lsn='ls -1'     #A column contains name of files and directories
 
 
+alias tml="tmux list-sessions"
+alias tma="tmux attach-session -t"
+alias tmk="tmux kill-session -t"
+
 alias cc="claude"
 alias lg="lazygit"
+
+
+function y() {
+  local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+    command yazi "$@" --cwd-file="$tmp"
+    IFS= read -r -d '' cwd < "$tmp"
+    [ "$cwd" != "$PWD" ] && [ -d "$cwd" ] && builtin cd -- "$cwd"
+    command rm -f -- "$tmp"
+}

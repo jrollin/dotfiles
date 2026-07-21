@@ -28,3 +28,5 @@ export PERSO_DIR="$HOME/personal/"
 
 # local env
 [[ -f ~/.zshenv.local ]] && source ~/.zshenv.local
+
+alias assume=". assume"
