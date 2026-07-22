@@ -18,16 +18,6 @@ M.defaults = {
     defer_visual_ms = 100,          -- Delay before processing visual selection
   },
 
-  -- File picker configuration
-  file_picker = {
-    prefer_telescope = true,
-    fallback_to_vim_ui = true,
-    telescope_opts = {
-      hidden = true,
-      no_ignore = true,
-    },
-  },
-
   -- Vault settings
   vault = {
     default_vault_file = nil,       -- Optional: default vault file path

@@ -2,11 +2,7 @@ local M = {}
 local config = {}
 
 function M.setup(user_config)
-  -- Check ansible-vault availability
-  if not require('ansible.utils').is_ansible_vault_available() then
-    vim.notify('[Ansible] ansible-vault not found. Install ansible to use this plugin.', vim.log.levels.WARN)
-    return
-  end
+  -- ansible-vault availability is guarded by the plugin spec's `cond`
 
   -- Load defaults
   local defaults = require('ansible.config').defaults

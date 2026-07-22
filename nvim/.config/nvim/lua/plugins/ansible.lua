@@ -1,9 +1,6 @@
 return {
   dir = vim.fn.stdpath("config") .. "/lua/ansible",
   name = "ansible.nvim",
-  dependencies = {
-    { "nvim-telescope/telescope.nvim", optional = true },
-  },
   lazy = true,
   keys = {
     { "<leader>aie", mode = "v", desc = "Ansible Vault encrypt selection with vault file" },

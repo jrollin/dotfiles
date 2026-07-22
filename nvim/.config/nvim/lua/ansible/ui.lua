@@ -1,5 +1,4 @@
 local M = {}
-local utils = require('ansible.utils')
 
 function M.get_visual_selection()
   local start_pos = vim.fn.getpos("'<")
@@ -35,10 +34,10 @@ function M.create_output_buffer()
   local buf = vim.api.nvim_create_buf(false, true)
 
   local config = require('ansible').get_config()
-  vim.api.nvim_buf_set_option(buf, "filetype", config.ui.output_filetype)
-  vim.api.nvim_buf_set_option(buf, "modifiable", true)
+  vim.bo[buf].filetype = config.ui.output_filetype
+  vim.bo[buf].modifiable = true
   vim.api.nvim_buf_set_lines(buf, 0, -1, false, {})
-  vim.api.nvim_buf_set_option(buf, "modifiable", false)
+  vim.bo[buf].modifiable = false
 
   return buf
 end
@@ -47,26 +46,6 @@ function M.show_in_split(bufnr)
   local config = require('ansible').get_config()
   vim.cmd(config.ui.split)
   vim.api.nvim_win_set_buf(0, bufnr)
-end
-
-function M.display_output(bufnr, data, success)
-  vim.api.nvim_buf_set_option(bufnr, "modifiable", true)
-
-  local lines = {}
-  if success then
-    table.insert(lines, "✓ Completed:")
-  else
-    table.insert(lines, "✗ Failed:")
-  end
-
-  if data and #data > 0 then
-    for _, line in ipairs(data) do
-      table.insert(lines, line)
-    end
-  end
-
-  vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, lines)
-  vim.api.nvim_buf_set_option(bufnr, "modifiable", false)
 end
 
 return M
