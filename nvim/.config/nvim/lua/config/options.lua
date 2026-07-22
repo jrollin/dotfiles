@@ -10,8 +10,6 @@ vim.g.lazyvim_picker = "fzf"
 vim.g.snacks_animate = false
 
 vim.g.lazyvim_cmp = "blink.cmp"
--- Only run prettier if a .prettierrc exists; otherwise ESLint (via eslint-plugin-prettier) handles formatting
-vim.g.lazyvim_prettier_needs_config = true
 
 vim.opt.relativenumber = false -- Relative line numbers
 
