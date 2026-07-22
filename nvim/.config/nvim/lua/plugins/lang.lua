@@ -1,14 +1,5 @@
 return {
 
-  -- add jsonls and schemastore packages, and setup treesitter for json, json5 and jsonc
-  { import = "lazyvim.plugins.extras.lang.json" },
-
-  -- treesitter, mason and typescript.nvim. So instead of the above, you can use:
-  { import = "lazyvim.plugins.extras.lang.typescript" },
-
-  -- ruby_lsp, rubocop formatter, treesitter and neotest-rspec
-  { import = "lazyvim.plugins.extras.lang.ruby" },
-
   -- add more treesitter parsers without replaceing existing
   {
     "nvim-treesitter/nvim-treesitter",
