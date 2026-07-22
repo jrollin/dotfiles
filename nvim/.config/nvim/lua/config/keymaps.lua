@@ -29,16 +29,8 @@ end, { desc = "Delete Buffer" })
 
 -- call custom script to scrap url
 vim.keymap.set(
-  "n",
+  { "n", "v" },
   "<leader>S",
   "<CMD>execute 'r! scrapr  -u '.shellescape(@+, 1) <CR>",
   { desc = "Retrieve url infos" }
 )
-vim.keymap.set(
-  "v",
-  "<leader>S",
-  "<CMD>execute 'r! scrapr  -u '.shellescape(@+, 1) <CR>",
-  { desc = "Retrieve url infos" }
-)
-vim.keymap.set("n", "CV", "<CMD>execute 'r! scrapr  -u '.shellescape(@+, 1) <CR>", { desc = "Retrieve url infos" })
-vim.keymap.set("v", "CV", "<CMD>execute 'r! scrapr  -u '.shellescape(@+, 1) <CR>", { desc = "Retrieve url infos" })

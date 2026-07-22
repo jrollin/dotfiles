@@ -1,4 +1,8 @@
-local machine = require("config.machine")
+-- machine.lua is gitignored (per-machine overrides); missing on a fresh clone
+local ok, machine = pcall(require, "config.machine")
+if not ok then
+  machine = {}
+end
 
 return {
   "jrollin/mistral-codestral.nvim",

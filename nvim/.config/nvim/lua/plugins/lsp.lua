@@ -1,6 +1,3 @@
--- Enable the following language servers
-vim.lsp.enable("oxlint")
-
 -- Resolve ruby-lsp from PATH so the config works on macOS (Homebrew) and Linux alike.
 local ruby_lsp_bin = vim.fn.exepath("ruby-lsp")
 
@@ -22,7 +19,9 @@ return {
           },
           mason = false, -- use the system binary, not a Mason-managed copy
         },
-        eslint = {},
+        oxlint = {
+          mason = false, -- use the project/global oxc_language_server, not a Mason copy
+        },
         vtsls = {
           settings = {
             typescript = {
@@ -33,31 +32,27 @@ return {
             },
           },
         },
-        tsserver = {
-          keys = {
-            { "<leader>co", "<cmd>TypescriptOrganizeImports<CR>", desc = "Organize Imports" },
-            { "<leader>cr", "<cmd>TypescriptRenameFile<CR>", desc = "Rename File" },
-          },
-        },
       },
     },
-    setup = {
-      eslint = function()
-        require("lazyvim.util").lsp.on_attach(function(client)
-          if client.name == "eslint" then
-            client.server_capabilities.documentFormattingProvider = true
-          elseif client.name == "tsserver" then
-            client.server_capabilities.documentFormattingProvider = false
-          end
-        end)
-      end,
-    },
+  },
+  -- Ruby extra wants erb-formatter/erb-lint, but mason installs gems through the
+  -- rbenv shim: in EOL-Ruby projects (2.7) the install fails and retries every start
+  {
+    "mason-org/mason.nvim",
+    opts = function(_, opts)
+      opts.ensure_installed = vim.tbl_filter(function(p)
+        return p ~= "erb-lint" and p ~= "erb-formatter"
+      end, opts.ensure_installed or {})
+    end,
   },
   -- Use conform for formatting with oxfmt
   {
     "stevearc/conform.nvim",
     opts = {
-      timeout_ms = 10000,
+      -- eslint_d on large files needs more than conform's 3s default
+      default_format_opts = {
+        timeout_ms = 10000,
+      },
 
       -- install npm i -g eslint_d
       formatters_by_ft = {

@@ -8,9 +8,9 @@ local function execute_command(cmd, callback)
   ui.show_in_split(buf)
 
   -- Initialize buffer with executing message
-  vim.api.nvim_buf_set_option(buf, "modifiable", true)
+  vim.bo[buf].modifiable = true
   vim.api.nvim_buf_set_lines(buf, 0, -1, false, { "Executing command...", "" })
-  vim.api.nvim_buf_set_option(buf, "modifiable", false)
+  vim.bo[buf].modifiable = false
 
   local stdout_data = {}
   local stderr_data = {}
@@ -52,7 +52,7 @@ local function execute_command(cmd, callback)
       end
     end,
     on_exit = function(_, code)
-      vim.api.nvim_buf_set_option(buf, "modifiable", true)
+      vim.bo[buf].modifiable = true
 
       local output = {}
       if code == 0 then
@@ -74,7 +74,7 @@ local function execute_command(cmd, callback)
       end
 
       vim.api.nvim_buf_set_lines(buf, 0, -1, false, output)
-      vim.api.nvim_buf_set_option(buf, "modifiable", false)
+      vim.bo[buf].modifiable = false
 
       if callback then
         callback(code == 0)
@@ -84,9 +84,10 @@ local function execute_command(cmd, callback)
 end
 
 function M.encrypt_inline(content, vault_file, callback)
-  -- Use printf to safely pass content, avoiding quote escaping issues
+  -- Use printf to safely pass content, avoiding quote escaping issues.
+  -- Do NOT strip spaces here: the plaintext may legitimately contain them.
   local full_cmd = string.format(
-    "printf '%%s' %s | tr -d ' ' | ansible-vault encrypt_string --vault-password-file %s",
+    "printf '%%s' %s | ansible-vault encrypt_string --vault-password-file %s",
     vim.fn.shellescape(content),
     vim.fn.shellescape(vault_file)
   )
@@ -94,7 +95,8 @@ function M.encrypt_inline(content, vault_file, callback)
 end
 
 function M.decrypt_inline(content, vault_file, callback)
-  -- Use printf to safely pass content, avoiding quote escaping issues
+  -- Use printf to safely pass content, avoiding quote escaping issues.
+  -- tr strips the YAML indentation of `!vault |` blocks; ciphertext has no spaces.
   local full_cmd = string.format(
     "printf '%%s' %s | tr -d ' ' | ansible-vault decrypt --vault-password-file %s",
     vim.fn.shellescape(content),

@@ -2,7 +2,13 @@
 
 ## Requirements
 
-in Neovim on new machine
+On a new machine, create the per-machine config (gitignored) from the example:
+
+```bash
+cp lua/config/machine.lua.example lua/config/machine.lua
+```
+
+then in Neovim
 
 ```vim
 :Lazy restore
