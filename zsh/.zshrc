@@ -4,22 +4,19 @@
 # Enable colors
 autoload -U colors && colors
 
-### Configure color-scheme
-COLOR_SCHEME=dark # dark/light
-
 ### History Settings
+# History is state, not cache — keep it out of ~/.cache so cache purges don't wipe it
 HISTSIZE=10000
 SAVEHIST=10000
-HISTFILE=~/.cache/.zsh_history
+HISTFILE="$XDG_STATE_HOME/zsh/history"
+[[ -d "${HISTFILE:h}" ]] || mkdir -p "${HISTFILE:h}"
 
 setopt EXTENDED_HISTORY
-setopt INC_APPEND_HISTORY
 setopt SHARE_HISTORY
 setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_SAVE_NO_DUPS
 setopt HIST_FIND_NO_DUPS
 setopt INTERACTIVE_COMMENTS
-HIST_STAMPS="yyyy-mm-dd"
 
 # Better directory navigation
 setopt AUTO_CD                   # type a directory name to cd into it
@@ -50,16 +47,7 @@ if [[ -x "$HOME/.local/bin/mise" ]]; then
     export PATH="$HOME/.local/share/mise/shims:$HOME/.local/bin:$PATH"
 fi
 
-if tty &>/dev/null; then export GPG_TTY=$(tty); fi
-
-# compinit must run BEFORE antidote loads plugins (plugins call `compdef`).
-# Run once per day; use cached dump otherwise.
-autoload -Uz compinit
-if [[ -n ~/.zcompdump(#qN.mh+24) ]]; then
-    compinit
-else
-    compinit -C
-fi
+[[ -n $TTY ]] && export GPG_TTY=$TTY
 
 # Plugin manager (antidote) — static-load mode for fast startup.
 # antidote bundles ~/.zsh_plugins.txt → ~/.zsh_plugins.zsh once; we just source the result.
@@ -73,6 +61,16 @@ if [[ -f "$ANTIDOTE_HOME/antidote.zsh" ]]; then
         antidote bundle <"$ANTIDOTE_PLUGINS_TXT" >|"$ANTIDOTE_PLUGINS_ZSH"
     fi
     source "$ANTIDOTE_PLUGINS_ZSH"
+fi
+
+# compinit must run AFTER antidote so kind:fpath plugins (zsh-completions) are in
+# fpath when the dump is built. No current plugin calls `compdef` at load time.
+# Run once per day; use cached dump otherwise.
+autoload -Uz compinit
+if [[ -n ~/.zcompdump(#qN.mh+24) ]]; then
+    compinit
+else
+    compinit -C
 fi
 
 # macOS 26 zsh defaults main keymap to viins — emacs mode gives us ^R history-search,

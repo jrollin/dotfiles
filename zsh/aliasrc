@@ -2,8 +2,11 @@
 # use nvim
 alias vim="nvim"
 alias vi="nvim"
-alias oldvim="vim"
+alias oldvim="command vim" # real vim (aliases expand recursively, plain "vim" would hit nvim)
 alias python="python3"
+
+# granted.dev: must be sourced to export AWS env vars into the current shell
+alias assume=". assume"
 
 alias k="kubectl"
 
@@ -18,7 +21,11 @@ alias my="cd $PERSO_DIR/"
 alias dive="docker run -ti --rm  -v /var/run/docker.sock:/var/run/docker.sock wagoodman/dive"
 
 
-alias ff='cd "$(find "$PROJECTS_DIR" "$DOTFILES_DIR" "$WORK_DIR" "$PERSO_DIR" -mindepth 1 -maxdepth 1 -type d | fzf)"'
+# fuzzy-jump to a project dir; no-op when fzf is cancelled
+function ff() {
+  local dir
+  dir=$(find "$PROJECTS_DIR" "$DOTFILES_DIR" "$WORK_DIR" "$PERSO_DIR" -mindepth 1 -maxdepth 1 -type d | fzf) && cd "$dir"
+}
 
 # ls, the common ones I use a lot shortened for rapid fire usage
 alias l='ls -lFh'     #size,show type,human readable
