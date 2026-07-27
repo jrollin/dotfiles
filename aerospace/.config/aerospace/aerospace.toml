@@ -42,12 +42,17 @@ outer.top = 0
 outer.right = 0
 
 [mode.main.binding]
-# See: https://nikitabobko.github.io/AeroSpace/goodies#open-a-new-window-with-applescript
+# Ghostty has no Terminal-style `do script`; create the window then activate it
+# directly so it lands and stays on the focused workspace
 alt-enter = '''exec-and-forget osascript -e '
-    tell application "Ghostty"
-        do script
-        activate
-    end tell'
+    if application "Ghostty" is running then
+        tell application "Ghostty"
+            set w to new window
+            activate window w
+        end tell
+    else
+        tell application "Ghostty" to activate
+    end if'
     '''
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#focus
