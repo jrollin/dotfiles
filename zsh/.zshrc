@@ -56,7 +56,10 @@ ANTIDOTE_PLUGINS_TXT="$HOME/.zsh_plugins.txt"
 ANTIDOTE_PLUGINS_ZSH="$HOME/.zsh_plugins.zsh"
 
 if [[ -f "$ANTIDOTE_HOME/antidote.zsh" ]]; then
-    if [[ ! "$ANTIDOTE_PLUGINS_ZSH" -nt "$ANTIDOTE_PLUGINS_TXT" ]]; then
+    # Rebundle when the plugin list changes OR antidote itself is upgraded: the
+    # generated file bakes in versioned Cellar paths that vanish on `brew upgrade`.
+    if [[ ! "$ANTIDOTE_PLUGINS_ZSH" -nt "$ANTIDOTE_PLUGINS_TXT" \
+       || ! "$ANTIDOTE_PLUGINS_ZSH" -nt "$ANTIDOTE_HOME/antidote.zsh" ]]; then
         source "$ANTIDOTE_HOME/antidote.zsh"
         antidote bundle <"$ANTIDOTE_PLUGINS_TXT" >|"$ANTIDOTE_PLUGINS_ZSH"
     fi
