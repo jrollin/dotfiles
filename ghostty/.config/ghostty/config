@@ -21,7 +21,7 @@ mouse-hide-while-typing = true
 
 # split-divider-color ="pink"
 window-decoration = false
-window-save-state = always
+window-save-state = never
 
 # Window settings
 window-padding-x = 8
