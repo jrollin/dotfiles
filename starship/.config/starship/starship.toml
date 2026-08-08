@@ -1,6 +1,9 @@
 # Wait 10 milliseconds for starship to check files under the current directory.
 scan_timeout = 10
 
+# EDR agent inspects each git spawn, pushing `git status` to ~1.1s
+command_timeout = 2000
+
 # Disable the blank line at the start of the prompt
 add_newline = true
 

@@ -1,6 +1,8 @@
 [core]
 	editor = nvim
 	excludesFile = ~/.gitignore
+	fsmonitor = true
+	untrackedCache = true
 [init]
 	defaultBranch = main
 

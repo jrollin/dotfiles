@@ -49,6 +49,10 @@ fi
 
 [[ -n $TTY ]] && export GPG_TTY=$TTY
 
+# Search history in a background process — the sync default blocks the keystroke.
+# Must be set before antidote loads zsh-autosuggestions, which reads it at load time.
+ZSH_AUTOSUGGEST_USE_ASYNC=1
+
 # Plugin manager (antidote) — static-load mode for fast startup.
 # antidote bundles ~/.zsh_plugins.txt → ~/.zsh_plugins.zsh once; we just source the result.
 ANTIDOTE_HOME="${HOMEBREW_PREFIX:-/opt/homebrew}/opt/antidote/share/antidote"
