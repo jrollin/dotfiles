@@ -27,6 +27,11 @@ function ff() {
   dir=$(find "$PROJECTS_DIR" "$DOTFILES_DIR" "$WORK_DIR" "$PERSO_DIR" -mindepth 1 -maxdepth 1 -type d | fzf) && cd "$dir"
 }
 
+function cf() {
+  local dir
+  dir=$(find . -mindepth 1 -maxdepth 4 -type d | fzf) && cd "$dir"
+}
+
 # ls, the common ones I use a lot shortened for rapid fire usage
 alias l='ls -lFh'     #size,show type,human readable
 alias la='ls -lAFh'   #long list,show almost all,show type,human readable
