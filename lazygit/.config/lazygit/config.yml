@@ -4,9 +4,10 @@ gui:
       - green
       - bold
 git:
-  pagers:
-    - pager: delta --dark --paging=never
-    - pager: ydiff -p cat -s --wrap --width={{columnWidth}}
+  diffRenderers:
+    - command: delta --dark --paging=never
+    - command: ydiff -p cat -s --wrap --width={{columnWidth}}
       colorArg: never
-    - externalDiffCommand: difft --color=always
-    - {} # default, no pager used
+    - command: difft --color=always
+      type: extDiff
+    - type: rawGit
