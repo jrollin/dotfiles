@@ -6,16 +6,18 @@ EDITOR=${EDITOR:-vi}
 
 # Help function
 show_help() {
-	echo "Usage: $0 [directory] [-h|--help] [-k|--kill]"
-	echo "  directory    Target directory (default: current directory)"
-	echo "  -h, --help   Show this help"
-	echo "  -k, --kill   Kill existing session before creating new one"
+	echo "Usage: $0 [directory] [-n|--name NAME] [-h|--help] [-k|--kill]"
+	echo "  directory      Target directory (default: current directory)"
+	echo "  -n, --name     Session name (default: directory basename)"
+	echo "  -h, --help     Show this help"
+	echo "  -k, --kill     Kill existing session before creating new one"
 	exit 0
 }
 
 # Parse arguments
 KILL_EXISTING=false
 selected=""
+SESSION_NAME=""
 
 while [[ $# -gt 0 ]]; do
 	case $1 in
@@ -25,6 +27,14 @@ while [[ $# -gt 0 ]]; do
 	-k | --kill)
 		KILL_EXISTING=true
 		shift
+		;;
+	-n | --name)
+		if [[ $# -lt 2 || -z "$2" ]]; then
+			echo "Error: $1 requires a session name" >&2
+			exit 1
+		fi
+		SESSION_NAME="$2"
+		shift 2
 		;;
 	-*)
 		echo "Unknown option: $1" >&2
@@ -57,8 +67,8 @@ if [[ ! -d "$selected" ]]; then
 	exit 1
 fi
 
-# cleanup name
-SNAME=$(basename "$selected" | tr . _)
+# cleanup name -- tmux treats . and : as target separators
+SNAME=$(echo "${SESSION_NAME:-$(basename "$selected")}" | tr .: __)
 echo "Creating tmux session: $SNAME"
 # Check if tmux is available
 if ! command -v tmux >/dev/null 2>&1; then
