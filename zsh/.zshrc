@@ -101,5 +101,12 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 # sonarqube-cli
 export PATH="$HOME/.local/share/sonarqube-cli/bin:$PATH"
 
+# pnpm
+export PNPM_HOME="$HOME/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+
 # Startup profiling report (opt-in): prints when ZSH_PROFILE is set
 [[ -n $ZSH_PROFILE ]] && zprof
