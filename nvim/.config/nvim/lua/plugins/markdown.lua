@@ -1,8 +1,9 @@
 -- markdown-preview.nvim vendors mermaid 10.2.3 and is unmaintained since 2023, so the bundled
 -- copy is overwritten on build. mermaid 11 keeps the UMD global and the deprecated `init()` the
 -- plugin calls, so it is a drop-in swap.
--- If overwriting this git-tracked file ever breaks `:Lazy update`, fork the plugin, commit the
--- newer mermaid there, and point the spec at the fork instead of running this hook.
+-- Overwriting a git-tracked file makes lazy refuse to update the plugin, so the build hook marks
+-- it skip-worktree. If upstream ever touches mermaid.min.js, git pull will fail there: run
+-- `git update-index --no-skip-worktree app/_static/mermaid.min.js` in the plugin dir, then rebuild.
 local mermaid_version = "11.16.1"
 
 return {
@@ -23,6 +24,10 @@ return {
         error(("mermaid %s download failed (%s): %s"):format(mermaid_version, url, res.stderr or ""))
       end
       assert(vim.uv.fs_rename(tmp, dest))
+
+      -- lazy's dirty check is `git ls-files -d -m`, which honors skip-worktree
+      vim.system({ "git", "update-index", "--skip-worktree", "app/_static/mermaid.min.js" }, { cwd = plugin.dir })
+        :wait()
     end,
     keys = {
       {
