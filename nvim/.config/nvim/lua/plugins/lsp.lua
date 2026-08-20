@@ -30,9 +30,13 @@ return {
             -- the preview follows the focused buffer, which is what makes cross-file navigation work
             vim.api.nvim_create_autocmd("BufEnter", {
               pattern = { "*.md" },
-              group = vim.api.nvim_create_augroup("mpls.focus", { clear = true }),
+              -- per-client group: a shared name would let each new buffer's attach clear the previous one
+              group = vim.api.nvim_create_augroup("mpls.focus." .. client.id, { clear = true }),
               callback = function(ctx)
-                client:notify("mpls/editorDidChangeFocus", { uri = ctx.match })
+                -- mpls resolves the focused doc by URI; ctx.match is a plain path and gets dropped
+                if not client:is_stopped() then
+                  client:notify("mpls/editorDidChangeFocus", { uri = vim.uri_from_fname(ctx.file) })
+                end
               end,
               desc = "mpls: notify buffer focus changed",
             })
