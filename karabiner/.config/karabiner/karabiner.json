@@ -470,7 +470,6 @@
                 }
             ],
             "name": "home q2 - win mode",
-            "selected": true,
             "simple_modifications": [
                 {
                     "from": { "key_code": "caps_lock" },
@@ -1012,6 +1011,7 @@
                 }
             ],
             "name": "apple",
+            "selected": true,
             "simple_modifications": [
                 {
                     "from": { "key_code": "caps_lock" },

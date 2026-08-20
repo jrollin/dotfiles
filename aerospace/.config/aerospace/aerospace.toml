@@ -80,6 +80,11 @@ ctrl-alt-l = 'move right'
 #alt-v = 'split vertical'
 
 alt-f = 'fullscreen'
+
+# Recovery: accordion-padding insets a lone window, and a floating window
+# survives restarts, so both read as "window not fullscreen"
+alt-shift-f = ['layout tiling', 'flatten-workspace-tree'] # undo floating + accordion drift
+alt-shift-t = 'layout tiles horizontal vertical'          # force tiles, keep the tree
 #
 # alt-s = 'layout v_accordion'               # 'layout stacking' in i3
 # alt-w = 'layout h_accordion'               # 'layout tabbed' in i3
@@ -168,6 +173,7 @@ alt-shift-semicolon = 'mode service'
 
 esc = ['reload-config', 'mode main']
 r = ['flatten-workspace-tree', 'mode main'] # reset layout
+# Sits next to esc/r: a mistype here floats a window, recover with alt-shift-f
 f = [
   'layout floating tiling',
   'mode main',
