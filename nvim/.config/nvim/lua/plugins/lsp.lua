@@ -22,6 +22,29 @@ return {
         oxlint = {
           mason = false, -- use the project/global oxc_language_server, not a Mason copy
         },
+        -- Markdown preview in the browser: follows links across files, renders mermaid offline
+        mpls = {
+          cmd = { "mpls", "--no-auto", "--theme", "dark" },
+          root_markers = { ".marksman.toml", ".git" },
+          on_attach = function(client, bufnr)
+            -- the preview follows the focused buffer, which is what makes cross-file navigation work
+            vim.api.nvim_create_autocmd("BufEnter", {
+              pattern = { "*.md" },
+              group = vim.api.nvim_create_augroup("mpls.focus", { clear = true }),
+              callback = function(ctx)
+                client:notify("mpls/editorDidChangeFocus", { uri = ctx.match })
+              end,
+              desc = "mpls: notify buffer focus changed",
+            })
+            vim.api.nvim_buf_create_user_command(bufnr, "LspMplsOpenPreview", function()
+              client:exec_cmd({ title = "Preview markdown with mpls", command = "open-preview" })
+            end, { desc = "Preview markdown with mpls" })
+            vim.keymap.set("n", "<leader>mp", "<cmd>LspMplsOpenPreview<cr>", {
+              buffer = bufnr,
+              desc = "Markdown Preview",
+            })
+          end,
+        },
         vtsls = {
           settings = {
             typescript = {
