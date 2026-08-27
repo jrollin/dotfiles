@@ -1,6 +1,30 @@
 -- Resolve ruby-lsp from PATH so the config works on macOS (Homebrew) and Linux alike.
 local ruby_lsp_bin = vim.fn.exepath("ruby-lsp")
 
+-- Open the mpls preview for `buf`, starting the server on first use.
+local function mpls_preview(name, buf)
+  if vim.lsp.get_clients({ bufnr = buf, name = name })[1] then
+    vim.cmd.LspMplsOpenPreview()
+    return
+  end
+  -- attach is async, and on_attach has not created :LspMplsOpenPreview yet, so drive the client
+  vim.api.nvim_create_autocmd("LspAttach", {
+    once = true,
+    buffer = buf,
+    callback = function(ctx)
+      local client = vim.lsp.get_client_by_id(ctx.data.client_id)
+      if client and client.name == name then
+        client:exec_cmd({ title = "Preview markdown with mpls", command = "open-preview" })
+      end
+    end,
+  })
+  vim.lsp.enable(name) -- covers markdown buffers opened from now on
+  -- This buffer needs an explicit start. Not :edit, which prompts to save when modified; and
+  -- lsp.start() skips root_markers, whose nil root_dir stops mpls marking links as clickable.
+  local cfg = vim.lsp.config[name]
+  vim.lsp.start(vim.tbl_extend("force", cfg, { root_dir = vim.fs.root(buf, cfg.root_markers) }), { bufnr = buf })
+end
+
 return {
   {
     "neovim/nvim-lspconfig",
@@ -22,7 +46,9 @@ return {
         oxlint = {
           mason = false, -- use the project/global oxc_language_server, not a Mason copy
         },
-        -- Markdown preview in the browser: follows links across files, renders mermaid offline
+        -- Markdown preview in the browser: follows links across files, renders mermaid offline.
+        -- No --port on purpose: a taken fixed port makes mpls bind nothing while still reporting
+        -- a URL, so a second concurrent nvim loses its preview silently.
         mpls = {
           cmd = { "mpls", "--no-auto", "--theme", "dark" },
           root_markers = { ".marksman.toml", ".git" },
@@ -43,10 +69,6 @@ return {
             vim.api.nvim_buf_create_user_command(bufnr, "LspMplsOpenPreview", function()
               client:exec_cmd({ title = "Preview markdown with mpls", command = "open-preview" })
             end, { desc = "Preview markdown with mpls" })
-            vim.keymap.set("n", "<leader>mp", "<cmd>LspMplsOpenPreview<cr>", {
-              buffer = bufnr,
-              desc = "Markdown Preview",
-            })
           end,
         },
         vtsls = {
@@ -59,6 +81,24 @@ return {
             },
           },
         },
+      },
+      setup = {
+        -- Return true so LazyVim does not enable mpls at startup: every markdown buffer would
+        -- otherwise hold a server for the life of the session. <leader>mp starts it instead.
+        mpls = function(server, sopts)
+          vim.lsp.config(server, sopts) -- LazyVim skips its own config() call once we return true
+          vim.api.nvim_create_autocmd("FileType", {
+            pattern = "markdown",
+            group = vim.api.nvim_create_augroup("mpls.lazy_start", { clear = true }),
+            callback = function(args)
+              vim.keymap.set("n", "<leader>mp", function()
+                mpls_preview(server, args.buf)
+              end, { buffer = args.buf, desc = "Markdown Preview" })
+            end,
+            desc = "mpls: bind lazy-start preview keymap",
+          })
+          return true
+        end,
       },
     },
   },
