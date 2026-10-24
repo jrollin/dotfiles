@@ -10,10 +10,16 @@
 	ui = auto
 
 [alias]
-    co = checkout
-    br = branch
-    ci = commit
-    st = status
+  co = checkout
+  br = branch
+  ci = commit
+  st = status
+  hot = "!git log --format=format: --name-only --since='1 year ago' | sort | uniq -c | sort -nr | head -20"
+  who = shortlog -sn --no-merges
+  cluster = "!git log -i -E --grep='fix|bug|broken' --name-only --format='' | sort | uniq -c | sort -nr | head -20"
+  fire = "!git log --oneline --since='1 year ago' | grep -iE 'revert|hotfix|emergency|rollback'"
+
+
 
 [pull]
 	rebase = true
@@ -52,3 +58,5 @@
 # delta git config 
 [include] 
   path = delta.gitconfig
+[commit]
+	gpgsign = true
