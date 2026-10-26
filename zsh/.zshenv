@@ -33,3 +33,8 @@ export PERSO_DIR="$HOME/personal/"
 
 # local env
 [[ -f ~/.zshenv.local ]] && source ~/.zshenv.local
+[[ -f ~/.zshenv.secret ]] && source ~/.zshenv.secret
+
+fpath=(/Users/julienrollin/.granted/zsh_autocomplete/assume/ $fpath)
+
+fpath=(/Users/julienrollin/.granted/zsh_autocomplete/granted/ $fpath)

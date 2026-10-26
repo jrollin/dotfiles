@@ -110,3 +110,6 @@ esac
 
 # Startup profiling report (opt-in): prints when ZSH_PROFILE is set
 [[ -n $ZSH_PROFILE ]] && zprof
+
+# bun completions
+[ -s "/Users/julienrollin/.bun/_bun" ] && source "/Users/julienrollin/.bun/_bun"
