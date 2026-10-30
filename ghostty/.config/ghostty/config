@@ -18,6 +18,8 @@ font-size = 14
 
 
 mouse-hide-while-typing = true
+# 1.4 changed the macOS default to none
+copy-on-select = clipboard
 
 # split-divider-color ="pink"
 window-decoration = false
@@ -28,7 +30,7 @@ window-padding-x = 8
 window-padding-y = 8
 # background = 000000
 background-opacity = 0.85
-background-blur-radius = 30
+background-blur = 30
 
 # keybinds
 #keybind = global:cmd+s=toggle_quick_terminal
@@ -53,7 +55,7 @@ background-blur-radius = 30
 keybind = cmd+s=text:\x1b[115;9u
 
 # Shift+Enter: send unique sequence so apps (Claude Code) can distinguish it from Enter
-# tmux extended-keys is off, so we encode Shift+Enter as CSI u manually
+# encoded as CSI u manually so it survives tmux (extended-keys always)
 keybind = shift+enter=text:\x1b[13;2u
 
 # font size
