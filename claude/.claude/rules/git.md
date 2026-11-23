@@ -12,9 +12,16 @@
   - Linting passes
   - Formatting applied
   - Code review (manual or automated)
-- Always use conventional commits format: `type(scope): description`
-  - Example: `feat(auth): add OAuth2 support`
+- Commit messages must pass `@commitlint/config-conventional`
+  - a repo `.commitlintrc*` / `commitlint.config.*` overrides it: read it before drafting
+  - header `type(scope): subject`, ≤100 chars, no leading/trailing whitespace
+  - type lower-case, one of `build` `chore` `ci` `docs` `feat` `fix` `perf` `refactor`
+    `revert` `style` `test`
+  - scope optional
+  - subject not empty, no trailing `.`, never Sentence/Start/Pascal/UPPER case
+    (`fix(auth): handle expired token`, not `fix(auth): Handle expired token`)
+  - blank line before body and before footer
+  - body and footer lines ≤100 chars, hard-wrap bullets too
+  - breaking change: `!` before `:` or a `BREAKING CHANGE:` footer
 - Never add a signature or co-author line (e.g. `Co-Authored-By`) to commit messages
-- Wrap commit message body lines at ≤100 chars (commitlint `body-max-line-length` default)
-  - Check `.commitlintrc*` for stricter project-specific limits before drafting
-  - Applies to bullet lists too — long bullets must be hard-wrapped, not single-line
+- Force pushes always use `git push --force-with-lease`.
